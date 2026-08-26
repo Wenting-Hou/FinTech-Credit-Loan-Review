@@ -1,0 +1,2 @@
+dataset,field_name,data_type,business_definition,key_status,is_required
+file_1.csv,record_id,VARCHAR,Unique primary key identifier,PK,TRUE
