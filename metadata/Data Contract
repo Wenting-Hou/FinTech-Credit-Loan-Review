@@ -1,0 +1,304 @@
+contract_package:
+  name: fintech_loan_review_microcosm
+  version: "1.0.0"
+  status: draft_for_assignment_1
+  domain: consumer_credit_and_loan_review
+  description: >-
+    Data contracts for a small academic loan-review microcosm adapted from
+    publicly published Home Credit competition files. The package is designed
+    for 100-1,000 rows per CSV and supports decision review, policy traceability,
+    fair-lending analysis, and escalation analysis.
+
+  owners:
+    business_owner: Chief Risk Officer / Credit Risk Committee
+    data_owner: Database & Analytics Lead
+    data_steward: Quality & Governance Lead
+    technical_owner: Data & Ingestion Lead
+
+  source_references:
+    - source_id: HOME_CREDIT_KAGGLE
+      organization: Home Credit
+      publisher: Kaggle
+      title: Home Credit Default Risk
+      url: https://www.kaggle.com/competitions/home-credit-default-risk/data
+      role: primary_structural_reference
+      referenced_files:
+        - application_train.csv
+        - previous_application.csv
+        - bureau.csv
+        - bureau_balance.csv
+        - HomeCredit_columns_description.csv
+    - source_id: FANNIE_MAE_GLOSSARY
+      organization: Fannie Mae
+      title: Single-Family Loan Performance Dataset and Credit Risk Transfer - Glossary and File Layout
+      url: https://capitalmarkets.fanniemae.com/sites/capmrkt/files/2026-02/crt-file-layout-and-glossary.pdf
+      role: secondary_reference_for_common_lending_definitions
+
+  adaptation_statement: >-
+    Home Credit fields are used as structural and semantic references. Product
+    codes, U.S. region codes, policy document IDs, policy versions, rule-trigger
+    codes, and final decision reasons are synthetic academic extensions. They
+    must not be represented as fields published by Home Credit or Fannie Mae.
+
+  global_rules:
+    file_format: csv
+    encoding: UTF-8
+    delimiter: comma
+    header_required: true
+    quote_character: '"'
+    null_representation: ""
+    date_format: YYYY-MM-DD
+    timestamp_format: YYYY-MM-DDTHH:MM:SSZ
+    target_row_count:
+      minimum: 100
+      maximum: 1000
+      exception: loan_products.csv may contain fewer than 100 rows
+    prohibited_data:
+      - real names
+      - Social Security numbers
+      - full street addresses
+      - account numbers
+      - real customer identifiers
+      - confidential employer or client data
+    identifier_policy: All IDs must be synthetic and non-identifying.
+    ingestion_behavior:
+      on_schema_failure: reject_file
+      on_row_failure: quarantine_row
+      duplicate_handling: retain_first_and_quarantine_duplicates
+      referential_integrity_check: required_after_all_files_are_loaded
+
+datasets:
+  - dataset_name: applicants.csv
+    dataset_role: entity
+    description: One row per synthetic applicant.
+    grain: applicant_id
+    primary_key: [applicant_id]
+    source_lineage:
+      primary_source_file: application_train.csv
+      source_key: SK_ID_CURR
+      notes: Demographic and financial fields are reduced and renamed for the academic microcosm.
+    privacy_classification: restricted_academic
+    access_groups:
+      - underwriting
+      - risk
+      - compliance
+      - approved_data_team
+    fields:
+      - {name: applicant_id, type: string, required: true, unique: true, source_field: SK_ID_CURR}
+      - {name: annual_income, type: decimal_12_2, required: true, minimum: 0, source_field: AMT_INCOME_TOTAL}
+      - {name: employment_months, type: integer, required: false, minimum: 0, source_field: DAYS_EMPLOYED, transformation: absolute_days_divided_by_30}
+      - {name: age_years, type: integer, required: true, minimum: 18, maximum: 100, source_field: DAYS_BIRTH, transformation: absolute_days_divided_by_365_25}
+      - {name: gender_code, type: string, required: false, allowed_values: [F, M, XNA], source_field: CODE_GENDER, audit_only: true}
+      - {name: family_status, type: string, required: false, source_field: NAME_FAMILY_STATUS}
+      - {name: region_code, type: string, required: true, allowed_values: [NE, SE, MW, SW, W], source_field: synthetic_extension}
+      - {name: risk_tier, type: string, required: true, allowed_values: [LOW, MEDIUM, HIGH], source_field: derived_from_external_source_and_bureau_history}
+    quality_rules:
+      - rule_id: APP_001
+        expectation: applicant_id is unique and not null
+        severity: error
+      - rule_id: APP_002
+        expectation: annual_income is greater than zero
+        severity: error
+      - rule_id: APP_003
+        expectation: gender_code is restricted to compliance auditing and must not be used as an approval rule
+        severity: critical
+
+  - dataset_name: loan_products.csv
+    dataset_role: reference
+    description: One row per synthetic loan product and effective policy version.
+    grain: product_code plus effective_start_date
+    primary_key: [product_code, effective_start_date]
+    source_lineage:
+      primary_source_file: synthetic_internal
+      source_reference: Product categories are inspired by NAME_CONTRACT_TYPE in Home Credit files.
+    privacy_classification: internal_synthetic
+    fields:
+      - {name: product_code, type: string, required: true}
+      - {name: product_name, type: string, required: true}
+      - {name: contract_type, type: string, required: true, allowed_values: [CASH_LOAN, REVOLVING_LOAN]}
+      - {name: minimum_risk_tier, type: string, required: true, allowed_values: [LOW, MEDIUM, HIGH]}
+      - {name: minimum_income, type: decimal_12_2, required: true, minimum: 0}
+      - {name: maximum_loan_amount, type: decimal_12_2, required: true, minimum: 1}
+      - {name: base_interest_rate, type: decimal_7_4, required: true, minimum: 0, maximum: 1}
+      - {name: policy_doc_id, type: string, required: true, foreign_reference: document_metadata.doc_id}
+      - {name: policy_version, type: string, required: true}
+      - {name: authority_status, type: string, required: true, allowed_values: [CURRENT, SUPERSEDED, DRAFT]}
+      - {name: effective_start_date, type: date, required: true}
+      - {name: effective_end_date, type: date, required: false}
+    quality_rules:
+      - rule_id: PROD_001
+        expectation: effective periods for the same product_code must not overlap
+        severity: error
+      - rule_id: PROD_002
+        expectation: CURRENT rows must have a null effective_end_date
+        severity: error
+      - rule_id: PROD_003
+        expectation: policy_doc_id must exist in document_metadata.csv
+        severity: error
+
+  - dataset_name: loan_applications.csv
+    dataset_role: transaction
+    description: One row per current synthetic loan application.
+    grain: application_id
+    primary_key: [application_id]
+    foreign_keys:
+      - {fields: [applicant_id], references: "applicants.csv[applicant_id]"}
+      - {fields: [product_code], references: "loan_products.csv[product_code]"}
+    source_lineage:
+      primary_source_file: application_train.csv
+      source_key: SK_ID_CURR
+      notes: Product code, dates, and operational status are synthetic extensions.
+    privacy_classification: restricted_academic
+    fields:
+      - {name: application_id, type: string, required: true, unique: true, source_field: SK_ID_CURR}
+      - {name: applicant_id, type: string, required: true, source_field: SK_ID_CURR}
+      - {name: product_code, type: string, required: true, source_field: synthetic_extension}
+      - {name: application_date, type: date, required: true, source_field: synthetic_extension}
+      - {name: requested_amount, type: decimal_12_2, required: true, minimum: 1, source_field: AMT_CREDIT}
+      - {name: proposed_annuity, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_ANNUITY}
+      - {name: goods_price, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_GOODS_PRICE}
+      - {name: application_channel, type: string, required: true, allowed_values: [ONLINE, BRANCH, PARTNER], source_field: synthetic_extension}
+      - {name: application_status, type: string, required: true, allowed_values: [SUBMITTED, UNDER_REVIEW, DECIDED, WITHDRAWN], source_field: synthetic_extension}
+      - {name: default_target, type: integer, required: false, allowed_values: [0, 1], source_field: TARGET, usage_note: outcome label for later modeling; not a decision status}
+    quality_rules:
+      - rule_id: LOAN_001
+        expectation: application_id is unique and not null
+        severity: error
+      - rule_id: LOAN_002
+        expectation: applicant_id exists in applicants.csv
+        severity: error
+      - rule_id: LOAN_003
+        expectation: product_code is valid on application_date
+        severity: error
+      - rule_id: LOAN_004
+        expectation: requested_amount is less than or equal to the effective product maximum_loan_amount
+        severity: warning
+
+  - dataset_name: credit_events.csv
+    dataset_role: event
+    description: One row per external credit record or monthly credit-status event relevant to an application.
+    grain: credit_event_id
+    primary_key: [credit_event_id]
+    foreign_keys:
+      - {fields: [application_id], references: "loan_applications.csv[application_id]"}
+    source_lineage:
+      primary_source_files: [bureau.csv, bureau_balance.csv]
+      source_keys: [SK_ID_CURR, SK_ID_BUREAU]
+      notes: Event date is reconstructed from relative day/month fields using the synthetic application date.
+    privacy_classification: restricted_academic
+    fields:
+      - {name: credit_event_id, type: string, required: true, unique: true, source_field: SK_ID_BUREAU_plus_MONTHS_BALANCE}
+      - {name: application_id, type: string, required: true, source_field: SK_ID_CURR}
+      - {name: bureau_record_id, type: string, required: true, source_field: SK_ID_BUREAU}
+      - {name: event_date, type: date, required: true, source_field: DAYS_CREDIT_or_MONTHS_BALANCE}
+      - {name: credit_type, type: string, required: false, source_field: CREDIT_TYPE}
+      - {name: credit_status, type: string, required: true, source_field: CREDIT_ACTIVE_or_STATUS}
+      - {name: days_overdue, type: integer, required: true, minimum: 0, source_field: CREDIT_DAY_OVERDUE}
+      - {name: credit_amount, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_CREDIT_SUM}
+      - {name: outstanding_debt, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_CREDIT_SUM_DEBT}
+      - {name: overdue_amount, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_CREDIT_SUM_OVERDUE}
+      - {name: source_system, type: string, required: true, allowed_values: [BUREAU, SYNTHETIC_BUREAU]}
+    quality_rules:
+      - rule_id: CREDIT_001
+        expectation: credit_event_id is unique and not null
+        severity: error
+      - rule_id: CREDIT_002
+        expectation: event_date is on or before application_date
+        severity: error
+      - rule_id: CREDIT_003
+        expectation: application_id exists in loan_applications.csv
+        severity: error
+
+  - dataset_name: decision_events.csv
+    dataset_role: event
+    description: One row per loan decision or escalation event.
+    grain: decision_event_id
+    primary_key: [decision_event_id]
+    foreign_keys:
+      - {fields: [application_id], references: "loan_applications.csv[application_id]"}
+    source_lineage:
+      primary_source_file: previous_application.csv
+      source_keys: [SK_ID_PREV, SK_ID_CURR]
+      notes: Policy and rule-trigger fields are synthetic extensions added to support the semester questions.
+    privacy_classification: restricted_academic
+    fields:
+      - {name: decision_event_id, type: string, required: true, unique: true, source_field: SK_ID_PREV}
+      - {name: application_id, type: string, required: true, source_field: SK_ID_CURR}
+      - {name: decision_date, type: date, required: true, source_field: DAYS_DECISION, transformation: application_date_plus_relative_days}
+      - {name: decision_status, type: string, required: true, allowed_values: [APPROVED, DENIED, ESCALATED, CANCELLED], source_field: NAME_CONTRACT_STATUS}
+      - {name: approved_amount, type: decimal_12_2, required: false, minimum: 0, source_field: AMT_CREDIT}
+      - {name: rule_trigger_code, type: string, required: false, source_field: synthetic_extension}
+      - {name: decision_reason_code, type: string, required: false, source_field: synthetic_extension}
+      - {name: policy_doc_id, type: string, required: true, foreign_reference: document_metadata.doc_id, source_field: synthetic_extension}
+      - {name: policy_version, type: string, required: true, source_field: synthetic_extension}
+      - {name: decision_method, type: string, required: true, allowed_values: [MANUAL, AUTOMATED, HYBRID], source_field: synthetic_extension}
+      - {name: reviewer_id, type: string, required: false, source_field: synthetic_non_identifying}
+    quality_rules:
+      - rule_id: DEC_001
+        expectation: decision_event_id is unique and not null
+        severity: error
+      - rule_id: DEC_002
+        expectation: decision_date is on or after application_date
+        severity: error
+      - rule_id: DEC_003
+        expectation: policy version was effective on decision_date
+        severity: critical
+      - rule_id: DEC_004
+        expectation: APPROVED and DENIED decisions require a decision_reason_code
+        severity: error
+      - rule_id: DEC_005
+        expectation: ESCALATED decisions require a rule_trigger_code
+        severity: error
+
+cross_dataset_controls:
+  - control_id: XREF_001
+    description: Every application must reference exactly one applicant.
+    validation: count orphan applicant_id values in loan_applications.csv
+    pass_condition: orphan_count equals 0
+  - control_id: XREF_002
+    description: Every decision must use the product policy effective on its decision date.
+    validation: join decision_events to loan_applications and effective-dated loan_products
+    pass_condition: invalid_policy_count equals 0, excluding declared test fixtures
+  - control_id: XREF_003
+    description: Credit events used in underwriting must not occur after the application date.
+    validation: compare credit_events.event_date with loan_applications.application_date
+    pass_condition: future_event_count equals 0, excluding declared test fixtures
+  - control_id: XREF_004
+    description: Protected attributes may be used only for compliance monitoring, never for approval rules or model features.
+    validation: inspect model and rule input manifests
+    pass_condition: prohibited_feature_count equals 0
+
+controlled_quality_test_fixtures:
+  purpose: Intentional Assignment 1 problems for later validation and quarantine exercises.
+  rules:
+    - fixture_id: QF_001
+      dataset: decision_events.csv
+      problem: one duplicated decision_event_id
+      expected_control: DEC_001
+      expected_action: quarantine_duplicate
+    - fixture_id: QF_002
+      dataset: loan_applications.csv
+      problem: one product_code that does not exist or is not effective on application_date
+      expected_control: LOAN_003
+      expected_action: quarantine_or_manual_review
+    - fixture_id: QF_003
+      dataset: decision_events.csv
+      problem: one decision references a superseded policy version for its decision date
+      expected_control: DEC_003
+      expected_action: critical_policy_exception
+
+business_question_coverage:
+  - question: Were decisions based on the underwriting and compliance rules current on the decision date?
+    datasets: [decision_events.csv, loan_applications.csv, loan_products.csv, document_metadata.csv]
+  - question: Are outcomes consistent across regions and comparable risk tiers, or are there potential fair-lending concerns?
+    datasets: [applicants.csv, loan_applications.csv, decision_events.csv]
+  - question: Which products and underwriting rules generate the most escalations or denials?
+    datasets: [loan_applications.csv, decision_events.csv, loan_products.csv]
+
+acceptance_criteria:
+  - All YAML parses successfully.
+  - Every CSV header matches its declared field names.
+  - Primary-key and foreign-key tests pass except for declared test fixtures.
+  - All synthetic extensions are documented in source_lineage.
+  - No real PII, confidential company data, or confidential customer data is present.
+  - Policy document IDs reconcile to document_metadata.csv.
