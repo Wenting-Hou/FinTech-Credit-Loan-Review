@@ -1,16 +1,15 @@
-contract_package:
-  name: fintech_loan_review_microcosm
-  version: "1.0.0"
-  status: draft_for_assignment_1
-  domain: consumer_credit_and_loan_review
-  description: >-
+  domain: fintech_credit_and_loan_review
+  version: 1.0.0
+  status: active
+  
+  description: 
     Data contracts for a small academic loan-review microcosm adapted from
     publicly published Home Credit competition files. The package is designed
     for 100-1,000 rows per CSV and supports decision review, policy traceability,
     fair-lending analysis, and escalation analysis.
 
   owners:
-    business_owner: Chief Risk Officer / Credit Risk Committee
+    business_owner: Chief Risk Officer & Credit Risk Committee
     data_owner: Database & Analytics Lead
     data_steward: Quality & Governance Lead
     technical_owner: Data & Ingestion Lead
