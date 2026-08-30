@@ -1,24 +1,26 @@
-# DSBA 6171: [Domain Name] Data & Knowledge Microcosm
+# DSBA 6171: FinTech Credit & Loan Review Data & Knowledge Microcosm
 
 ## 1. Team Information & Roles
-* **Team Number / Name:** [e.g., Team 01 - FinTech]
-* **Team Lead / Liaison:** [Student Name]
-* **Data & Ingestion Lead:** [Student Name]
-* **Database & Analytics Lead:** [Student Name]
-* **Knowledge & Retrieval Lead:** [Student Name]
-* **Quality & Governance Lead:** [Student Name]
+* **Team Number / Name:** Team 03 - FinTech
+* **Team Lead / Liaison:** Tim Goncharov
+* **Data & Ingestion Lead:** Evan De Guzman
+* **Database & Analytics Lead:** Miguel Valenzuela
+* **Knowledge & Retrieval Lead:** Ethan Hunter
+* **Quality & Governance Lead:** Wenting Hou
 
 ---
 
 ## 2. Business Context & Problem Framing
-* **Assigned Domain:** [FinTech: Credit & Loan Review | HealthTech: Medical Claims & Payer Auditing]
-* **Business Function / Process:** [e.g., Streamlining credit review & compliance audit]
-* **Target Stakeholders:** [e.g., Underwriting officers, Compliance auditors]
-* **Primary Decision Question:** [Insert primary decision question]
+* **Assigned Domain:** FinTech: Credit & Loan Review 
+* **Business Function / Process:** The function is responsible for maximizing portfolio profitability and minimizing credit losses by establishing structured underwriting standards, executing data-driven loan decisioning, and ensuring absolute adherence to consumer protection and fair-lending regulations.
+* **Target Stakeholders:** Underwriters, Credit Analysts, Chief Risk Officer, Credit Risk Committee,Compliance Team, Fair-Lending Team, Data Scientists, Loan Origination System (LOS) Engineers, FinTech Product Managers, Loan Officers, Applicants, Regulators, Credit Bureaus
+
+* **Primary Decision Question:** Should this loan application be approved, denied, or escalated for manual review based on the applicant’s profile, product rules, credit information, and current compliance requirements?
+
 * **Supporting Business Questions:**
-  1. [Supporting question 1]
-  2. [Supporting question 2]
-  3. [Supporting question 3]
+1.	Were loan decisions based on the underwriting and compliance rules that were current on the decision date? 
+2.	Are approval, denial, and escalation outcomes consistent across regions and comparable risk tiers, or are there patterns that may indicate fair-lending concerns? 
+3.	Which loan products and underwriting rules generate the most manual escalations or denials?
 
 ---
 
