@@ -1,2 +1,2 @@
-doc_id,title,doc_type,source,owner,effective_date,version,jurisdiction_region,authority_status,confidentiality,access_group
+doc_id,title,doc_type,source,owner,effective_date,version,jurisdiction_region,authority_status,confidentiality,access_group,file_name,risk_tier,review_required
 DOC001,Sample Policy,PDF,Internal,Compliance,2026-01-01,v1.0,US,CURRENT,Internal,All
