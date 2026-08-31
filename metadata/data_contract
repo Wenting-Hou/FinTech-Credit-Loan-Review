@@ -13,6 +13,26 @@
     data_steward: Quality & Governance Lead
     technical_owner: Data & Ingestion Lead
 
+  auditability_requirements:
+    decision_reconstructability:
+      required: true
+      description: >
+        Every final decision must be traceable to the application,
+        applicant risk information, applicable policy version,
+        evaluated underwriting rules, decision method, and decision reason.
+
+  temporal_reconstructability:
+    required: true
+    description: >
+      Decision analysis must use only information available
+      as of the decision timestamp.
+
+  policy_reconstructability:
+    required: true
+    description: >
+      The policy and rule version applicable at the time of
+      decision must be identifiable.
+
   source_references:
     - source_id: HOME_CREDIT_KAGGLE
       organization: Home Credit
@@ -116,7 +136,9 @@ datasets:
 
   - dataset_name: applicants.csv
     dataset_role: entity
-    description: One row per synthetic applicant.
+    description: One row per synthetic applicant.This dataset contains relatively
+      stable applicant-level demographic and financial attributes and
+      excludes application-time risk assessments and decision outcomes.
     grain: applicant_id
     primary_key: [applicant_id]
     source_lineage:
@@ -137,7 +159,6 @@ datasets:
       - {name: gender_code, type: string, required: false, allowed_values: [F, M, XNA], source_field: CODE_GENDER, audit_only: true}
       - {name: family_status, type: string, required: false, source_field: NAME_FAMILY_STATUS}
       - {name: region_code, type: string, required: true, allowed_values: [NE, SE, MW, SW, W], source_field: synthetic_extension}
-      - {name: risk_tier, type: string, required: true, allowed_values: [LOW, MEDIUM, HIGH], source_field: derived_from_external_source_and_bureau_history}
     quality_rules:
       - rule_id: APP_001
         expectation: applicant_id is unique and not null
@@ -145,11 +166,274 @@ datasets:
       - rule_id: APP_002
         expectation: annual_income is greater than zero
         severity: error
-      - rule_id: APP_003
-        expectation: gender_code is restricted to compliance auditing and must not be used as an approval rule
+        - rule_id: APP_003
+        expectation: age_years is between 18 and 100
+        severity: error
+      - rule_id: APP_004
+        expectation: employment_months is null or greater than or equal to zero
+        severity: error
+      - rule_id: APP_005
+        expectation: >
+          gender_code, family_status, and region_code are restricted to
+          compliance and fair-lending analysis and must not be used as
+          inputs to risk-tier derivation or approval rules
         severity: critical
 
-  - dataset_name: loan_products.csv
+- dataset_name: applicant_risk_features.csv
+    dataset_role: derived
+    description: >
+      One row per loan application containing the applicant's pre-decision
+      credit-risk features, derived risk metrics, risk score, and risk tier.
+      Features are calculated only from information available on or before
+      the application date.
+    grain: application_id
+    primary_key: [application_id]
+    foreign_keys:
+      - {fields: [application_id],
+         references: "loan_applications.csv[application_id]"}
+      - {fields: [applicant_id],
+         references: "applicants.csv[applicant_id]"}
+    source_lineage:
+      source_datasets:
+        - applicants.csv
+        - loan_applications.csv
+        - credit_events.csv
+      derivation_method: risk_tier_resultset
+      notes: >
+        Risk features are derived from applicant financial attributes and
+        eligible credit history available as of the application date.
+        No post-application information, decision outcomes, protected
+        attributes, or future credit events may be used.
+    privacy_classification: restricted_academic
+    access_groups:
+      - underwriting
+      - risk
+      - compliance
+      - approved_data_team
+    fields:
+      - {name: application_id, type: string, required: true, unique: true}
+      - {name: applicant_id, type: string, required: true}
+      - {name: as_of_date, type: date, required: true,
+         derivation: loan_applications.application_date}
+      - {name: credit_history_status, type: string, required: true,
+         allowed_values: [NO_HISTORY, LIMITED_HISTORY, ESTABLISHED]}
+      - {name: credit_history_months_observed, type: integer,
+         required: true, minimum: 0}
+      - {name: max_days_overdue, type: integer, required: false, minimum: 0}
+      - {name: delinquent_event_count, type: integer, required: true,
+         minimum: 0}
+      - {name: total_outstanding_debt, type: decimal_14_2,
+         required: false, minimum: 0}
+      - {name: total_overdue_amount, type: decimal_14_2,
+         required: false, minimum: 0}
+      - {name: debt_to_income_ratio, type: decimal_8_4,
+         required: false, minimum: 0}
+      - {name: overdue_amount_to_income, type: decimal_8_4,
+         required: false, minimum: 0}
+      - {name: delinquency_points, type: integer,
+         required: true, minimum: 0}
+      - {name: debt_burden_points, type: integer,
+         required: true, minimum: 0}
+      - {name: risk_tier_score, type: integer,
+         required: true, minimum: 0}
+      - {name: risk_tier, type: string, required: true,
+         allowed_values: [LOW, MEDIUM, HIGH]}
+      - {name: risk_tier_basis, type: string, required: true,
+         allowed_values:
+           [CREDIT_HISTORY, LIMITED_HISTORY, NO_CREDIT_HISTORY]}
+      - {name: risk_tier_ruleset_version, type: string, required: true,
+         allowed_values: ["1.0"]}
+    quality_rules:
+      - rule_id: RISK_001
+        expectation: application_id is unique and not null
+        severity: error
+      - rule_id: RISK_002
+        expectation: application_id exists in loan_applications.csv
+        severity: error
+      - rule_id: RISK_003
+        expectation: applicant_id matches the applicant associated with application_id
+        severity: error
+      - rule_id: RISK_004
+        expectation: >
+          as_of_date must equal loan_applications.application_date
+        severity: error
+      - rule_id: RISK_005
+        expectation: >
+          Only credit events with event_date on or before as_of_date
+          may contribute to risk features
+        severity: critical
+      - rule_id: RISK_006
+        expectation: >
+          Credit history used for risk-tier derivation must be limited
+          to the defined 24-month lookback period
+        severity: error
+      - rule_id: RISK_007
+        expectation: >
+          risk_tier must match the score-to-tier mapping defined by
+          ristk_tier ruleset version 1.0
+        severity: critical
+      - rule_id: RISK_008
+        expectation: >
+          Protected attributes, decision outcomes, and post-application
+          information must not be used in risk-tier derivation
+        severity: critical
+      - rule_id: RISK_009
+        expectation: >
+          NO_HISTORY applicants must have credit_history_months_observed = 0
+        severity: error
+      - rule_id: RISK_010
+        expectation: >
+          risk_tier_ruleset_version must identify the ruleset used
+          to calculate the risk tier
+        severity: error
+
+risk_tier_derivation:
+  ruleset_id: risk_tier
+  ruleset_version: "1.0"
+  description: >
+    Synthetic academic risk classification based on pre-decision
+    credit history and financial information. The methodology is
+    designed for this academic microcosm and does not represent
+    actual lender underwriting policy or regulatory thresholds.
+  effective_start_date: 2026-09-01
+  as_of_rule: >
+    Only information available on or before loan_applications.application_date
+    may be used.
+  credit_history_lookback_months: 24
+  eligible_credit_event_rule: >
+    credit_events.event_date must be on or before application_date
+    and no earlier than 24 months before application_date.
+  input_fields:
+    applicants:
+      - annual_income
+    credit_events:
+      - event_date
+      - days_overdue
+      - outstanding_debt
+      - overdue_amount
+    excluded_inputs:
+      - gender_code
+      - family_status
+      - region_code
+      - default_target
+      - decision_status
+      - decision_reason_code
+      - approved_amount
+      - post_application_credit_events
+  derived_metrics:
+    credit_history_status:
+      definition: >
+        Classification of the amount of eligible credit history available
+        during the 24-month lookback period.
+     rules:
+        - condition: "0 observed credit-history months"
+          result: NO_HISTORY
+        - condition: "1-5 observed credit-history months"
+          result: LIMITED_HISTORY
+        - condition: "6 or more observed credit-history months"
+          result: ESTABLISHED
+    max_days_overdue:
+      definition: >
+        Maximum days_overdue across eligible credit events.
+    delinquent_event_count:
+      definition: >
+        Count of eligible credit events where days_overdue is greater than zero.
+    total_outstanding_debt:
+      definition: >
+        Sum of the most recent outstanding_debt observation for each
+        bureau_record_id within the eligible lookback period.
+    total_overdue_amount:
+      definition: >
+        Sum of the most recent overdue_amount observation for each
+        bureau_record_id within the eligible lookback period.
+    debt_to_income_ratio:
+      definition: >
+        total_outstanding_debt divided by annual_income.
+    overdue_amount_to_income:
+      definition: >
+        total_overdue_amount divided by annual_income.
+
+  scoring:
+    delinquency_points:
+      - condition: "max_days_overdue = 0"
+        points: 0
+      - condition: "max_days_overdue between 1 and 29"
+        points: 1
+      - condition: "max_days_overdue between 30 and 59"
+        points: 2
+      - condition: "max_days_overdue between 60 and 89"
+        points: 3
+      - condition: "max_days_overdue >= 90"
+        points: 5
+
+    debt_burden_points:
+      - condition: "debt_to_income_ratio <= 0.25"
+        points: 0
+      - condition: "debt_to_income_ratio > 0.25 and <= 0.50"
+        points: 1
+      - condition: "debt_to_income_ratio > 0.50 and <= 0.75"
+        points: 2
+      - condition: "debt_to_income_ratio > 0.75"
+        points: 3
+
+    overdue_amount_points:
+      - condition: "overdue_amount_to_income = 0"
+        points: 0
+      - condition: "overdue_amount_to_income > 0 and <= 0.02"
+        points: 1
+      - condition: "overdue_amount_to_income > 0.02 and <= 0.05"
+        points: 2
+      - condition: "overdue_amount_to_income > 0.05"
+        points: 3
+
+  score_calculation: >
+    risk_tier_score =
+    delinquency_points +
+    debt_burden_points +
+    overdue_amount_points
+
+  tier_mapping:
+    LOW:
+      minimum_score: 0
+      maximum_score: 2
+    MEDIUM:
+      minimum_score: 3
+      maximum_score: 5
+    HIGH:
+      minimum_score: 6
+      maximum_score: null
+
+  no_credit_history_rule:
+    condition: "credit_history_status = NO_HISTORY"
+    risk_tier: MEDIUM
+    risk_tier_basis: NO_CREDIT_HISTORY
+  limited_credit_history_rule:
+    condition: "credit_history_status = LIMITED_HISTORY"
+    risk_tier_basis: LIMITED_HISTORY
+    scoring_method: standard_score_with_limited_history_flag
+  established_credit_history_rule:
+    condition: "credit_history_status = ESTABLISHED"
+    risk_tier_basis: CREDIT_HISTORY
+    scoring_method: standard_score
+  missing_data_policy:
+    annual_income:
+      action: risk_tier_derivation_failure
+      severity: critical
+    days_overdue:
+      action: do_not_impute_without_source_confirmation
+    outstanding_debt:
+      action: exclude_unknown_value_from_aggregation
+    overdue_amount:
+      action: exclude_unknown_value_from_aggregation
+  synthetic_methodology_notice: >
+    Risk-tier thresholds, weights, and scoring rules are synthetic
+    academic assumptions created for this project. They are not
+    intended to represent actual underwriting policy, regulatory
+    thresholds, credit bureau scoring methodology, or the practices
+    of Home Credit, Fannie Mae, or any other lender.
+
+
+- dataset_name: loan_products.csv
     dataset_role: reference
     description: One row per synthetic loan product and effective policy version.
     grain: product_code plus effective_start_date
@@ -305,6 +589,9 @@ datasets:
           policy_version must match document_metadata.version for
           the referenced policy_doc_id
         severity: critical
+      - rule_id: DEC_007
+        expectation: reviewer_id is required when decision_method is MANUAL
+        severity: error
 
 cross_dataset_controls:
   - control_id: XREF_001
