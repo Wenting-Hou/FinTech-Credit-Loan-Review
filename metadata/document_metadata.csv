@@ -1,2 +1,2 @@
-doc_id,title,doc_type,source,owner,effective_date,version,jurisdiction_region,authority_status,confidentiality,access_group,file_name,risk_tier,review_required
-DOC001,Sample Policy,PDF,Internal,Compliance,2026-01-01,v1.0,US,CURRENT,Internal,All,sample_policy.pdf,Low,No
+doc_id,title,doc_type,source,owner,effective_date,version,jurisdiction_region,authority_status,confidentiality,access_group,file_name,applicable_risk_tier,review_required,next_review_date
+DOC001,Sample Policy,PDF,Internal,Compliance,2026-01-01,v1.0,US,CURRENT,Internal,All,sample_policy.pdf,Low,No,2028-01-01
