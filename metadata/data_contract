@@ -3,9 +3,8 @@
   status: active
   
   description: 
-    Data contracts for a small academic loan-review microcosm adapted from
-    publicly published Home Credit competition files. The package is designed
-    for 100-1,000 rows per CSV and supports decision review, policy traceability,
+    Data contracts for a loan-review microcosm adapted from publicly published Home Credit competition files. 
+    The package is designed to supports decision review, policy traceability,
     fair-lending analysis, and escalation analysis.
 
   owners:
@@ -268,7 +267,7 @@ cross_dataset_controls:
     pass_condition: prohibited_feature_count equals 0
 
 controlled_quality_test_fixtures:
-  purpose: Intentional Assignment 1 problems for later validation and quarantine exercises.
+  purpose: Intentional problems for later validation and quarantine exercises.
   rules:
     - fixture_id: QF_001
       dataset: decision_events.csv
