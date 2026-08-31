@@ -66,6 +66,54 @@
       referential_integrity_check: required_after_all_files_are_loaded
 
 datasets:
+
+  - dataset_name: document_metadata.csv
+    dataset_role: reference
+    description: One row per policy, underwriting guideline, or compliance document version
+    used to define or support loan-review decisions.
+    This dataset provides the authoritative metadata needed to determine
+    which policy version was applicable at the time of an application or decision.
+    grain: doc_id
+    primary_key: [doc_id]
+    fields:
+      - {name: doc_id, type: string, required: true, unique: true}
+      - {name: title, type: string, required: true}
+      - {name: doc_type, type: string, required: true,
+         allowed_values:
+           [UNDERWRITING_POLICY, COMPLIANCE_POLICY, PROCEDURE, GUIDELINE, REGULATION]}
+      - {name: source, type: string, required: true}
+      - {name: owner, type: string, required: true}
+      - {name: effective_date, type: date, required: true}
+      - {name: version, type: string, required: true}
+      - {name: jurisdiction_region, type: string, required: true}
+      - {name: authority_status, type: string, required: true,
+         allowed_values: [DRAFT, CURRENT, SUPERSEDED, RETIRED]}
+      - {name: confidentiality, type: string, required: true,
+         allowed_values: [PUBLIC, INTERNAL, RESTRICTED]}
+      - {name: access_group, type: string, required: true}
+      - {name: file_name, type: string, required: true}
+      - {name: applicable_risk_tier, type: string, required: false,
+         allowed_values: [LOW, MEDIUM, HIGH, ALL]}
+      - {name: review_required, type: boolean, required: true}
+      quality_rules:
+      - rule_id: DOC_001
+        expectation: doc_id is unique and not null
+        severity: error
+      - rule_id: DOC_002
+        expectation: title is not null or empty
+        severity: error
+      - rule_id: DOC_003
+        expectation: version is not null or empty
+        severity: error
+      - rule_id: DOC_004
+        expectation: effective_start_date is not null
+        severity: error
+      - rule_id: DOC_005
+        expectation: >
+          review_required is true only when a next_review_date is provided
+        severity: warning
+ 
+
   - dataset_name: applicants.csv
     dataset_role: entity
     description: One row per synthetic applicant.
@@ -132,6 +180,11 @@ datasets:
         severity: error
       - rule_id: PROD_003
         expectation: policy_doc_id must exist in document_metadata.csv
+        severity: error
+      - rule_id: PROD_004
+        expectation: >
+          policy_version must match the version recorded in
+          document_metadata for the referenced policy_doc_id
         severity: error
 
   - dataset_name: loan_applications.csv
@@ -247,6 +300,11 @@ datasets:
       - rule_id: DEC_005
         expectation: ESCALATED decisions require a rule_trigger_code
         severity: error
+      - rule_id: DEC_006
+        expectation: >
+          policy_version must match document_metadata.version for
+          the referenced policy_doc_id
+        severity: critical
 
 cross_dataset_controls:
   - control_id: XREF_001
@@ -265,6 +323,29 @@ cross_dataset_controls:
     description: Protected attributes may be used only for compliance monitoring, never for approval rules or model features.
     validation: inspect model and rule input manifests
     pass_condition: prohibited_feature_count equals 0
+  - control_id: XREF_005
+    description: >
+      Every policy_doc_id referenced by loan_products and decision_events
+      must exist in document_metadata.csv.
+    validation: >
+      left join referenced policy_doc_id values to document_metadata.doc_id
+    pass_condition: orphan_policy_doc_count equals 0
+  - control_id: XREF_006
+    description: >
+      Every decision must reference the document version that was effective
+      on the decision date.
+    validation: >
+      join decision_events to document_metadata using policy_doc_id and
+      verify effective_date <= decision_date
+  - control_id: XREF_007
+    description: >
+      A policy version referenced by a decision cannot have authority_status
+      DRAFT or RETIRED at the time of decision.
+    validation: >
+      join decision_events to document_metadata using policy_doc_id
+      and inspect authority_status
+    pass_condition: invalid_policy_status_count equals 0
+
 
 controlled_quality_test_fixtures:
   purpose: Intentional problems for later validation and quarantine exercises.
