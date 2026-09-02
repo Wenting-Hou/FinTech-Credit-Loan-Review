@@ -1,2 +1,13 @@
 dataset,field_name,data_type,business_definition,key_status,is_required
-file_1.csv,record_id,VARCHAR,Unique primary key identifier,PK,TRUE
+applicant.csv,applicant_id,VARCHAR,Synthetic unique applicant identifier,PK,TRUE
+applicant.csv,annual_income_usd,DECIMAL(12,2),Applicant annual income in U.S. dollars,,TRUE
+applicant.csv,employment_duration_months,INTEGER,Applicant employment duration in months,,TRUE
+applicant.csv,credit_risk_tier,VARCHAR,Preliminary credit risk tier from T1 through T5,,TRUE
+applicant.csv,fico_score,INTEGER,FICO credit score from 300 through 850,,TRUE
+applicant.csv,region_state,VARCHAR,Two-letter U.S. state associated with the applicant,,TRUE
+applicant.csv,requested_amount_usd,DECIMAL(12,2),Requested loan amount in U.S. dollars,,TRUE
+applicant.csv,requested_product_code,VARCHAR,Synthetic requested loan product code,,TRUE
+applicant.csv,dti_pct,DECIMAL(5,2),Debt-to-income ratio expressed as a percentage,,TRUE
+applicant.csv,military_scra_flag,BOOLEAN,Flag indicating potential military SCRA coverage; 1 means true,,TRUE
+applicant.csv,bankruptcy_last_7y_flag,BOOLEAN,Flag indicating bankruptcy within the last seven years; 1 means true,,TRUE
+applicant.csv,preliminary_decision,VARCHAR,Initial review routing outcome: auto_review or manual_review,,TRUE
