@@ -1,0 +1,4 @@
+source_file,location,reason
+loan_product.csv,"line 20 (""SOL"")",intentionally incomplete row (Part 6 controlled quality problem)
+credit_pull.csv,"line 77 (""EVT-000076,APP-00"")","truncated row, cut off mid-value"
+applicant.csv (via applicants),APP-00032 (SOLAR-01 reference),excluded: requested_product_code has no matching product
