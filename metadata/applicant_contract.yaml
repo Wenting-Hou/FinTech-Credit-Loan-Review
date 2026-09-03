@@ -1,0 +1,89 @@
+contract_name: applicant
+version: 1.0.0
+status: active
+dataset:
+  file_name: applicant.csv
+  path: data/structured/raw/applicant.csv
+  format: csv
+  encoding: UTF-8
+  delimiter: ","
+  header_required: true
+  null_representation: ""
+  grain: one row per synthetic applicant review record
+  primary_key: [applicant_id]
+  expected_row_count: 60
+  privacy_classification: restricted_academic
+  source_lineage:
+    primary_source: synthetic_academic_fixture
+    notes: Applicant, credit, product-request, and preliminary decision fields are synthetic academic data.
+fields:
+  - name: applicant_id
+    type: string
+    required: true
+    unique: true
+    pattern: "^APP-[0-9]{5}$"
+  - name: annual_income_usd
+    type: decimal
+    required: true
+    minimum: 0
+  - name: employment_duration_months
+    type: integer
+    required: true
+    minimum: 0
+  - name: credit_risk_tier
+    type: string
+    required: true
+    allowed_values: [T1, T2, T3, T4, T5]
+  - name: fico_score
+    type: integer
+    required: true
+    minimum: 300
+    maximum: 850
+  - name: region_state
+    type: string
+    required: true
+    pattern: "^[A-Z]{2}$"
+  - name: requested_amount_usd
+    type: decimal
+    required: true
+    minimum: 0
+  - name: requested_product_code
+    type: string
+    required: true
+    pattern: "^[A-Z0-9-]+$"
+  - name: dti_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+  - name: military_scra_flag
+    type: boolean
+    required: true
+    allowed_values: [0, 1]
+  - name: bankruptcy_last_7y_flag
+    type: boolean
+    required: true
+    allowed_values: [0, 1]
+  - name: preliminary_decision
+    type: string
+    required: true
+    allowed_values: [auto_review, manual_review]
+quality_rules:
+  - rule_id: APPLICANT_001
+    expectation: applicant_id is unique, not null, and matches the APP-##### format
+    severity: error
+  - rule_id: APPLICANT_002
+    expectation: annual_income_usd, employment_duration_months, and requested_amount_usd are non-negative
+    severity: error
+  - rule_id: APPLICANT_003
+    expectation: fico_score is between 300 and 850 and dti_pct is between 0 and 100
+    severity: error
+  - rule_id: APPLICANT_004
+    expectation: military_scra_flag and bankruptcy_last_7y_flag contain only 0 or 1
+    severity: error
+  - rule_id: APPLICANT_005
+    expectation: region_state is a two-letter uppercase U.S. state code
+    severity: error
+  - rule_id: APPLICANT_006
+    expectation: all records are synthetic and contain no direct personal identifiers
+    severity: critical

@@ -1,0 +1,20 @@
+product_code,product_name,product_family,eligibility_criteria,minimum_credit_tier,minimum_fico,base_rate_pct,maximum_amount_usd
+PL-STD-01,Standard Personal Loan,personal,US resident 18+; DTI<=45%; min 12mo employment; min tier T3,T3,620,11.99,40000
+PL-PRM-02,Prime Personal Loan,personal,Tier T1-T2 only; DTI<=40%; min 24mo employment; income>=60000,T2,680,7.49,75000
+PL-SUB-03,Subprime Personal Loan,personal,Tier T4 allowed with cosigner or collateral; DTI<=50%; state rate caps apply,T4,580,24.99,15000
+AUTO-NEW-01,New Auto Loan,auto,New vehicle <=1yr; LTV<=115%; min tier T3; min 6mo employment,T3,620,6.49,85000
+AUTO-USED-02,Used Auto Loan,auto,Vehicle <=10yr; LTV<=125%; min tier T3,T3,620,8.29,60000
+AUTO-REFI-03,Auto Refinance,auto,Existing auto loan seasoned >=6mo; min tier T2,T2,680,6.99,70000
+HELOC-01,Home Equity Line of Credit,mortgage,Owner-occupied primary; CLTV<=85%; min tier T2; income>=50000; TRID disclosures,T2,680,8.75,250000
+MORT-CONV-01,Conventional Mortgage,mortgage,Conforming limit; LTV<=97%; DTI<=43% ATR/QM; min tier T2,T2,680,6.85,766550
+MORT-FHA-02,FHA Mortgage,mortgage,FHA-insured; LTV<=96.5%; min FICO 580; DTI<=50%; HUD 4000.1,T3,580,6.55,498257
+MORT-JMB-03,Jumbo Mortgage,mortgage,Above conforming; LTV<=80%; min tier T1; reserves>=12mo,T1,740,7.20,3000000
+SBL-STD-01,Small Business Term Loan,business,Business operating >=2yr; personal guarantee; min tier T2; ECOA Reg B,T2,680,9.99,250000
+SBL-SBA-02,SBA 7(a) Loan,business,SBA-eligible; min tier T3; SBA SOP 50 10 7.1 compliant,T3,640,10.50,5000000
+STU-REFI-01,Student Loan Refinance,student,Existing student debt; degree completed; min tier T2; income>=40000,T2,680,5.99,300000
+CC-PRM-01,Prime Rewards Credit Card,card,Tier T1-T2; income>=50000; no bankruptcy 7yr; CARD Act ability-to-pay,T2,700,18.24,30000
+CC-STD-02,Standard Credit Card,card,Min tier T3; no charge-off 24mo; CARD Act ability-to-pay,T3,640,22.99,10000
+CC-SEC-03,Secured Credit Card,card,Any tier including T5; secured by deposit; min \$200 deposit,T5,500,26.99,5000
+DCL-01,Debt Consolidation Loan,personal,Min \$5k unsecured debt; min tier T3; DTI<=50%,T3,620,12.49,50000
+MED-01,Medical Financing,personal,Medical provider partner network; min tier T4; deferred interest disclosure,T4,600,14.99,25000
+SOL
