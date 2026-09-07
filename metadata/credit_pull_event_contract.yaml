@@ -1,0 +1,97 @@
+contract_name: credit_pull_event
+version: 1.0.0
+status: active
+dataset:
+  file_name: credit_pull_event.csv
+  path: data/structured/raw/credit_pull_event.csv
+  format: csv
+  encoding: UTF-8
+  delimiter: ","
+  header_required: true
+  null_representation: ""
+  grain: each row represents one credit bureau pull or credit re-pull event for an applicant on a specific date
+  primary_key: [event_id]
+  expected_row_count: 1836
+  privacy_classification: restricted_academic
+  source_lineage:
+    primary_source: synthetic_academic_fixture
+    notes: Credit-pull events and risk changes are synthetic academic data.
+fields:
+  - name: event_id
+    type: string
+    required: true
+    unique: true
+    pattern: "^E[0-9]{7}$"
+  - name: applicant_id
+    type: string
+    required: true
+    pattern: "^APP[0-9]{6}$"
+  - name: event_date
+    type: date
+    required: true
+  - name: prior_tier
+    type: string
+    required: true
+    allowed_values: [T1, T2, T3, T4, T5]
+  - name: new_tier
+    type: string
+    required: true
+    allowed_values: [T1, T2, T3, T4, T5]
+  - name: prior_fico
+    type: integer
+    required: true
+    minimum: 300
+    maximum: 850
+  - name: new_fico
+    type: integer
+    required: true
+    minimum: 300
+    maximum: 850
+  - name: tier_changed_flag
+    type: boolean
+    required: true
+    allowed_values: [FALSE, TRUE]
+  - name: bureau_source
+    type: string
+    required: true
+    allowed_values: [TransUnion, Experian, Equifax]
+  - name: event_status
+    type: string
+    required: true
+    allowed_values: [Completed, Pending, Error, Resubmitted]
+  - name: event_reason
+    type: string
+    required: true
+    allowed_values:
+      [
+        Initial Application,
+        Fraud Verification,
+        Re-Pull After Correction,
+        Manual Review,
+        Credit Refresh,
+      ]
+quality_rules:
+  - rule_id: CREDIT_PULL_001
+    expectation: event_id is unique, not null, and matches the E####### format
+    severity: error
+  - rule_id: CREDIT_PULL_002
+    expectation: applicant_id is not null and matches the APP###### format
+    severity: error
+  - rule_id: CREDIT_PULL_003
+    expectation: event_date is a valid credit-pull event date
+    severity: error
+  - rule_id: CREDIT_PULL_004
+    expectation: prior_tier and new_tier are valid risk tiers and prior_fico and new_fico are between 300 and 850
+    severity: error
+  - rule_id: CREDIT_PULL_005
+    expectation: tier_changed_flag is TRUE exactly when prior_tier and new_tier differ
+    severity: error
+  - rule_id: CREDIT_PULL_006
+    expectation: bureau_source, event_status, and event_reason contain only approved categorical values
+    severity: error
+  - rule_id: CREDIT_PULL_007
+    expectation: every applicant_id references an applicant in the applicant dataset
+    severity: error
+  - rule_id: CREDIT_PULL_008
+    expectation: all records are synthetic and contain no direct personal identifiers
+    severity: critical
