@@ -8,3 +8,4 @@ CRD-EL,Credit Card Elite 720+,Credit Card,Premium rewards product,T2,720,15.99,"
 AUT-SP,Auto Loan Subprime,Auto Loan,Vehicle collateral required,T5,300,12.99,"35,000",60,TRUE,TRUE,T1=-1.50;T2=-0.75;T3=0.00;T4=1.50;T5=4.00,1,2.5,6
 AUT-TR,Auto Loan Traditional,Auto Loan,Standard auto financing,T3,680,6.99,"60,000",50,FALSE,TRUE,T1=-1.50;T2=-0.75;T3=0.00,1,2.5,6
 AUT-TT,Auto Loan Top-Tier,Auto Loan,Preferred borrower program,T1,800,4.99,"100,000",45,FALSE,FALSE,T1=-1.50,1,2.5,6
+SOL-PE,Personal Loan

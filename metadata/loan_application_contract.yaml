@@ -11,7 +11,7 @@ dataset:
   null_representation: ""
   grain: each row represents a single application submitted by a single applicant on a specific date
   primary_key: [applicant_id]
-  expected_row_count: 60
+  expected_row_count: 600
   privacy_classification: restricted_academic
   source_lineage:
     primary_source: synthetic_academic_fixture
