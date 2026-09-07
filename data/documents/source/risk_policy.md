@@ -92,7 +92,8 @@ The maximum number of days overdue across eligible credit events is used to meas
 |                 1–29 |           1 |
 |                30–59 |           2 |
 |                60–89 |           3 |
-|                  90+ |           5 |
+|               90-119 |           4 |
+|                 120+ |           5 |
 
 ### 2. Debt Burden
 
