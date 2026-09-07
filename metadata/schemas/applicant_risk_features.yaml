@@ -1,0 +1,197 @@
+contract_name: applicant_risk_features
+version: 1.0.0
+status: active
+
+dataset:
+  file_name: applicant_risk_features.csv
+  format: csv
+  encoding: UTF-8
+  delimiter: ","
+  header_required: true
+  null_representation: ""
+
+  grain: each row represents the pre-decision risk profile for one loan application
+
+  primary_key: [application_id]
+
+  foreign_keys:
+    - fields: [application_id]
+      references: "loan_applications.csv[application_id]"
+    - fields: [applicant_id]
+      references: "applicants.csv[applicant_id]"
+
+  privacy_classification: restricted_academic
+
+  access_groups:
+    - underwriting
+    - risk
+    - compliance
+    - approved_data_team
+
+  source_lineage:
+    source_datasets:
+      - applicants.csv
+      - loan_applications.csv
+      - credit_events.csv
+    derivation_method: applicant_risk_feature_pipeline
+    notes: >
+      Risk features are derived only from applicant financial information
+      and eligible credit history available on or before the application date.
+      Credit events are limited to the defined 24-month lookback period.
+      No decision outcomes, protected attributes, post-application information,
+      or future credit events may be used.
+
+fields:
+  - name: application_id
+    type: string
+    required: true
+    unique: true
+  - name: applicant_id
+    type: string
+    required: true
+  - name: as_of_date
+    type: date
+    required: true
+    derivation: loan_applications.application_date
+  - name: credit_history_status
+    type: string
+    required: true
+    allowed_values:
+      - NO_HISTORY
+      - LIMITED_HISTORY
+      - ESTABLISHED
+  - name: credit_history_months_observed
+    type: integer
+    required: true
+    minimum: 0
+    maximum: 24
+  - name: max_days_overdue
+    type: integer
+    required: false
+    minimum: 0
+  - name: delinquent_event_count
+    type: integer
+    required: true
+    minimum: 0
+  - name: total_outstanding_debt
+    type: decimal
+    required: false
+    minimum: 0
+  - name: total_overdue_amount
+    type: decimal
+    required: false
+    minimum: 0
+  - name: debt_to_income_ratio
+    type: decimal
+    required: false
+    minimum: 0
+  - name: overdue_amount_to_income
+    type: decimal
+    required: false
+    minimum: 0
+  - name: delinquency_points
+    type: integer
+    required: true
+    minimum: 0
+  - name: debt_burden_points
+    type: integer
+    required: true
+    minimum: 0
+  - name: risk_tier_score
+    type: integer
+    required: true
+    minimum: 0
+  - name: risk_tier
+    type: string
+    required: true
+    allowed_values:
+      - T1
+      - T2
+      - T3
+      - T4
+      - T5
+  - name: risk_tier_basis
+    type: string
+    required: true
+    allowed_values:
+      - CREDIT_HISTORY
+      - LIMITED_HISTORY
+      - NO_CREDIT_HISTORY
+  - name: risk_tier_ruleset_version
+    type: string
+    required: true
+    allowed_values:
+      - "1.0"
+
+quality_rules:
+  - rule_id: RISK_001
+    expectation: application_id is unique and not null
+    severity: error
+  - rule_id: RISK_002
+    expectation: application_id exists in loan_applications.csv
+    severity: error
+  - rule_id: RISK_003
+    expectation: >
+      applicant_id must match the applicant_id associated with
+      application_id in loan_applications.csv
+    severity: error
+  - rule_id: RISK_004
+    expectation: >
+      as_of_date must equal loan_applications.application_date
+    severity: error
+  - rule_id: RISK_005
+    expectation: >
+      Only credit events with event_date on or before as_of_date
+      may contribute to risk features
+    severity: critical
+  - rule_id: RISK_006
+    expectation: >
+      Credit events used for risk-feature derivation must fall within
+      the defined 24-month lookback period ending on as_of_date
+    severity: error
+  - rule_id: RISK_007
+    expectation: >
+      risk_tier must be one of T1, T2, T3, T4, or T5 and must match
+      the score-to-tier mapping defined by risk tier ruleset version 1.0
+    severity: critical
+  - rule_id: RISK_008
+    expectation: >
+      Protected attributes, underwriting decisions, approval or denial
+      outcomes, post-application information, and future credit events
+      must not be used in risk-feature or risk-tier derivation
+    severity: critical
+  - rule_id: RISK_009
+    expectation: >
+      NO_HISTORY records must have credit_history_months_observed = 0
+    severity: error
+  - rule_id: RISK_010
+    expectation: >
+      credit_history_months_observed must be between 0 and 24
+    severity: error
+  - rule_id: RISK_011
+    expectation: >
+      delinquent_event_count, delinquency_points, debt_burden_points,
+      and risk_tier_score must be non-negative
+    severity: error
+  - rule_id: RISK_012
+    expectation: >
+      total_outstanding_debt and total_overdue_amount must be
+      non-negative when populated
+    severity: error
+  - rule_id: RISK_013
+    expectation: >
+      debt_to_income_ratio and overdue_amount_to_income must be
+      non-negative when populated
+    severity: error
+  - rule_id: RISK_014
+    expectation: >
+      risk_tier_ruleset_version must identify the ruleset used
+      to calculate risk_tier
+    severity: error
+  - rule_id: RISK_015
+    expectation: >
+      Applicant risk features must be calculated independently of
+      loan-product eligibility thresholds such as minimum_fico,
+      minimum_credit_tier, maximum_amount_usd, max_dti_pct,
+      bankruptcy permissions, collections permissions, and pricing rules
+    severity: critical
