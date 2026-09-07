@@ -1,0 +1,108 @@
+contract_name: loan_product
+version: 1.0.0
+status: active
+dataset:
+  file_name: loan_product.csv
+  path: data/structured/raw/loan_product.csv
+  format: csv
+  encoding: UTF-8
+  delimiter: ","
+  header_required: true
+  null_representation: ""
+  grain: each row represents one loan product and its underwriting terms
+  primary_key: [product_code]
+  privacy_classification: internal_reference
+  source_lineage:
+    primary_source: synthetic_academic_fixture
+    notes: Product eligibility, pricing, and policy constraints are synthetic academic data.
+fields:
+  - name: product_code
+    type: string
+    required: true
+    unique: true
+    pattern: "^[A-Z0-9-]+$"
+  - name: product_name
+    type: string
+    required: true
+  - name: product_family
+    type: string
+    required: true
+    allowed_values: [Mortgage, Credit Card, Auto Loan, Personal Loan]
+  - name: eligibility_criteria
+    type: string
+    required: true
+  - name: minimum_credit_tier
+    type: string
+    required: true
+    allowed_values: [T1, T2, T3, T4, T5]
+  - name: minimum_fico
+    type: integer
+    required: true
+    minimum: 300
+    maximum: 850
+  - name: base_rate_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+  - name: maximum_amount_usd
+    type: decimal
+    required: true
+    minimum: 0
+  - name: max_dti_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+  - name: allow_bankruptcy_flag
+    type: boolean
+    required: true
+    allowed_values: [FALSE, TRUE]
+  - name: allow_collections_flag
+    type: boolean
+    required: true
+    allowed_values: [FALSE, TRUE]
+  - name: tier_rate_adjustment_rule
+    type: string
+    required: true
+    pattern: "^T[1-5]=[-+]?[0-9]+(\\.[0-9]+)?(;T[1-5]=[-+]?[0-9]+(\\.[0-9]+)?)*$"
+  - name: collections_rate_adjustment_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+  - name: bankruptcy_rate_adjustment_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+  - name: scra_rate_cap_pct
+    type: decimal
+    required: true
+    minimum: 0
+    maximum: 100
+quality_rules:
+  - rule_id: LOAN_PRODUCT_001
+    expectation: product_code is unique, not null, and contains only uppercase letters, digits, and hyphens
+    severity: error
+  - rule_id: LOAN_PRODUCT_002
+    expectation: product_name, product_family, and eligibility_criteria are not null or empty
+    severity: error
+  - rule_id: LOAN_PRODUCT_003
+    expectation: minimum_credit_tier is one of T1, T2, T3, T4, or T5 and minimum_fico is between 300 and 850
+    severity: error
+  - rule_id: LOAN_PRODUCT_004
+    expectation: base_rate_pct, max_dti_pct, and all rate adjustment and cap percentages are between 0 and 100
+    severity: error
+  - rule_id: LOAN_PRODUCT_005
+    expectation: maximum_amount_usd is non-negative
+    severity: error
+  - rule_id: LOAN_PRODUCT_006
+    expectation: allow_bankruptcy_flag and allow_collections_flag contain only TRUE or FALSE
+    severity: error
+  - rule_id: LOAN_PRODUCT_007
+    expectation: tier_rate_adjustment_rule contains one or more tier-to-rate adjustments using T1 through T5
+    severity: error
+  - rule_id: LOAN_PRODUCT_008
+    expectation: all records are synthetic reference data and contain no direct personal identifiers
+    severity: critical
