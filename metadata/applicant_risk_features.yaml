@@ -4,6 +4,7 @@ status: active
 
 dataset:
   file_name: applicant_risk_features.csv
+  path: data/structured/derived/applicant_risk_features.csv
   format: csv
   encoding: UTF-8
   delimiter: ","
