@@ -1,27 +1,27 @@
-contract_name: applicant
+contract_name: loan_application
 version: 1.0.0
 status: active
 dataset:
-  file_name: applicant.csv
-  path: data/structured/raw/applicant.csv
+  file_name: loan_application.csv
+  path: data/structured/raw/loan_application.csv
   format: csv
   encoding: UTF-8
   delimiter: ","
   header_required: true
   null_representation: ""
-  grain: one row per synthetic applicant review record
+  grain: each row represents a single application submitted by a single applicant on a specific date
   primary_key: [applicant_id]
   expected_row_count: 60
   privacy_classification: restricted_academic
   source_lineage:
     primary_source: synthetic_academic_fixture
-    notes: Applicant, credit, product-request, and preliminary decision fields are synthetic academic data.
+    notes: Loan application, credit, and pre-decision fields are synthetic academic data.
 fields:
   - name: applicant_id
     type: string
     required: true
     unique: true
-    pattern: "^APP-[0-9]{5}$"
+    pattern: "^APP[0-9]{6}$"
   - name: annual_income_usd
     type: decimal
     required: true
@@ -47,7 +47,7 @@ fields:
     type: decimal
     required: true
     minimum: 0
-  - name: requested_product_code
+  - name: product_code
     type: string
     required: true
     pattern: "^[A-Z0-9-]+$"
@@ -59,31 +59,41 @@ fields:
   - name: military_scra_flag
     type: boolean
     required: true
-    allowed_values: [0, 1]
+    allowed_values: [FALSE, TRUE]
   - name: bankruptcy_last_7y_flag
     type: boolean
     required: true
-    allowed_values: [0, 1]
+    allowed_values: [FALSE, TRUE]
+  - name: collections_past_12_months_flag
+    type: boolean
+    required: true
+    allowed_values: [FALSE, TRUE]
   - name: preliminary_decision
     type: string
     required: true
-    allowed_values: [auto_review, manual_review]
+    allowed_values: [Approved, Review, Declined]
+  - name: date
+    type: date
+    required: true
 quality_rules:
-  - rule_id: APPLICANT_001
-    expectation: applicant_id is unique, not null, and matches the APP-##### format
+  - rule_id: LOAN_APP_001
+    expectation: applicant_id is unique, not null, and matches the APP###### format
     severity: error
-  - rule_id: APPLICANT_002
+  - rule_id: LOAN_APP_002
     expectation: annual_income_usd, employment_duration_months, and requested_amount_usd are non-negative
     severity: error
-  - rule_id: APPLICANT_003
+  - rule_id: LOAN_APP_003
     expectation: fico_score is between 300 and 850 and dti_pct is between 0 and 100
     severity: error
-  - rule_id: APPLICANT_004
-    expectation: military_scra_flag and bankruptcy_last_7y_flag contain only 0 or 1
+  - rule_id: LOAN_APP_004
+    expectation: military_scra_flag, bankruptcy_last_7y_flag, and collections_past_12_months_flag contain only TRUE or FALSE
     severity: error
-  - rule_id: APPLICANT_005
+  - rule_id: LOAN_APP_005
     expectation: region_state is a two-letter uppercase U.S. state code
     severity: error
-  - rule_id: APPLICANT_006
+  - rule_id: LOAN_APP_006
+    expectation: date is a valid application date and preliminary_decision is one of Approved, Review, or Declined
+    severity: error
+  - rule_id: LOAN_APP_007
     expectation: all records are synthetic and contain no direct personal identifiers
     severity: critical

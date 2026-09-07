@@ -1,13 +1,41 @@
 dataset,field_name,data_type,business_definition,key_status,is_required
-applicant.csv,applicant_id,VARCHAR,Synthetic unique applicant identifier,PK,TRUE
-applicant.csv,annual_income_usd,DECIMAL(12,2),Applicant annual income in U.S. dollars,,TRUE
-applicant.csv,employment_duration_months,INTEGER,Applicant employment duration in months,,TRUE
-applicant.csv,credit_risk_tier,VARCHAR,Preliminary credit risk tier from T1 through T5,,TRUE
-applicant.csv,fico_score,INTEGER,FICO credit score from 300 through 850,,TRUE
-applicant.csv,region_state,VARCHAR,Two-letter U.S. state associated with the applicant,,TRUE
-applicant.csv,requested_amount_usd,DECIMAL(12,2),Requested loan amount in U.S. dollars,,TRUE
-applicant.csv,requested_product_code,VARCHAR,Synthetic requested loan product code,,TRUE
-applicant.csv,dti_pct,DECIMAL(5,2),Debt-to-income ratio expressed as a percentage,,TRUE
-applicant.csv,military_scra_flag,BOOLEAN,Flag indicating potential military SCRA coverage; 1 means true,,TRUE
-applicant.csv,bankruptcy_last_7y_flag,BOOLEAN,Flag indicating bankruptcy within the last seven years; 1 means true,,TRUE
-applicant.csv,preliminary_decision,VARCHAR,Initial review routing outcome: auto_review or manual_review,,TRUE
+loan_application.csv,applicant_id,VARCHAR,Unique applicant identifier associated with the loan application,PK,TRUE
+loan_application.csv,annual_income_usd,DECIMAL(12,2),Applicant annual income in U.S. dollars,,TRUE
+loan_application.csv,employment_duration_months,INTEGER,Applicant employment duration in months at current job,,TRUE
+loan_application.csv,credit_risk_tier,VARCHAR,Preliminary credit risk tier assigned during application review,Tier,TRUE
+loan_application.csv,fico_score,INTEGER,FICO credit score reported for the applicant,,TRUE
+loan_application.csv,region_state,VARCHAR,Two-letter U.S. state associated with the applicant mailing address or home region,,TRUE
+loan_application.csv,requested_amount_usd,DECIMAL(12,2),Loan amount requested by the applicant in U.S. dollars,,TRUE
+loan_application.csv,product_code,VARCHAR,Loan product code requested by the applicant,FK,TRUE
+loan_application.csv,dti_pct,DECIMAL(5,2),Debt-to-income ratio as a percentage,,TRUE
+loan_application.csv,military_scra_flag,BOOLEAN,Flag indicating whether the applicant may qualify for SCRA-related protections,,TRUE
+loan_application.csv,bankruptcy_last_7y_flag,BOOLEAN,Flag indicating whether the applicant has had a bankruptcy in the last seven years,,TRUE
+loan_application.csv,collections_past_12_months_flag,BOOLEAN,Flag indicating whether the applicant has collection activity in the past 12 months,,TRUE
+loan_application.csv,preliminary_decision,VARCHAR,Initial application routing outcome such as Approved, Review, or Declined,,TRUE
+loan_application.csv,date,DATE,Date the loan application was submitted or recorded,,TRUE
+loan_product.csv,product_code,VARCHAR,Unique product identifier used across loan applications,PK,TRUE
+loan_product.csv,product_name,VARCHAR,Human-readable name of the loan product,,TRUE
+loan_product.csv,product_family,VARCHAR,Loan category such as Mortgage, Credit Card, or Auto Loan,,TRUE
+loan_product.csv,eligibility_criteria,VARCHAR,Key conditions required to qualify for the product,,TRUE
+loan_product.csv,minimum_credit_tier,VARCHAR,Minimum credit tier required for eligibility,,TRUE
+loan_product.csv,minimum_fico,INTEGER,Minimum FICO score required for product eligibility,,TRUE
+loan_product.csv,base_rate_pct,DECIMAL(5,2),Base annual percentage rate for the product,,TRUE
+loan_product.csv,maximum_amount_usd,DECIMAL(12,2),Maximum principal amount allowed for the product,,TRUE
+loan_product.csv,max_dti_pct,DECIMAL(5,2),Maximum debt-to-income ratio permitted for the product,,TRUE
+loan_product.csv,allow_bankruptcy_flag,BOOLEAN,Flag indicating whether bankruptcy applicants may still qualify,,TRUE
+loan_product.csv,allow_collections_flag,BOOLEAN,Flag indicating whether applicants with collections activity may qualify,,TRUE
+loan_product.csv,tier_rate_adjustment_rule,VARCHAR,Rule describing how the annual rate adjusts by borrower credit tier,,TRUE
+loan_product.csv,collections_rate_adjustment_pct,DECIMAL(5,2),Rate adjustment applied when collection activity is present,,TRUE
+loan_product.csv,bankruptcy_rate_adjustment_pct,DECIMAL(5,2),Rate adjustment applied when bankruptcy history is present,,TRUE
+loan_product.csv,scra_rate_cap_pct,DECIMAL(5,2),Maximum rate cap applied when SCRA protections are relevant,,TRUE
+credit_pull_events.csv,event_id,VARCHAR,Unique credit pull event identifier,PK,TRUE
+credit_pull_events.csv,applicant_id,VARCHAR,Applicant associated with the credit bureau event,FK,TRUE
+credit_pull_events.csv,event_date,DATE,Date the credit pull event occurred,,TRUE
+credit_pull_events.csv,prior_tier,VARCHAR,Applicant credit tier before the bureau pull,,TRUE
+credit_pull_events.csv,new_tier,VARCHAR,Applicant credit tier after the bureau pull,,TRUE
+credit_pull_events.csv,prior_fico,INTEGER,FICO score before the bureau pull,,TRUE
+credit_pull_events.csv,new_fico,INTEGER,FICO score after the bureau pull,,TRUE
+credit_pull_events.csv,tier_changed_flag,BOOLEAN,Flag indicating whether the applicant's tier changed as a result of the pull,,TRUE
+credit_pull_events.csv,bureau_source,VARCHAR,Name of the credit bureau source such as Experian or TransUnion,,TRUE
+credit_pull_events.csv,event_status,VARCHAR,Status of the credit pull event such as Completed or Pending,,TRUE
+credit_pull_events.csv,event_reason,VARCHAR,Reason for the credit pull event or re-pull,,TRUE
