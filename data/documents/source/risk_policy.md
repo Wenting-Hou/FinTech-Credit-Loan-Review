@@ -1,8 +1,15 @@
 # Applicant Credit Risk Classification Policy
 
-## 1. Policy Purpose
+## Policy Purpose
 
-This policy establishes a standardized methodology for classifying loan applicants into **Low, Medium, or High credit risk tiers** using credit history and financial information available at the time of application.
+This policy establishes a standardized methodology for classifying loan applicants into **five credit-risk tiers (T1 through T5)** using credit history and financial information available at the time of application.
+
+The risk tiers are ordered from lowest to highest observed credit risk:
+- T1 – Very Low Risk
+- T2 – Low Risk
+- T3 – Moderate Risk
+- T4 – High Risk
+- T5 – Very High Risk
 
 The methodology is designed solely for this academic microcosm. The thresholds, scoring weights, and classifications are synthetic assumptions and do not represent actual lender underwriting standards, regulatory requirements, or credit bureau methodologies.
 
@@ -11,7 +18,7 @@ The methodology is designed solely for this academic microcosm. The thresholds, 
 **Effective Date:** September 1, 2026
 
 
-## 2. Policy Principle
+## Policy Principle
 
 Risk classification must be based only on information that was available **on or before the loan application date**.
 
@@ -20,7 +27,7 @@ Information generated after the application date, including subsequent credit ev
 The policy uses a **24-month credit-history lookback period** measured from the application date.
 
 
-## 3. Permitted Risk Factors
+## Permitted Risk Factors
 
 The following information may be used in determining an applicant's risk tier:
 
@@ -38,7 +45,7 @@ The following information may be used in determining an applicant's risk tier:
 Only credit events occurring within the 24 months preceding and including the application date are eligible for risk assessment.
 
 
-## 4. Prohibited Risk Factors
+## Prohibited Risk Factors
 
 The following information must not be used in calculating the risk tier:
 
@@ -54,7 +61,7 @@ The following information must not be used in calculating the risk tier:
 These fields are excluded to prevent outcome leakage and to separate the risk-classification process from subsequent lending decisions.
 
 
-## 5. Credit History Classification
+## Credit History Classification
 
 Before calculating a risk score, the applicant's available credit history must be classified based on the amount of observable history within the 24-month lookback period.
 
@@ -64,18 +71,18 @@ Before calculating a risk score, the applicant's available credit history must b
 | 1–5 months              | **LIMITED_HISTORY** |
 | 6+ months               | **ESTABLISHED**     |
 
-Applicants with **NO_HISTORY** are assigned a **Medium Risk** tier rather than being scored using unavailable credit-history information.
+Applicants with **NO_HISTORY** are assigned **T3 – Moderate Risk** rather than being scored using unavailable credit-history information.
 
 Applicants with **LIMITED_HISTORY** are scored using the standard methodology but must be identified with a limited-credit-history flag.
 
 Applicants with **ESTABLISHED** credit history are evaluated using the standard scoring methodology.
 
 
-## 6. Risk Assessment Factors
+**For LIMITED or ESTABLISHED history, calculate three risk factors as following**
 
 The risk assessment considers three primary dimensions:
 
-### Delinquency Severity
+### 1. Delinquency Severity
 
 The maximum number of days overdue across eligible credit events is used to measure delinquency severity.
 
@@ -87,7 +94,7 @@ The maximum number of days overdue across eligible credit events is used to meas
 |                60–89 |           3 |
 |                  90+ |           5 |
 
-### Debt Burden
+### 2. Debt Burden
 
 Total outstanding debt is calculated using the most recent outstanding debt observation for each credit record within the eligible lookback period.
 
@@ -102,7 +109,7 @@ Debt burden is calculated as:
 |             >50%–75% |           2 |
 |                 >75% |           3 |
 
-### Overdue Debt Burden
+### 3. Overdue Debt Burden
 
 Total overdue amount is calculated using the most recent overdue amount observation for each credit record within the eligible lookback period.
 
@@ -118,51 +125,60 @@ The overdue burden ratio is calculated as:
 |                     >5% |           3 |
 
 
-## 7. Risk Score Calculation
+## Risk Score Calculation
 
 For applicants eligible for standard scoring:
 
 **Risk Score = Delinquency Points + Debt Burden Points + Overdue Amount Points**
 
-The resulting score determines the applicant's risk classification.
-
-| Total Risk Score | Risk Tier  |
-| ---------------: | ---------- |
-|              0–2 | **LOW**    |
-|              3–5 | **MEDIUM** |
-|               6+ | **HIGH**   |
+The possible score ranges from **0 to 11 points**:
+- Delinquency Points: 0–5
+- Debt Burden Points: 0–3
+- Overdue Amount Points: 0–3
 
 A higher score represents greater observed credit risk.
 
+| Total Risk score | Risk tier | Risk Classification |
+| ---------------: | --------- | ------------------- |
+|    **0–1**       | **T1**    | Very Low Risk       |
+|    **2–3**       | **T2**    | Low Risk            |
+|    **4–5**       | **T3**    | Moderate Risk       |
+|    **6–7**       | **T4**    | High Risk           |
+|    **8–11**      | **T5**    | Very High Risk      |
 
-## 8. Special Credit History Rules
+## Special Credit History Rules
 
 ### No Credit History
 
 Applicants with no observable credit history during the 24-month lookback period are assigned:
 
-**Risk Tier:** MEDIUM
+**Risk Tier:** T3
+**Risk Classification:** Moderate Risk
 **Risk Tier Basis:** NO_CREDIT_HISTORY
+
+A numeric `risk_tier_score` is not calculated when the applicant has no eligible credit history because the underlying credit-history measures are unavailable.
 
 This classification reflects uncertainty caused by insufficient historical information rather than demonstrated delinquency.
 
-### 9. Limited Credit History
+### Limited Credit History
 
 Applicants with 1–5 months of observable credit history are evaluated using the standard risk score.
 
 Their classification must additionally identify:
 
 **Risk Tier Basis:** LIMITED_HISTORY
+The calculated risk score determines whether the applicant is classified as T1, T2, T3, T4, or T5.
 
-### 10. Established Credit History
+### Established Credit History
 
 Applicants with at least six months of observable credit history are evaluated using the standard risk score.
 
 Their classification must identify:
 
 **Risk Tier Basis:** CREDIT_HISTORY
+The calculated risk score determines whether the applicant is classified as T1, T2, T3, T4, or T5.
 
-## 11. Missing Data Policy
+## Missing Data Policy
 
 Annual income is required to calculate the debt burden measures. If annual income is missing, the risk-tier derivation must fail and the record must be flagged for data-quality review.
 
@@ -175,14 +191,14 @@ Unknown outstanding debt and overdue amounts must not automatically be treated a
 
 The risk-classification process should produce, at minimum:
 
-* Risk tier
+* Risk tier (T1, T2, T3, T4, or T5)
 * Risk tier score, when applicable
 * Risk tier basis
 * Credit history status
 * Policy version
 * Policy effective date
 
-These fields provide traceability between the applicant's classification and the policy used to generate it.
+The five-tier structure provides a more granular measure of applicant credit risk while maintaining traceability between the underlying risk factors, calculated score, and resulting classification.
 
 
 ## Academic Methodology Notice
