@@ -1,0 +1,410 @@
+  domain: fintech_credit_and_loan_review
+  version: 1.0.0
+  status: active
+  
+  description: 
+    Data contracts for a synthetic academic credit and loan review microcosm. 
+    The package supports loan application analysis,
+    applicant risk-feature derivation, credit-history analysis,
+    product eligibility review, policy traceability, and data-quality validation.
+
+  owners:
+    business_owner: Chief Risk Officer & Credit Risk Committee
+    data_owner: Database & Analytics Lead
+    data_steward: Quality & Governance Lead
+    technical_owner: Data & Ingestion Lead
+
+auditability_requirements:
+   risk_reconstructability:
+    required: true
+    description: >
+      Each applicant risk profile must be traceable to the corresponding
+      loan application, eligible credit history, and risk-tier ruleset
+      version used to derive the result.
+
+  temporal_reconstructability:
+    required: true
+    description: >
+      Risk analysis must use only information available on or before
+      the loan application date.
+
+  product_rule_traceability:
+    required: true
+    description: >
+      Product eligibility, credit-tier requirements, pricing rules,
+      loan limits, DTI limits, and other underwriting constraints must
+      be traceable to the applicable loan_product record.
+
+  policy_traceability:
+    required: true
+    description: >
+      Policy and compliance documents supporting the loan-review process
+      must be identifiable through document_metadata.csv when applicable.
+
+  source_references:
+    - source_id: HOME_CREDIT_KAGGLE
+      organization: Home Credit
+      publisher: Kaggle
+      title: Home Credit Default Risk
+      url: https://www.kaggle.com/competitions/home-credit-default-risk/data
+      role: primary_structural_reference
+      referenced_files:
+        - application_train.csv
+        - previous_application.csv
+        - bureau.csv
+        - bureau_balance.csv
+        - HomeCredit_columns_description.csv
+    - source_id: FANNIE_MAE_GLOSSARY
+      organization: Fannie Mae
+      title: Single-Family Loan Performance Dataset and Credit Risk Transfer - Glossary and File Layout
+      url: https://capitalmarkets.fanniemae.com/sites/capmrkt/files/2026-02/crt-file-layout-and-glossary.pdf
+      role: secondary_reference_for_common_lending_definitions
+
+  adaptation_statement: >-
+      Public-source fields are used only as structural and semantic references.
+      Product codes, application identifiers, credit-tier rules, underwriting
+      thresholds, pricing adjustments, product constraints, and other project
+      fields are synthetic academic extensions.
+    
+      Synthetic extensions must not be represented as fields published by
+      Home Credit, Fannie Mae, or any other real lender.
+    
+      No real customer information, confidential company data, or confidential
+      client information may be included.
+  
+  
+  global_rules:
+    file_format: csv
+    encoding: UTF-8
+    delimiter: comma
+    header_required: true
+    quote_character: '"'
+    null_representation: ""
+    
+    date_format: YYYY-MM-DD
+    timestamp_format: YYYY-MM-DDTHH:MM:SSZ
+    target_row_count:
+      minimum: 100
+      maximum: 1000
+      exception:  
+      - loan_product.csv may contain fewer than 100 rows
+      - document_metadata.csv may contain fewer than 100 rows
+    
+    prohibited_data:
+      - real names
+      - Social Security numbers
+      - full street addresses
+      - account numbers
+      - real customer identifiers
+      - confidential employer or client data
+      
+    identifier_policy: All applicant, application, credit-event, and product identifiers
+    used in project datasets must be synthetic and non-identifying.
+    
+    ingestion_behavior:
+      on_schema_failure: reject_file
+      on_row_failure: quarantine_row
+      duplicate_handling: retain_first_and_quarantine_duplicates
+      referential_integrity_check: required_after_all_files_are_loaded
+
+
+# ============================================================
+# DATASET REGISTRY
+# Detailed field definitions are maintained in the individual
+# dataset data contracts.
+# ============================================================
+datasets:
+
+  - dataset_name: loan_application.csv
+    dataset_role: transaction
+    contract_file: schemas/loan_application_contract.yaml
+
+    description: >
+      One row per synthetic loan application. The dataset contains
+      application-level information required for loan review and
+      applicant risk-feature derivation, including applicant identifier,
+      product selection, application date, requested amount, and
+      applicant financial information such as annual income.
+
+    grain: application_id
+    primary_key:
+      - application_id
+
+    foreign_keys:
+      - fields:
+          - product_code
+        references: loan_product.csv[product_code]
+
+    privacy_classification: restricted_academic
+
+    source_lineage:
+      primary_source: synthetic_academic_fixture
+      notes: >
+        Application attributes may be structurally inspired by public
+        lending datasets. Product codes, dates, identifiers, and other
+        project-specific fields are synthetic academic extensions.
+
+
+  - dataset_name: credit_pull_events.csv
+    dataset_role: event
+    contract_file: schemas/credit_pull_event_contract.yaml
+
+    description: >
+      One row per synthetic credit-pull or credit-history event associated
+      with a loan application or applicant. The dataset provides eligible
+      pre-application credit information used to construct applicant
+      risk features.
+
+    grain: credit_event_id
+
+    foreign_keys:
+      - fields:
+          - application_id
+        references: loan_application.csv[application_id]
+
+    privacy_classification: restricted_academic
+
+    source_lineage:
+      primary_source: synthetic_academic_fixture
+      notes: >
+        Credit-event structure may be informed by public credit-history
+        datasets. Identifiers, dates, and project-specific event fields
+        are synthetic.
+
+
+  - dataset_name: applicant_risk_features.csv
+    dataset_role: derived
+    contract_file: schemas/applicant_risk_features.yaml
+
+    description: >
+      One row per loan application containing pre-decision applicant
+      credit-risk features, derived financial metrics, risk score,
+      and risk tier.
+
+      Features are calculated only from information available on or
+      before the application date.
+
+    grain: application_id
+
+    primary_key:
+      - application_id
+
+    foreign_keys:
+      - fields:
+          - application_id
+        references: loan_application.csv[application_id]
+
+    privacy_classification: restricted_academic
+
+    access_groups:
+      - underwriting
+      - risk
+      - compliance
+      - approved_data_team
+
+    source_lineage:
+      source_datasets:
+        - loan_application.csv
+        - credit_pull_events.csv
+
+      derivation_method: applicant_risk_feature_pipeline
+
+      notes: >
+        Applicant financial information, including annual income,
+        is obtained from loan_application.csv.
+
+        Credit-history features are derived from eligible
+        credit_pull_events.csv records.
+
+        No post-application information, protected attributes,
+        future credit events, or loan decision outcomes may be
+        used in risk-feature derivation.
+
+
+  - dataset_name: loan_product.csv
+    dataset_role: reference
+    contract_file: schemas/loan_product_contract.yaml
+
+    description: >
+      One row per synthetic loan product containing product eligibility,
+      underwriting constraints, credit requirements, pricing baselines,
+      tier-based rate adjustments, bankruptcy and collections treatment,
+      and applicable rate caps.
+
+    grain: product_code
+
+    primary_key:
+      - product_code
+
+    privacy_classification: internal_reference
+
+    source_lineage:
+      primary_source: synthetic_academic_fixture
+      notes: >
+        Product eligibility, pricing, credit requirements, loan limits,
+        DTI limits, and policy constraints are synthetic academic data.
+
+
+  - dataset_name: document_metadata.csv
+    dataset_role: reference
+
+    description: >
+      One row per policy, underwriting guideline, compliance document,
+      procedure, regulation, or other project document.
+
+      This dataset provides metadata used to identify and organize
+      documents supporting the loan-review domain.
+
+    grain: doc_id
+
+    primary_key:
+      - doc_id
+
+    privacy_classification: internal_reference
+
+    source_lineage:
+      primary_source: project_document_collection
+      notes: >
+        Metadata describes documents included in the academic project
+        and does not contain real customer information.
+
+# ============================================================
+# CROSS-DATASET CONTROLS
+# ============================================================      
+ cross_dataset_controls:
+
+  - control_id: XREF_001
+    description: >
+      Every loan application must reference an existing loan product.
+    validation: >
+      Left join loan_application.product_code to
+      loan_product.product_code.
+    pass_condition: orphan_product_count equals 0
+    severity: error
+
+
+  - control_id: XREF_002
+    description: >
+      Every applicant risk-feature record must reference an existing
+      loan application.
+    validation: >
+      Left join applicant_risk_features.application_id to
+      loan_application.application_id.
+    pass_condition: orphan_risk_application_count equals 0
+    severity: error
+
+
+  - control_id: XREF_003
+    description: >
+      The applicant_id in applicant_risk_features must match the
+      applicant_id recorded for the same application_id in
+      loan_application.csv.
+    validation: >
+      Join applicant_risk_features to loan_application using
+      application_id and compare applicant_id.
+    pass_condition: applicant_mismatch_count equals 0
+    severity: error
+
+
+  - control_id: XREF_004
+    description: >
+      Credit events used in risk-feature derivation must not occur
+      after the corresponding application date.
+    validation: >
+      Join credit_pull_events to loan_application using application_id
+      and compare event_date with application_date.
+    pass_condition: future_credit_event_count equals 0
+    severity: critical
+
+
+  - control_id: XREF_005
+    description: >
+      Credit events used for applicant risk derivation must fall within
+      the defined 24-month lookback period.
+    validation: >
+      Compare eligible credit-event dates with the corresponding
+      application_date.
+    pass_condition: out_of_window_event_count equals 0
+    severity: error
+
+
+  - control_id: XREF_006
+    description: >
+      applicant_risk_features.as_of_date must equal the corresponding
+      loan_application.application_date.
+    validation: >
+      Join applicant_risk_features to loan_application using
+      application_id and compare the two dates.
+    pass_condition: as_of_date_mismatch_count equals 0
+    severity: error
+
+
+  - control_id: XREF_007
+    description: >
+      Applicant risk tiers must use the same T1 through T5 tier vocabulary
+      used by loan_product.minimum_credit_tier.
+    validation: >
+      Validate applicant_risk_features.risk_tier and
+      loan_product.minimum_credit_tier against the governed tier vocabulary.
+    pass_condition: invalid_risk_tier_count equals 0
+    severity: critical
+
+
+  - control_id: XREF_008
+    description: >
+      Protected attributes, decision outcomes, and post-application
+      information must not be used as applicant risk features.
+    validation: >
+      Inspect the applicant risk-feature derivation inputs and
+      transformation logic.
+    pass_condition: prohibited_feature_count equals 0
+    severity: critical
+
+
+# ============================================================
+# CONTROLLED QUALITY TEST FIXTURES
+# ============================================================
+controlled_quality_test_fixtures:
+
+  purpose: >
+    Optional intentional data-quality problems used for validation,
+    quarantine, and testing exercises.
+
+  rules:
+    - fixture_id: QF_001
+      dataset: loan_application.csv
+      problem: >
+        One product_code does not exist in loan_product.csv.
+      expected_control: XREF_001
+      expected_action: quarantine_or_manual_review
+
+    - fixture_id: QF_002
+      dataset: credit_pull_events.csv
+      problem: >
+        One credit event occurs after the associated application_date.
+      expected_control: XREF_004
+      expected_action: quarantine_event
+
+    - fixture_id: QF_003
+      dataset: applicant_risk_features.csv
+      problem: >
+        One as_of_date does not match the corresponding application_date.
+      expected_control: XREF_006
+      expected_action: reject_or_recalculate
+
+# ============================================================
+# ACCEPTANCE CRITERIA
+# ============================================================
+
+acceptance_criteria:
+  - All YAML files parse successfully.
+  - Every CSV header matches the field names declared in its corresponding dataset contract.
+  - Required fields are populated according to each individual dataset contract.
+  - Primary-key uniqueness tests pass.
+  - Foreign-key and cross-dataset referential-integrity tests pass, except for explicitly declared controlled test fixtures.
+  - applicant_risk_features.csv contains no post-application information or future credit events.
+  - applicant_risk_features.csv uses the governed risk-tier vocabulary and risk-tier ruleset version.
+  - loan_application.product_code values reconcile to loan_product.csv.
+  - All synthetic extensions are documented in source_lineage.
+  - No real PII, confidential company data, confidential client data, or real customer identifiers are present.
+  - document_metadata.csv accurately describes the project documents included in the repository.
