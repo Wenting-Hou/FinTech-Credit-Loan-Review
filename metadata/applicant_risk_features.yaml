@@ -16,10 +16,8 @@ dataset:
   primary_key: [application_id]
 
   foreign_keys:
-    - fields: [application_id]
-      references: "loan_applications.csv[application_id]"
     - fields: [applicant_id]
-      references: "applicants.csv[applicant_id]"
+      references: "loan_applications.csv[applicant_id]"
 
   privacy_classification: restricted_academic
 
@@ -31,7 +29,6 @@ dataset:
 
   source_lineage:
     source_datasets:
-      - applicants.csv
       - loan_applications.csv
       - credit_events.csv
     derivation_method: applicant_risk_feature_pipeline
