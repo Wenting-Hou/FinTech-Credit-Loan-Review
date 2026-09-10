@@ -1,4 +1,4 @@
-application_id,applicant_id,as_of_date,credit_history_status,credit_history_months_observed,max_days_overdue,delinquent_event_count,total_outstanding_debt,total_overdue_amount,debt_to_income_ratio,overdue_amount_to_income,delinquency_points,debt_burden_points,risk_tier_score,risk_tier,risk_tier_basis,risk_tier_ruleset_version
+appli_risk_id,application_id,as_of_date,credit_history_status,credit_history_months_observed,max_days_overdue,delinquent_event_count,total_outstanding_debt,total_overdue_amount,debt_to_income_ratio,overdue_amount_to_income,delinquency_points,debt_burden_points,risk_tier_score,risk_tier,risk_tier_basis,risk_tier_ruleset_version
 LA100000,APP100000,2026-06-15,ESTABLISHED,22,0.0,0,72779.48,0.0,0.4939,0.0,0,1,1.0,T1,CREDIT_HISTORY,1.0
 LA100001,APP100001,2025-05-08,ESTABLISHED,7,0.0,0,87759.16,0.0,0.5574,0.0,0,2,2.0,T2,CREDIT_HISTORY,1.0
 LA100002,APP100002,2026-04-14,LIMITED_HISTORY,4,42.0,2,58947.99,3490.23,0.5132,0.0304,2,2,6.0,T4,LIMITED_HISTORY,1.0
