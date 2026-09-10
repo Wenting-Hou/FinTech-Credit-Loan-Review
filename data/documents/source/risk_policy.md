@@ -1,5 +1,13 @@
 # Applicant Credit Risk Classification Policy
 
+**Policy ID:** RISK  
+**Version:** V1.0  
+**Status:** active 
+**Prepared:** September 10, 2026  
+**Proposed owner:** Quality & Governance Lead: Wenting Hou
+**Proposed approver:** Credit Risk Committee 
+**Review cycle:** Annually and following a material policy change
+
 ## Policy Purpose
 
 This policy establishes a standardized methodology for classifying loan applicants into **five credit-risk tiers (T1 through T5)** using credit history and financial information available at the time of application.
