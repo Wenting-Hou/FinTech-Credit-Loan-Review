@@ -4,8 +4,8 @@
 **Version:** V1.0  
 **Status:** active  
 **Prepared:** September 10, 2026   
-**Proposed owner:** Head of Risk 
-**Proposed approver:** Board 
+**Proposed owner:** Head of Risk   
+**Proposed approver:** Board   
 **Review cycle:** At least annually and following material changes
 
 ## 1. Purpose
