@@ -1,4 +1,4 @@
-applicant_id,annual_income_usd,employment_duration_months,credit_risk_tier,fico_score,region_state,requested_amount_usd,product_code,dti_pct,military_scra_flag,bankruptcy_last_7y_flag,collections_past_12_months_flag,preliminary_decision,date
+application_id,annual_income_usd,employment_duration_months,credit_risk_tier,fico_score,region_state,requested_amount_usd,product_code,dti_pct,military_scra_flag,bankruptcy_last_7y_flag,collections_past_12_months_flag,preliminary_decision,date
 APP100000,"$147,346 ",223,T4,663,CA,"$390,382 ",MTG-CV,25.6,FALSE,TRUE,FALSE,Review,6/15/2026
 APP100001,"$157,454 ",339,T2,796,TX,"$6,100 ",CRD-ST,20,FALSE,FALSE,FALSE,Approved,5/8/2025
 APP100002,"$114,874 ",3,T5,421,CA,"$14,829 ",CRD-ST,38.7,FALSE,TRUE,TRUE,Declined,4/14/2026
