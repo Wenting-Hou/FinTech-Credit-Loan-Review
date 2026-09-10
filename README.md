@@ -14,16 +14,17 @@
 ## 2. Business Context & Problem Framing
 
 - **Assigned Domain:** FinTech: Credit & Loan Review
-- **Business Function / Process:** The function is responsible for maximizing portfolio profitability and minimizing credit losses by establishing structured underwriting standards, executing data-driven loan decisioning, and ensuring absolute adherence to consumer protection and fair-lending regulations.
+- **Business Function / Process:** The domain microcosm represents a personal consumer lending credit-review process in which a lender evaluates loan applications using application information, credit history, derived applicant risk features, loan-product requirements, and applicable lending policies.
 - **Target Stakeholders:** Underwriters, Credit Analysts, Chief Risk Officer, Credit Risk Committee,Compliance Team, Fair-Lending Team, Data Scientists, Loan Origination System (LOS) Engineers, FinTech Product Managers, Loan Officers, Applicants, Regulators, Credit Bureaus
 
-- **Primary Decision Question:** Should this loan application be approved, denied, or escalated for manual review based on the applicant’s profile, product rules, credit information, and current compliance requirements?
+- **Primary Decision Question:** Should this loan application be approved, denied, or escalated for manual review based on the application information, applicant risk profile, requested product requirements, credit information, and applicable compliance requirements?
 
 - **Supporting Business Questions:**
 
-1. Were loan decisions based on the underwriting and compliance rules that were current on the decision date?
-2. Are approval, denial, and escalation outcomes consistent across regions and comparable risk tiers, or are there patterns that may indicate fair-lending concerns?
-3. Which loan products and underwriting rules generate the most manual escalations or denials?
+1. Does the applicant's pre-decision risk profile satisfy the requirements of the requested loan product?
+2. Which product requirements, such as minimum credit tier, FICO, DTI, loan amount, bankruptcy, and collections rules, affect applicant eligibility?
+3. Which lending and compliance documents apply when reviewing the application?
+
 
 ---
 
@@ -32,6 +33,7 @@
 ### Structured Operational Datasets (`data/structured/raw/`)
 
 - `loan_application.csv` - [represents the primary applicant profile used in the loan review process, 600, application_id]
+- `applicant_risk_features.csv` - [the applicant’s credit-risk profile at the time of each loan application, 600, application_id]
 - `loan_product.csv` - [defines the available loan products and their associated eligibility, risk, and pricing requirements, 9, product_code]
 - `credit_pull_event.csv` - [represents the applicant’s historical credit-related events and changes over time, 1835, event_id & applicant_id]
 
