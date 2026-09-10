@@ -4,7 +4,7 @@
 **Version:** V1.0  
 **Status:** active  
 **Prepared:** September 10, 2026   
-**Proposed owner:** Quality & Governance Lead: Wenting Hou   
+**Proposed owner:** Head of Risk 
 **Proposed approver:** Board 
 **Review cycle:** At least annually and following material changes
 
