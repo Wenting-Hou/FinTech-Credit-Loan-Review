@@ -1,4 +1,4 @@
-event_id,applicant_id,event_date,prior_tier,new_tier,prior_fico,new_fico,tier_changed_flag,bureau_source,event_status,event_reason
+event_id,application_id,event_date,prior_tier,new_tier,prior_fico,new_fico,tier_changed_flag,bureau_source,event_status,event_reason
 E0000001,APP100000,2025-06-29,T4,T4,671,673,False,TransUnion,Completed,Initial Application
 E0000002,APP100000,2025-01-22,T3,T3,685,701,False,Experian,Completed,Fraud Verification
 E0000003,APP100000,2025-05-09,T4,T4,651,662,False,Experian,Pending,Re-Pull After Correction
