@@ -1,6 +1,6 @@
 # Applicant Credit Risk Classification Policy
 
-**Policy ID:** RISK  
+**Policy ID:** CREDIT_RISK  
 **Version:** V1.0  
 **Status:** active 
 **Prepared:** September 10, 2026  
