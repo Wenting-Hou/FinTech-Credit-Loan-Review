@@ -4,7 +4,7 @@
 **Version:** V1.0  
 **Status:** active  
 **Prepared:** September 10, 2026  
-**Proposed owner:** Quality & Governance Lead: Wenting Hou  
+**Proposed owner:** Credit Risk function  
 **Proposed approver:** Credit Risk Committee  
 **Review cycle:** Annually and following a material product or policy change
 
