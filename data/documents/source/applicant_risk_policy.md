@@ -2,7 +2,7 @@
 
 **Policy ID:** CREDIT_RISK  
 **Version:** V1.0  
-**Status:** active 
+**Status:** active  
 **Prepared:** September 10, 2026  
 **Proposed owner:** Quality & Governance Lead: Wenting Hou  
 **Proposed approver:** Credit Risk Committee  
