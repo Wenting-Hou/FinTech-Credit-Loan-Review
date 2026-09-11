@@ -1,8 +1,12 @@
 # Regional / State Lending Requirements
 
-**Knowledge Corpus Document 1 of 3**
-**Owner:** Miguel
-**Status:** In Progress — Draft
+**Policy ID:** REG-001      
+**Version:** V1.0  
+**Status:** In progress    
+**Prepared:** NA   
+**Proposed owner:** Head of Compliance    
+**Proposed approver:** Board    
+**Review cycle:** Annually
 
 ---
 
