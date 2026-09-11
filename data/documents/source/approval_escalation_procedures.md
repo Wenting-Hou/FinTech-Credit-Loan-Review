@@ -1,8 +1,12 @@
 # Approval / Escalation Procedures
 
-**Knowledge Corpus Document 3 of 3**
-**Owner:** Miguel
-**Status:** In Progress — Draft
+**Policy ID:** APPR-001  
+**Version:** V1.0  
+**Status:** In progress    
+**Prepared:** NA   
+**Proposed owner:** Credit Risk Function    
+**Proposed approver:** Credit Risk Committee  
+**Review cycle:** Annually
 
 ---
 
