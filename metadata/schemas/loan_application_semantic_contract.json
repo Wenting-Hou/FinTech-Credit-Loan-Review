@@ -1,0 +1,267 @@
+{
+  "contract": {
+    "contract_id": "SC-LOAN-APPLICATION",
+    "dataset_id": "fintech.origination.loan_application",
+    "dataset_name": "Loan Application Intake Snapshot",
+    "contract_version": "1.0.0",
+    "schema_version": "1.0.0",
+    "schema_expectations_ref": "loan_application_schema_expectations.md",
+    "status": "active",
+    "effective_date": "2026-09-14",
+    "review_cycle": "Per course milestone, or on any change to upstream intake fields",
+    "owner_role": "Knowledge & Retrieval Lead",
+    "steward_role": "Data / Model owner, per enterprise_risk_policy.md section on data lineage and version control",
+    "disclaimer": "Synthetic dataset built for a Data Engineering for AI course project. Values, thresholds and rules are simulation assumptions and do not represent real lender underwriting standards or regulatory requirements."
+  },
+
+  "business_definition": {
+    "summary": "One record per consumer loan application submitted for a credit product, capturing the applicant financial profile, the product requested, and the automated preliminary decision produced at intake.",
+    "business_process": "Loan origination — intake and preliminary screening. The record is created when an application is submitted and the intake screen runs. It sits upstream of underwriting, escalation, and funding.",
+    "answers_questions": [
+      "What did the applicant ask for, and under which product?",
+      "What was the applicant's credit and financial profile at the moment of application?",
+      "What did the automated intake screen decide, and what still needs a human?",
+      "How does application volume, mix, and preliminary outcome vary by product, state and risk tier?"
+    ],
+    "does_not_answer": [
+      "Whether the loan was ultimately approved, funded, or priced — this file contains only the preliminary screen, not the final decision.",
+      "Whether the applicant met per-product eligibility. The preliminary decision applies a uniform FICO-band rule and is not product-differentiated; use product_eligibility_rules.md for eligibility.",
+      "The applicant's current credit profile. Every value is as-of the application date, not as-of today.",
+      "Repayment, delinquency, or servicing outcomes — no post-origination performance data exists in this dataset."
+    ],
+    "in_scope": "Applications across three product lines (Mortgage, Credit Card, Auto), three tiers each, in a four-state pilot footprint (CA, FL, NC, TX), application dates 2024-01-01 through 2026-12-31.",
+    "out_of_scope": "Applications outside the four pilot states, products outside the nine codes in loan_product.csv, withdrawn or incomplete applications, and any application-level identity, demographic or contact data."
+  },
+
+  "grain": {
+    "declared_grain": "One row per loan application.",
+    "grain_keys": ["application_id"],
+    "primary_key": "application_id",
+    "uniqueness_verified": true,
+    "row_count_at_profiling": 600,
+    "cardinality_notes": "In this snapshot each applicant submits exactly one application, so applicant grain and application grain coincide 1:1. Consumers must not rely on that coincidence: if the simulation later allows repeat applicants, application_id alone will no longer be unique and an explicit applicant_id will be required. Count applications with COUNT(*), never COUNT(DISTINCT application_id), so the metric survives that change.",
+    "fan_out_warning": "Joining to credit_pull_events.csv is 1:many (600 applicants, 1835 events) and will duplicate application rows. Aggregate the event stream to one row per applicant before joining, or any sum over requested_amount_usd will be inflated."
+  },
+
+  "units_of_measure": {
+    "annual_income_usd": {
+      "unit": "USD",
+      "scale": "whole dollars",
+      "period": "annual",
+      "notes": "Self-reported gross annual income, unverified at intake. Delivered as a formatted string with a currency symbol, thousands separators and a trailing space; must be cast to integer before any arithmetic."
+    },
+    "requested_amount_usd": {
+      "unit": "USD",
+      "scale": "whole dollars",
+      "period": "point-in-time request",
+      "notes": "Amount the applicant asked for, not an approved or funded amount. May legitimately exceed the product maximum in loan_product.csv (29 rows do)."
+    },
+    "employment_duration_months": {
+      "unit": "months",
+      "scale": "whole months",
+      "notes": "Tenure at current employer as of the application date. Not a total work-history figure."
+    },
+    "fico_score": {
+      "unit": "FICO score points",
+      "scale": "integer, bounded 300-850",
+      "notes": "Dimensionless index. Never average across products or tiers as if it were a continuous measure of creditworthiness without stating the population."
+    },
+    "dti_pct": {
+      "unit": "percent",
+      "scale": "0-100, one decimal place",
+      "notes": "CRITICAL: this is a percent, not a 0-1 ratio. It is also NOT the same measure as applicant_risk_features.debt_to_income_ratio, which is an unbounded stock-of-debt-to-income ratio (0.115-2.376). The two do not convert into one another and must never be substituted for each other."
+    },
+    "credit_risk_tier": {
+      "unit": "ordinal category",
+      "scale": "T1 (lowest observed risk) through T5 (highest observed risk)",
+      "notes": "Ordered but not interval-scaled. The distance between T1 and T2 is not comparable to the distance between T4 and T5; do not compute a mean tier."
+    },
+    "boolean_flags": {
+      "unit": "boolean",
+      "scale": "TRUE / FALSE",
+      "applies_to": ["military_scra_flag", "bankruptcy_last_7y_flag", "collections_past_12_months_flag"],
+      "notes": "Delivered as uppercase string literals. Absence of a flag means the condition was not observed at intake, not that it was verified as false."
+    },
+    "date": {
+      "unit": "calendar date",
+      "scale": "day",
+      "format_delivered": "M/D/YYYY, not zero-padded",
+      "timezone": "Naive local date; no time component and no timezone is carried."
+    }
+  },
+
+  "point_in_time_semantics": {
+    "as_of_field": "date",
+    "as_of_meaning": "The application submission date. Every other field in the row is a snapshot of what was known or reported AT that date. The row is a frozen observation, not a live profile.",
+    "temporal_nature": "Immutable event snapshot. Once written, a row is never updated — a later credit pull, a tier change, or a final underwriting decision does not rewrite this record.",
+    "no_lookahead_rule": "Per applicant_risk_policy.md, any feature used for risk classification must be derivable from information available on or before the application date. Fields in this row satisfy that by construction. Consumers joining external data MUST filter that data to event_date <= date, or they introduce target leakage.",
+    "correct_join_pattern": "To attach credit history, select from credit_pull_events.csv only events where event_date <= loan_application.date, then take the latest per applicant. Joining the full event stream leaks post-application information into a pre-application decision.",
+    "reconstruction_note": "This file's fico_score is the value captured on the application record. It does NOT reproduce the most recent prior pull in credit_pull_events.csv (agreement is ~3%). Do not attempt to recompute or 'correct' it from the event stream; treat it as independently sourced at intake.",
+    "future_dated_rows": {
+      "count": 71,
+      "condition": "date is later than the 2026-09-14 processing date, extending to 2026-12-31",
+      "interpretation": "The snapshot is a full-calendar simulation rather than a to-date extract.",
+      "consumer_requirement": "Pipelines must make an explicit, documented choice: accept the full calendar range, or filter to date <= processing date. Silently dropping these rows changes volume, mix and approval-rate metrics without any error being raised."
+    },
+    "slowly_changing_dimension_handling": "Not applicable — this is a fact-style event table. Applicant attributes that change over time (tier, FICO) are captured as of the application date only; the history lives in credit_pull_events.csv."
+  },
+
+  "source_of_truth": {
+    "system_of_record": "Loan origination intake system (simulated). This file is the authoritative record for what was submitted and what the intake screen preliminarily decided.",
+    "authoritative_for": [
+      "application_id as the application identifier across the project",
+      "requested_amount_usd — the amount asked for",
+      "product_code — the product applied for",
+      "date — the application date used as the as-of anchor by every other dataset",
+      "preliminary_decision — the intake screening outcome",
+      "military_scra_flag, bankruptcy_last_7y_flag, collections_past_12_months_flag as declared at intake"
+    ],
+    "not_authoritative_for": [
+      {
+        "field": "credit_risk_tier",
+        "authoritative_source": "applicant_risk_features.csv (risk_tier), governed by applicant_risk_policy.md, policy RISK-TIER v1.0",
+        "reason": "This file's tier is a deterministic FICO band assigned at intake. The policy-governed tier is computed from delinquency and debt-burden points over a 24-month lookback. They agree on only 28% of applicants. Use this file's tier only when you specifically mean 'the tier shown on the application at intake'."
+      },
+      {
+        "field": "dti_pct",
+        "authoritative_source": "Distinct measure; applicant_risk_features.debt_to_income_ratio is a different metric, not a corrected version of this one",
+        "reason": "Different definitions and different scales. Neither supersedes the other; report whichever you use by its full name."
+      },
+      {
+        "field": "product eligibility thresholds",
+        "authoritative_source": "loan_product.csv and product_eligibility_rules.md",
+        "reason": "preliminary_decision applies a uniform FICO cutoff across all nine products. Deriving per-product thresholds from this field would wrongly imply that Subprime auto and Top-tier auto require the same credit score."
+      },
+      {
+        "field": "final credit decision",
+        "authoritative_source": "Not present in this project's data",
+        "reason": "This file stops at the preliminary screen. Review outcomes route to human underwriting per approval_escalation_procedures.md, and that outcome is not captured anywhere in the corpus."
+      }
+    ],
+    "upstream_dependencies": ["Application intake form", "Credit bureau pull at intake", "Product catalog (loan_product.csv)"],
+    "downstream_consumers": [
+      "Risk feature engineering (applicant_risk_features.csv)",
+      "Retrieval / RAG index over the policy and application corpus",
+      "Decision reporting and approval-rate monitoring",
+      "Any model that predicts or explains the preliminary decision"
+    ]
+  },
+
+  "freshness": {
+    "delivery_mode": "Full-file snapshot replacement",
+    "expected_cadence": "Per project milestone for the course simulation; daily batch in the production analogue this simulates",
+    "max_acceptable_staleness": "24 hours in the production analogue; snapshot-stable for the duration of a project milestone",
+    "freshness_signal": "MAX(date) within the file, compared against the expected coverage window",
+    "current_coverage_window": {"start": "2024-01-01", "end": "2026-12-31"},
+    "profiled_at": "2026-09-14",
+    "staleness_alerting": "Raise a data-quality event if a new load reduces MAX(date), if row count moves by more than 10%, or if any new categorical value appears in credit_risk_tier, region_state, product_code or preliminary_decision.",
+    "late_arriving_data": "Not expected. Because this snapshot already contains future-dated rows, absence of recent rows is NOT a reliable staleness signal on its own — check row count and coverage window together.",
+    "backfill_policy": "Full replacement. There is no incremental merge key other than application_id, and rows are immutable once written."
+  },
+
+  "business_interpretation_consumers_must_preserve": [
+    {
+      "id": "BI-01",
+      "rule": "preliminary_decision is PRELIMINARY, not final.",
+      "detail": "Review (310 of 600, 52%) means 'routed to a human underwriter', not 'pending approval' and not a negative outcome. Any approval-rate metric must state its denominator and treat Review as a distinct third state. Reporting approvals as 216/(216+74) and calling it a 77% approval rate is a misstatement — it silently discards the majority of applications.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-02",
+      "rule": "credit_risk_tier in this file is a FICO band, not the policy risk tier.",
+      "detail": "Bands are T1 800-850, T2 740-799, T3 680-739, T4 620-679, T5 300-619, holding for 600/600 rows. Because it is a pure function of fico_score, the two fields are perfectly collinear — including both as model features adds no information and will distort feature-importance attribution. It also agrees with applicant_risk_features.risk_tier only 28% of the time. Rename it on ingest (for example app_credit_risk_tier) so it cannot be confused with the policy tier in a join.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-03",
+      "rule": "The preliminary decision is fully explained by two fields.",
+      "detail": "The observed rule reproduces all 600 rows: T5 declines; T1 and T2 approve unless bankruptcy_last_7y_flag is TRUE, in which case they decline; T3 and T4 route to Review. Consequences: no bankruptcy-flagged application is ever approved; collections_past_12_months_flag has no effect on the preliminary outcome (4 approvals carry collections); and income, requested amount, DTI, employment tenure, state, product and SCRA status play no part at this stage. A model trained to predict preliminary_decision is therefore learning a two-variable rule, not credit risk — it will appear near-perfect and generalize to nothing.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-04",
+      "rule": "requested_amount_usd is a request, never an approval.",
+      "detail": "Do not aggregate it as originated volume, exposure or balance. 29 rows exceed the product maximum in loan_product.csv; 221 fall below the product minimum FICO and 40 exceed the product DTI cap. These are valid applications that failed eligibility, not corrupt records — that is precisely what an intake file is supposed to contain.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-05",
+      "rule": "Every value is as-of the application date.",
+      "detail": "fico_score, credit_risk_tier, dti_pct, employment_duration_months and the three flags describe the applicant at submission. Presenting them as current applicant state, or joining them to post-application events without a date filter, produces target leakage and is prohibited by applicant_risk_policy.md.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-06",
+      "rule": "dti_pct is a percent and is not interchangeable with debt_to_income_ratio.",
+      "detail": "Bounded 8.2-59.8 here; the risk-features measure is an unbounded 0.115-2.376 debt-stock ratio. Multiplying one by 100 does not yield the other in any of the 600 rows. Always qualify which DTI is being reported.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-07",
+      "rule": "military_scra_flag is a protections marker, not a risk factor.",
+      "detail": "It signals that servicemember protections such as rate caps apply (see scra_rate_cap_pct in loan_product.csv and the MLA notes in regional_state_lending_requirements.md). It must never be used as a predictor of creditworthiness or as a segmentation variable for adverse treatment. Under ECOA and the prohibited-factor list in applicant_risk_policy.md, using protected-status markers as risk inputs is not permitted.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-08",
+      "rule": "region_state carries regulatory meaning, not just geography.",
+      "detail": "State determines which usury caps, disclosure and repossession rules apply per regional_state_lending_requirements.md. It is a compliance dimension. Do not collapse it into a generic region bucket in any artifact that feeds a decision or a disclosure.",
+      "severity": "medium"
+    },
+    {
+      "id": "BI-09",
+      "rule": "Absence of a flag is absence of evidence.",
+      "detail": "bankruptcy_last_7y_flag = FALSE means no bankruptcy was recorded at intake, not that the applicant was verified bankruptcy-free. Do not phrase downstream output as a verified negative.",
+      "severity": "medium"
+    },
+    {
+      "id": "BI-10",
+      "rule": "Retrieval and RAG surfaces must carry the as-of date and the preliminary qualifier.",
+      "detail": "Any chunk, embedding, card or generated answer derived from a row must state the application date and the word 'preliminary' alongside the decision. A retrieved snippet reading 'Application APP100012: Declined' without those qualifiers is a materially misleading representation of the record, and adverse-action accuracy is a live compliance concern per approval_escalation_procedures.md and ECOA.",
+      "severity": "critical"
+    }
+  ],
+
+  "field_semantics": {
+    "application_id": "Stable business key for the application. Format APP######. Join key to applicant_risk_features.csv (1:1) and credit_pull_events.csv (1:many). Note that applicant_risk_features.csv also carries a separate application_id (LA######) — do not join on that.",
+    "annual_income_usd": "Self-reported gross annual income in whole USD, as declared at application. Unverified.",
+    "employment_duration_months": "Whole months at current employer as of the application date.",
+    "credit_risk_tier": "Ordinal intake risk band T1-T5, assigned as a deterministic function of fico_score. See BI-02.",
+    "fico_score": "Credit bureau score captured at intake, 300-850. Point-in-time; not reconcilable to credit_pull_events.csv.",
+    "region_state": "Two-letter state of the applicant, determining the applicable state regulatory regime. Four-state pilot footprint.",
+    "requested_amount_usd": "Amount requested in whole USD. Never an approved or funded amount.",
+    "product_code": "Product applied for; foreign key to loan_product.csv. Encodes line and tier: MTG (mortgage) FH/CV/JB, CRD (credit card) SC/ST/EL, AUT (auto) SP/TR/TT.",
+    "dti_pct": "Debt-to-income as a percent, as computed at intake. See BI-06.",
+    "military_scra_flag": "TRUE where Servicemembers Civil Relief Act protections apply. Protections marker only. See BI-07.",
+    "bankruptcy_last_7y_flag": "TRUE where a bankruptcy was recorded within seven years prior to application. The single disqualifying condition in the preliminary screen.",
+    "collections_past_12_months_flag": "TRUE where a collections event was recorded in the twelve months prior to application. Informational at intake; does not affect the preliminary decision.",
+    "preliminary_decision": "Intake screening outcome: Approved, Review (routed to human underwriting), or Declined. Preliminary only. See BI-01 and BI-03.",
+    "date": "Application submission date and the as-of anchor for every other field in the row."
+  },
+
+  "compliance_notes": {
+    "prohibited_uses": [
+      "Using military_scra_flag, region_state, or any protected-status proxy as a risk or pricing input.",
+      "Presenting preliminary_decision as a final adverse action or as the basis for an adverse action notice.",
+      "Deriving per-product eligibility thresholds from preliminary_decision outcomes.",
+      "Joining post-application events to a row without a date filter for any feature used in a decision."
+    ],
+    "referenced_authorities": [
+      "Equal Credit Opportunity Act (ECOA) — prohibited bases and adverse action notice requirements",
+      "Fair Credit Reporting Act (FCRA) — permissible purpose and accuracy of credit information",
+      "Servicemembers Civil Relief Act (SCRA) / Military Lending Act (MLA) — rate caps and protections",
+      "applicant_risk_policy.md — permitted and prohibited risk factors, 24-month lookback, no-lookahead principle",
+      "enterprise_risk_policy.md — data lineage, calculation definitions, version control and change records"
+    ],
+    "escalation": "If a consumer finds a conflict between this contract and a policy document, hold the affected action and obtain documented resolution from the relevant owners, per enterprise_risk_policy.md section 3."
+  },
+
+  "change_log": [
+    {
+      "version": "1.0.0",
+      "date": "2026-09-14",
+      "author_role": "Knowledge & Retrieval Lead",
+      "summary": "Initial semantic contract. Grain, units, as-of semantics, source-of-truth boundaries, freshness expectations and ten mandatory interpretation rules derived from a full profile of the 600-row snapshot and cross-referenced against the project policy corpus."
+    }
+  ]
+}
