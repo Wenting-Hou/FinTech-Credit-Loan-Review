@@ -22,7 +22,7 @@ fields:
     required: true
     unique: true
     pattern: "^E[0-9]{7}$"
-  - name: applicant_id
+  - name: application_id
     type: string
     required: true
     pattern: "^APP[0-9]{6}$"
@@ -75,7 +75,7 @@ quality_rules:
     expectation: event_id is unique, not null, and matches the E####### format
     severity: error
   - rule_id: CREDIT_PULL_002
-    expectation: applicant_id is not null and matches the APP###### format
+    expectation: application_id is not null and matches the APP###### format
     severity: error
   - rule_id: CREDIT_PULL_003
     expectation: event_date is a valid credit-pull event date
@@ -90,7 +90,7 @@ quality_rules:
     expectation: bureau_source, event_status, and event_reason contain only approved categorical values
     severity: error
   - rule_id: CREDIT_PULL_007
-    expectation: every applicant_id references an applicant in the applicant dataset
+    expectation: every application_id references an application in the loan_application dataset
     severity: error
   - rule_id: CREDIT_PULL_008
     expectation: all records are synthetic and contain no direct personal identifiers

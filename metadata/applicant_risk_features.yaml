@@ -4,7 +4,7 @@ status: active
 
 dataset:
   file_name: applicant_risk_features.csv
-  path: data/structured/derived/applicant_risk_features.csv
+  path: data/structured/raw/applicant_risk_features.csv
   format: csv
   encoding: UTF-8
   delimiter: ","
@@ -14,10 +14,6 @@ dataset:
   grain: each row represents the pre-decision risk profile for one loan application
 
   primary_key: [application_id]
-
-  foreign_keys:
-    - fields: [applicant_id]
-      references: "loan_applications.csv[applicant_id]"
 
   privacy_classification: restricted_academic
 
@@ -29,8 +25,8 @@ dataset:
 
   source_lineage:
     source_datasets:
-      - loan_applications.csv
-      - credit_events.csv
+      - loan_application.csv
+      - credit_pull_event.csv
     derivation_method: applicant_risk_feature_pipeline
     notes: >
       Risk features are derived only from applicant financial information
@@ -44,9 +40,6 @@ fields:
     type: string
     required: true
     unique: true
-  - name: applicant_id
-    type: string
-    required: true
   - name: as_of_date
     type: date
     required: true
@@ -126,12 +119,7 @@ quality_rules:
     expectation: application_id is unique and not null
     severity: error
   - rule_id: RISK_002
-    expectation: application_id exists in loan_applications.csv
-    severity: error
-  - rule_id: RISK_003
-    expectation: >
-      applicant_id must match the applicant_id associated with
-      application_id in loan_applications.csv
+    expectation: application_id exists in loan_application.csv
     severity: error
   - rule_id: RISK_004
     expectation: >

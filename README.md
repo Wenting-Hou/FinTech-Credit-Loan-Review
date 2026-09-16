@@ -35,7 +35,7 @@
 - `loan_application.csv` - [represents the primary applicant profile used in the loan review process, 600, application_id]
 - `applicant_risk_features.csv` - [the applicant’s credit-risk profile at the time of each loan application, 600, application_id]
 - `loan_product.csv` - [defines the available loan products and their associated eligibility, risk, and pricing requirements, 9, product_code]
-- `credit_pull_event.csv` - [represents the applicant’s historical credit-related events and changes over time, 1835, event_id & applicant_id]
+- `credit_pull_event.csv` - [represents the applicant’s historical credit-related events and changes over time, 1836, event_id & application_id]
 
 ### Knowledge Corpus (`data/documents/source/`)
 
