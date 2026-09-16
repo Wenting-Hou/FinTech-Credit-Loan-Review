@@ -1,0 +1,228 @@
+{
+  "contract": {
+    "contract_id": "SC-CREDIT-PULL-EVENTS",
+    "dataset_id": "fintech.bureau.credit_pull_events",
+    "dataset_name": "Credit Bureau Pull Event Stream",
+    "contract_version": "1.0.0",
+    "schema_version": "1.0.0",
+    "status": "active",
+    "effective_date": "2026-09-14",
+    "review_cycle": "Per course milestone; in the production analogue, on any change to bureau integration or event taxonomy",
+    "owner_role": "Knowledge & Retrieval Lead",
+    "steward_role": "Credit Risk / Data Engineering, per enterprise_risk_policy.md",
+    "disclaimer": "Synthetic dataset for a Data Engineering for AI course project. Bureau names, event reasons and score movements are simulation constructs and do not represent real bureau data, real pull practices or FCRA-compliant procedures."
+  },
+
+  "business_definition": {
+    "summary": "One record per credit bureau pull, capturing the bureau queried, why it was pulled, whether it completed, and the applicant's score and tier before and after the pull.",
+    "business_process": "Credit bureau inquiry. Pulls occur at initial application and again for refreshes, corrections, fraud verification and manual review. This is the only event-stream dataset in the project and the only one carrying history rather than a single snapshot.",
+    "role_in_architecture": "Event fact table. It is the audit trail behind the point-in-time values that appear as single fields elsewhere — the raw material for reconstructing what was known about an applicant at any given date.",
+    "answers_questions": [
+      "How many times was this applicant pulled, from which bureaus, and why?",
+      "What did the bureau report at each pull, and did the tier move?",
+      "Which pulls failed, are pending, or were resubmitted?",
+      "What was known about an applicant as of a given date?"
+    ],
+    "does_not_answer": [
+      "The applicant's FICO on the application record. That is loan_application.fico_score, which matches the most recent prior pull in only about 3% of cases — see source_of_truth.",
+      "A continuous score history. The events do not chain: one event's new_fico equals the next event's prior_fico on under 3% of consecutive pairs.",
+      "Why a score moved. event_reason describes why the PULL was initiated, not what changed on the credit file.",
+      "Anything about applications, products, decisions or eligibility. No such fields exist here."
+    ],
+    "in_scope": "1,835 pulls across all 600 applicants, dated 2022-08-16 to 2026-11-29 — a window that begins roughly 17 months before the earliest application.",
+    "out_of_scope": "Tradeline detail, inquiry records, dispute outcomes, permissible-purpose documentation, and the content of the credit file beyond score and tier."
+  },
+
+  "grain": {
+    "declared_grain": "One row per credit bureau pull event.",
+    "grain_keys": ["event_id"],
+    "primary_key": "event_id",
+    "uniqueness_verified": true,
+    "row_count_at_profiling": 1835,
+    "foreign_key": "applicant_id → loan_application.applicant_id (all 600 applicants present; 1 to 5 events each, mean 3.06)",
+    "fan_out_warning": "CRITICAL: this is the only many-side table in the project. Joining it to loan_application.csv multiplies application rows by roughly 3. Any sum over requested_amount_usd, any application count, and any approval rate computed after a naive join is inflated by that factor. Aggregate to one row per applicant BEFORE joining — typically the latest completed pull on or before the application date.",
+    "grain_is_not_a_state": "A row is an observation event, not a state of the applicant. Two events on the same day for the same applicant are two pulls, not a contradiction. One duplicate applicant-and-date pair exists in the current snapshot.",
+    "event_vs_entity": "prior_* and new_* fields describe what THAT pull saw, not a durable applicant attribute. Do not treat new_fico as 'the applicant's score' without an as-of qualifier."
+  },
+
+  "units_of_measure": {
+    "event_date": {
+      "unit": "calendar date",
+      "scale": "day",
+      "format": "ISO 8601 (YYYY-MM-DD) — note this differs from loan_application.date, which is M/D/YYYY",
+      "notes": "The date the pull occurred. The only temporal anchor in the row; there is no separate ingestion or effective timestamp."
+    },
+    "prior_fico": {"unit": "FICO score points", "scale": "integer, 300-850", "notes": "What the prior observation held, as recorded by this event."},
+    "new_fico": {"unit": "FICO score points", "scale": "integer, 300-850", "notes": "What this pull returned. Observed movement is -20 to +20 points, mean -0.4."},
+    "prior_tier": {"unit": "ordinal category", "scale": "T1-T5", "notes": "Tier before this pull."},
+    "new_tier": {"unit": "ordinal category", "scale": "T1-T5", "notes": "Tier after this pull. Which tier methodology this represents is undocumented — see BI-C05."},
+    "tier_changed_flag": {"unit": "boolean", "notes": "TRUE where prior_tier differs from new_tier. Fully derivable; verified consistent on 1,835 of 1,835 rows."},
+    "bureau_source": {"unit": "categorical", "scale": "Equifax, Experian, TransUnion", "notes": "Roughly even split (603 / 614 / 618). 70% of applicants have pulls from more than one bureau."},
+    "event_status": {"unit": "categorical", "scale": "Completed, Pending, Resubmitted, Error", "notes": "Processing outcome of the pull. 10.5% of events are not Completed."},
+    "event_reason": {"unit": "categorical", "scale": "Initial Application, Credit Refresh, Manual Review, Fraud Verification, Re-Pull After Correction", "notes": "Why the pull was initiated. Not a reason for any score movement."}
+  },
+
+  "point_in_time_semantics": {
+    "as_of_field": "event_date",
+    "as_of_meaning": "The date the bureau was queried. new_fico and new_tier describe what was known as of that date and nothing later.",
+    "temporal_nature": "Append-only event stream. Events are immutable once written; a correction appears as a new event with reason Re-Pull After Correction rather than an edit to the original.",
+    "temporal_coverage": {"start": "2022-08-16", "end": "2026-11-29"},
+    "pre_application_coverage": "The stream begins roughly 17 months before the earliest application, so pulls predating an application exist for every applicant. Every applicant has at least one pull on or before their application date.",
+    "leakage_status": {
+      "current_state": "0 of 1,835 events post-date their own applicant's application date. A join written without a date filter currently returns correct results.",
+      "why_the_control_still_applies": "That correctness is a property of how this snapshot was generated, not a constraint the data enforces. The event taxonomy explicitly includes post-decision reasons such as Credit Refresh and Re-Pull After Correction, so post-application events are expected in any realistic extension. An unfiltered join is currently untested rather than safe, and would begin leaking silently the moment such an event appears.",
+      "required_practice": "Write event_date <= as-of date as a join predicate regardless, and assert the violation count at load so the number of post-application events is observed rather than assumed."
+    },
+    "reconstruction_pattern": "To recover what was known at an application date: filter to event_date <= application date AND event_status = 'Completed', sort by event_date, take the last row per applicant, and read new_fico / new_tier. Omitting the status filter admits Pending and Error pulls; omitting the date filter admits the future.",
+    "chain_discontinuity_warning": "The events do NOT form a continuous state chain. One event's new_fico equals the next event's prior_fico on only 2.8% of consecutive pairs (tiers chain on 73%). Each event is an independent observation pair, so a score timeline cannot be reconstructed by stitching prior and new values across events — read new_fico at each event date instead."
+  },
+
+  "source_of_truth": {
+    "system_of_record": "Credit bureau integration layer (simulated). Authoritative for the history of what was pulled, from whom, when, and with what result.",
+    "authoritative_for": [
+      "The existence, date, bureau and reason of every pull",
+      "event_status — whether a pull completed",
+      "What each bureau reported at each pull (new_fico, new_tier)",
+      "Whether a tier moved at a given pull"
+    ],
+    "not_authoritative_for": [
+      {
+        "field": "The FICO on the application record",
+        "authoritative_source": "loan_application.fico_score",
+        "reason": "The application's FICO matches the most recent prior completed pull in only about 3% of cases. Both are authoritative, for different questions: the application record is authoritative for what the intake screen saw when it decided, and this stream is authoritative for what the bureau reported and when. Reconciling them by overwriting the application value destroys the audit trail for the decision. Authority here is scoped by as-of, not assigned by system."
+      },
+      {
+        "field": "The applicant's risk tier",
+        "authoritative_source": "applicant_risk_features.risk_tier, under policy RISK-TIER v1.0",
+        "reason": "new_tier carries no documented methodology and no ruleset version. It is a third T1-T5 field in the project, alongside the intake FICO band and the policy tier, with no stated relationship to either."
+      },
+      {
+        "field": "Any decision or eligibility outcome",
+        "authoritative_source": "Not present here",
+        "reason": "This dataset contains no application, product or decision fields at all."
+      }
+    ],
+    "multi_bureau_caveat": "70% of applicants have pulls from more than one bureau. Bureau scores are not interchangeable — a movement between consecutive events may reflect a different bureau rather than a change in the applicant's credit. Always read bureau_source alongside any score comparison, and do not compute a delta across bureaus without saying so.",
+    "downstream_consumers": ["Point-in-time feature reconstruction", "Risk feature engineering", "Pull-frequency and bureau-mix operational reporting", "Retrieval / RAG index over the applicant corpus"]
+  },
+
+  "freshness": {
+    "delivery_mode": "Append-only event stream, delivered as a full-file snapshot",
+    "expected_cadence": "Continuous in the production analogue; snapshot-stable per project milestone",
+    "max_acceptable_staleness": "24 hours in the production analogue. A missing recent pull means point-in-time reconstruction silently returns an older observation rather than failing.",
+    "freshness_signal": "MAX(event_date) against the current date, plus event count",
+    "profiled_at": "2026-09-14",
+    "staleness_alerting": "Alert on: any drop in row count (the stream is append-only, so a decrease means data loss); any applicant_id not resolving to loan_application.csv; any new value in event_status, event_reason or bureau_source; a material rise in the non-Completed share above the current 10.5%.",
+    "late_arriving_data": "Expected. Pending events resolve later and Resubmitted events follow failures, so an applicant's event set is not final at any given extract. Reconstructions run at different times can legitimately differ — record the extract date alongside any derived feature.",
+    "backfill_policy": "Append-only. Corrections arrive as new events with reason Re-Pull After Correction, never as edits, so history is preserved by construction."
+  },
+
+  "business_interpretation_consumers_must_preserve": [
+    {
+      "id": "BI-C01",
+      "rule": "Not every event is a usable observation.",
+      "detail": "10.5% of events are not Completed: 97 Pending, 61 Resubmitted, 35 Error. Every one of them still carries a populated new_fico and new_tier that look exactly as authoritative as a completed pull's. An Error pull's score is not a bureau result. Filter on event_status = 'Completed' before using any score, and treat an unfiltered 'latest pull' as a defect.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-C02",
+      "rule": "This table fans out; aggregate before joining.",
+      "detail": "1,835 events against 600 applicants. A naive join triples application rows and inflates every sum, count and rate computed afterwards. Reduce to one row per applicant first — normally the latest completed pull on or before the application date.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-C03",
+      "rule": "Events are observations, not a continuous timeline.",
+      "detail": "new_fico chains to the next prior_fico on only 2.8% of consecutive pairs. Do not reconstruct a score history by stitching prior and new values, and do not treat a prior/new pair as evidence of what happened between two pulls. Read new_fico at each event date as an independent observation.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-C04",
+      "rule": "event_reason explains the pull, not the score.",
+      "detail": "Fraud Verification, Manual Review, Credit Refresh and Re-Pull After Correction describe why the inquiry was initiated. A model or a summary that attributes a score movement to the reason code — 'the score dropped because of fraud verification' — is inventing causation. Note also that Fraud Verification and Manual Review are operational reasons that may correlate with outcomes; using them as model features risks encoding decision-process artefacts rather than credit risk.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-C05",
+      "rule": "new_tier is a third, undocumented tier field.",
+      "detail": "The project now carries three T1-T5 fields: the intake FICO band (loan_application), the policy tier (applicant_risk_features, ruleset 1.0), and this one — which has no stated methodology, no ruleset version, and no documented relationship to either. Never substitute it for the policy tier. Prefix it at ingest (bureau_event_tier) and state its provenance gap wherever it is surfaced.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-C06",
+      "rule": "Bureau scores are not interchangeable.",
+      "detail": "70% of applicants have pulls from more than one bureau. A 15-point 'movement' between consecutive events may simply be Equifax versus TransUnion. Any delta must name both bureaus or be restricted to a single bureau.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-C07",
+      "rule": "tier_changed_flag is derived and carries no extra information.",
+      "detail": "It equals (prior_tier != new_tier) on all 1,835 rows. Including it alongside the tier fields in a feature set adds a perfectly collinear column and distorts feature-importance attribution.",
+      "severity": "medium"
+    },
+    {
+      "id": "BI-C08",
+      "rule": "Pull frequency is an operational signal, not a credit signal.",
+      "detail": "Applicants have 1 to 5 pulls. A high count reflects how the file was processed — refreshes, corrections, fraud checks — not the applicant's creditworthiness. Using pull count as a risk feature encodes the institution's own handling of the case, which is close kin to the prohibited-factor problem in applicant_risk_policy.md.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-C09",
+      "rule": "Absence of post-application events is a property of this snapshot, not a guarantee.",
+      "detail": "0 of 1,835 events post-date their application today, so unfiltered joins happen to work. The event taxonomy anticipates post-decision pulls, so this will not hold in any realistic extension. Keep the date predicate and assert the violation count at load rather than relying on the current shape of the data.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-C10",
+      "rule": "Retrieval must carry the event date, bureau and status.",
+      "detail": "A chunk reading 'APP100220: FICO 702' is materially incomplete. It must read as an observation: 702, reported by TransUnion, on 2026-03-14, from a completed Manual Review pull. Without those qualifiers the value reads as the applicant's current score and will be used to contradict the application record.",
+      "severity": "critical"
+    }
+  ],
+
+  "field_semantics": {
+    "event_id": "Primary key of the pull event (E#######). Appears nowhere else.",
+    "applicant_id": "Join key to loan_application.csv and applicant_risk_features.csv. 1 to 5 events per applicant.",
+    "event_date": "Date the bureau was queried. ISO 8601 here; M/D/YYYY in loan_application.csv.",
+    "prior_tier": "Tier held before this pull. Does not reliably chain to the previous event's new_tier.",
+    "new_tier": "Tier after this pull. Methodology and ruleset undocumented; see BI-C05.",
+    "prior_fico": "Score held before this pull. Does not chain (2.8% continuity).",
+    "new_fico": "Score returned by this pull. Valid only as an observation at event_date, from bureau_source, where event_status is Completed.",
+    "tier_changed_flag": "Derived: prior_tier != new_tier. Verified on all rows; collinear with the tier fields.",
+    "bureau_source": "Equifax, Experian or TransUnion. Required context for any score comparison.",
+    "event_status": "Completed, Pending, Resubmitted or Error. Only Completed pulls carry usable scores.",
+    "event_reason": "Why the pull was initiated. Operational metadata, not a cause of score movement."
+  },
+
+  "compliance_notes": {
+    "prohibited_uses": [
+      "Using a score from a Pending, Error or Resubmitted event as an observation.",
+      "Presenting new_fico without its event date, bureau and status.",
+      "Attributing score movements to event_reason.",
+      "Using pull count, event_reason or event_status as model risk features.",
+      "Substituting new_tier for the policy risk tier."
+    ],
+    "referenced_authorities": [
+      "Fair Credit Reporting Act (FCRA) — permissible purpose for each inquiry, accuracy of reported information, and the consumer's right to dispute; this project does not capture permissible-purpose documentation, which would be required in a real system",
+      "Equal Credit Opportunity Act (ECOA) — adverse action notices must cite accurate information from the file actually relied upon",
+      "applicant_risk_policy.md (RISK-TIER 1.0) — the 24-month lookback and the prohibition on post-application credit events",
+      "enterprise_risk_policy.md (ERM-001) — lineage and version control"
+    ],
+    "gaps_relative_to_a_real_system": [
+      "No permissible-purpose field, so FCRA compliance of any individual pull cannot be evidenced from this data.",
+      "No soft/hard inquiry distinction, which affects both consumer impact and score treatment.",
+      "No dispute or reinvestigation outcome linkage for Re-Pull After Correction events.",
+      "No documented methodology or version behind new_tier."
+    ],
+    "escalation": "Conflicts between this stream and the application record are expected by design (different as-of anchors) and must not be reconciled by overwriting either source. Genuine anomalies — a dropped event count, an unresolvable applicant_id, a new status value — are held pending documented resolution per enterprise_risk_policy.md section 3."
+  },
+
+  "change_log": [
+    {
+      "version": "1.0.0",
+      "date": "2026-09-14",
+      "author_role": "Knowledge & Retrieval Lead",
+      "summary": "Initial semantic contract. Event grain and fan-out, as-of and reconstruction semantics, chain discontinuity, as-of-scoped source-of-truth boundaries, freshness with late-arriving events, and ten interpretation rules derived from a full profile of 1,835 events across 600 applicants."
+    }
+  ]
+}

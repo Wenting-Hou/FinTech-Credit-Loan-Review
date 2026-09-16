@@ -1,0 +1,314 @@
+{
+  "contract": {
+    "contract_id": "SC-LOAN-PRODUCT",
+    "dataset_id": "fintech.reference.loan_product",
+    "dataset_name": "Lending Product Catalog",
+    "contract_version": "1.0.0",
+    "schema_version": "1.0.0",
+    "schema_expectations_ref": "loan_product_schema_expectations.md",
+    "status": "active",
+    "effective_date": "2026-09-14",
+    "review_cycle": "On any product change, and at minimum per course milestone. Per product_risk_policy.md, a material change to limits, terms, pricing structure, eligibility or collateral requires documented review before introduction.",
+    "owner_role": "Knowledge & Retrieval Lead",
+    "steward_role": "Product owners and Credit Risk function, per product_risk_policy.md",
+    "disclaimer": "Synthetic dataset for a Data Engineering for AI course project. Rates, thresholds and eligibility gates are simulation assumptions and do not represent real product terms, lender underwriting standards or regulatory requirements."
+  },
+
+  "business_definition": {
+    "summary": "One record per lending product currently offered, defining the eligibility gates an applicant must clear and the pricing parameters used to compute an offered rate.",
+    "business_process": "Product management and credit policy. The catalog is the machine-readable expression of what the institution will lend, to whom, up to what amount, and at what price. It is read by eligibility screening, pricing, and any analysis that segments by product.",
+    "role_in_architecture": "Reference dimension. It is the smallest table in the project and the highest-leverage one: nine rows govern the treatment of all 600 applications. A single incorrect value has a blast radius of roughly 67 applications, and an incorrect constant affects all 600.",
+    "answers_questions": [
+      "Which products can an applicant with a given tier, FICO, DTI and credit history qualify for?",
+      "What is the most an applicant can borrow under a given product?",
+      "What rate would a given applicant be offered, before underwriting exceptions?",
+      "How do the three product families differ in risk appetite?"
+    ],
+    "does_not_answer": [
+      "What the terms were at any past date. The table has no temporal columns and represents only the present.",
+      "The complete eligibility criteria. The eligibility_criteria field is a one-line summary; the full rules live in product_eligibility_rules.md.",
+      "What rate was actually offered or accepted. No pricing outcome is recorded anywhere in this project.",
+      "Whether a product is available in a given state. State-level usury caps and disclosure rules from regional_state_lending_requirements.md are not encoded here.",
+      "Anything about the broader catalog using codes such as CC-STD-02 or AUTO-NEW-01, which is a separate reference table entirely."
+    ],
+    "in_scope": "Exactly nine products: three families (Mortgage, Credit Card, Auto Loan) with three tiers each, matching the approved-scope catalog in product_risk_policy.md section 1.1.",
+    "out_of_scope": "Retired products, planned products, regional product variants, promotional pricing, underwriting exceptions, and any product outside the approved nine."
+  },
+
+  "grain": {
+    "declared_grain": "One row per lending product offered.",
+    "grain_keys": ["product_code"],
+    "primary_key": "product_code",
+    "uniqueness_verified": true,
+    "row_count_expected": 9,
+    "row_count_at_profiling": 9,
+    "grain_is_current_state_only": true,
+    "critical_grain_caveat": "The grain is product, NOT product-and-version and NOT product-and-effective-date. The table can represent a product but cannot represent that product's history. Any statement of the form 'the rate on MTG-CV was X in 2024' is unanswerable from this file, and any join that appears to answer it is producing an anachronism.",
+    "cardinality_notes": "1:many to loan_application.csv (61 to 75 applications per product, 600 total). Joining application to product does not fan out. The reverse aggregation (applications per product) is safe.",
+    "denormalization_note": "Three columns (collections_rate_adjustment_pct, bankruptcy_rate_adjustment_pct, scra_rate_cap_pct) hold a single value across all nine rows. They are enterprise-level parameters denormalized onto the product grain, not genuine product attributes. Do not describe them as properties of any individual product."
+  },
+
+  "units_of_measure": {
+    "base_rate_pct": {
+      "unit": "percent APR",
+      "scale": "0-100, two decimal places",
+      "period": "annual",
+      "observed_range": "4.99 (AUT-TT) to 24.99 (CRD-SC)",
+      "notes": "Rate before any tier, collections, bankruptcy or SCRA adjustment. Never quote it as an offered rate."
+    },
+    "tier_rate_adjustment_rule": {
+      "unit": "percentage points (additive)",
+      "scale": "-2.00 to +4.00",
+      "format": "Packed string of T{n}={±d.dd} pairs joined by semicolons",
+      "notes": "Percentage POINTS added to base_rate_pct, not a percentage of it. Negative values are discounts. The tiers present in the string are also the eligible tiers for the product."
+    },
+    "collections_rate_adjustment_pct": {
+      "unit": "percentage points (additive)",
+      "value": "1 on all nine rows",
+      "notes": "Applies only where allow_collections_flag is TRUE. Unreachable on the three products where it is FALSE."
+    },
+    "bankruptcy_rate_adjustment_pct": {
+      "unit": "percentage points (additive)",
+      "value": "2.5 on all nine rows",
+      "notes": "Applies only where allow_bankruptcy_flag is TRUE. Unreachable on the six products where it is FALSE."
+    },
+    "scra_rate_cap_pct": {
+      "unit": "percent APR (absolute ceiling)",
+      "value": "6 on all nine rows",
+      "notes": "A CEILING on the final rate, not an adjustment. Must be applied last, after all additive adjustments. Applying it before adjustments would yield a final rate above the cap and defeat the protection."
+    },
+    "minimum_fico": {
+      "unit": "FICO score points",
+      "scale": "300-850, inclusive floor",
+      "notes": "An applicant at exactly this score passes."
+    },
+    "minimum_credit_tier": {
+      "unit": "ordinal category, INVERTED",
+      "scale": "T1 (best) through T5 (worst)",
+      "notes": "CRITICAL: means the WORST tier accepted, so a higher number is MORE permissive. T5 accepts everyone; T1 accepts only the best tier. Compare as tier_rank(applicant) <= tier_rank(product), never the intuitive direction."
+    },
+    "maximum_amount_usd": {
+      "unit": "USD",
+      "scale": "whole dollars, inclusive ceiling",
+      "observed_range": "3,000 (CRD-SC) to 2,500,000 (MTG-JB)",
+      "notes": "Delivered as a quoted string with thousands separators but no currency symbol and no trailing space, unlike the currency fields in loan_application.csv. A shared parser must strip [$,\\s] from both."
+    },
+    "max_dti_pct": {
+      "unit": "percent",
+      "scale": "0-100, inclusive ceiling",
+      "observed_range": "43 (MTG-JB) to 60 (CRD-SC, AUT-SP)",
+      "notes": "Compares against loan_application.dti_pct, which is also a percent. It does NOT compare against applicant_risk_features.debt_to_income_ratio, which is a different unbounded measure."
+    },
+    "allow_flags": {
+      "unit": "boolean",
+      "applies_to": ["allow_bankruptcy_flag", "allow_collections_flag"],
+      "notes": "TRUE means the PRODUCT tolerates that applicant condition. It describes product permissiveness, never applicant state. TRUE marks the riskier, more permissive product, which inverts the usual reading of a positive flag."
+    }
+  },
+
+  "point_in_time_semantics": {
+    "as_of_field": null,
+    "as_of_meaning": "NONE EXISTS. The table carries no effective_date, expiry_date, version or status column. Its implicit as-of is the moment the file was extracted, and that fact is recorded nowhere inside the file.",
+    "temporal_nature": "Type 0 slowly changing dimension — current state only, no history, no versioning. Edits overwrite in place.",
+    "temporal_mismatch_warning": {
+      "severity": "critical",
+      "description": "Applications span 2024-01-01 to 2026-12-31, three calendar years. The product catalog represents a single instant. Joining an application to this table on product_code therefore prices and screens a 2024 application against 2026 terms.",
+      "consequence": "Every rate computed for a non-current application is an anachronism. Every eligibility determination for a past application asserts, without evidence, that the gates never moved. No error is raised and no field signals the problem.",
+      "consumer_requirement": "Any artifact stating a rate or eligibility result for a dated application must carry the qualifier that catalog terms are current-as-of-extract and were applied retrospectively. Where the distinction matters to a conclusion, say so rather than presenting the number bare."
+    },
+    "reproducibility_warning": "Because values are overwritten in place, a rate computed today cannot be reproduced after the next catalog edit. enterprise_risk_policy.md requires source lineage, calculation definitions, rule versions and change records; this file satisfies none of them on its own. Until temporal columns exist, archive a dated copy of the file alongside any published rate calculation.",
+    "recommended_remediation": "Add effective_date, expiry_date and status columns, move to product-and-version grain, and load as a Type 2 dimension. This is the single highest-value structural fix available in this project.",
+    "correct_join_pattern_once_versioned": "SELECT ... FROM loan_application a JOIN loan_product p ON a.product_code = p.product_code AND a.date BETWEEN p.effective_date AND p.expiry_date"
+  },
+
+  "source_of_truth": {
+    "system_of_record": "Product management / credit policy (simulated). This file is the machine-readable catalog consumed by pipelines.",
+    "authoritative_for": [
+      "The approved set of nine product codes and their family membership",
+      "base_rate_pct and the tier rate adjustment schedule",
+      "maximum_amount_usd per product",
+      "allow_bankruptcy_flag and allow_collections_flag",
+      "scra_rate_cap_pct, collections_rate_adjustment_pct, bankruptcy_rate_adjustment_pct as current enterprise parameters"
+    ],
+    "contested_authority": [
+      {
+        "field": "minimum_fico",
+        "competing_source": "product_eligibility_rules.md",
+        "nature_of_conflict": "Systematic disagreement on 7 of 9 products. MTG-FH 620 vs 580; MTG-CV 680 vs 620; MTG-JB 740 vs 700+; CRD-ST 620 vs 640-689; AUT-SP 300 vs under 620; AUT-TR 680 vs 620-719; AUT-TT 800 vs 720+.",
+        "resolution_status": "UNRESOLVED. product_eligibility_rules.md section 6 lists threshold confirmation as an open item.",
+        "required_consumer_behavior": "Do not average, prefer or silently reconcile. Any answer citing a FICO minimum must name its source document. Per enterprise_risk_policy.md section 3, conflicting effective requirements mean the affected action is held pending documented resolution by the relevant owners."
+      },
+      {
+        "field": "minimum_fico vs minimum_credit_tier on CRD-EL",
+        "competing_source": "This same row",
+        "nature_of_conflict": "minimum_fico 720 admits applicants that minimum_credit_tier T2 (740 floor) excludes. Five applications sit in the 720-739 gap. All other eight products align exactly.",
+        "resolution_status": "UNRESOLVED — internal contradiction, not a cross-document conflict.",
+        "required_consumer_behavior": "Treat the stricter gate (T2, 740) as governing and flag the row. Never report 720 as the effective entry point for CRD-EL without stating the contradiction."
+      },
+      {
+        "field": "eligibility_criteria",
+        "competing_source": "product_eligibility_rules.md",
+        "nature_of_conflict": "Not a conflict but a completeness gap. The field holds a one-line summary; the real criteria include down payment, LTV, reserves, vehicle age and mileage, term limits, documentation and cross-product disqualifiers.",
+        "required_consumer_behavior": "Never present this field as the complete eligibility criteria for a product."
+      }
+    ],
+    "not_authoritative_for": [
+      {
+        "topic": "Actual approval decisions",
+        "reason": "The intake screen in loan_application.csv does not consult this catalog. It approved 15 applications that fail this catalog's gates (14 tier-ineligible, 1 collections-ineligible). Eligibility per this file and preliminary_decision per that file are independent and sometimes contradictory."
+      },
+      {
+        "topic": "State-level rate legality",
+        "reason": "regional_state_lending_requirements.md notes state usury caps that can bind below base_rate_pct. None of that is encoded here. A rate valid per this catalog may be impermissible in a given state."
+      },
+      {
+        "topic": "Applicant risk classification",
+        "reason": "The catalog consumes tiers, it does not define them. Tier definitions live in applicant_risk_policy.md (policy RISK-TIER v1.0)."
+      }
+    ],
+    "downstream_consumers": [
+      "Eligibility screening against loan_application.csv",
+      "Rate calculation and pricing analysis",
+      "Retrieval / RAG index over the product and policy corpus",
+      "Product-level portfolio and mix reporting"
+    ]
+  },
+
+  "freshness": {
+    "delivery_mode": "Full-file snapshot replacement",
+    "expected_cadence": "On change only. The catalog is stable between product decisions; it is not a periodic feed.",
+    "max_acceptable_staleness": "Any change to product terms must be reflected before the next application is screened. There is no tolerable lag, because a stale catalog produces incorrect eligibility and pricing on every application it touches.",
+    "freshness_signal": "NONE AVAILABLE FROM THE FILE. With no effective_date and no version column, staleness is undetectable from the contents. The only available signals are the file modification timestamp and an external change log.",
+    "profiled_at": "2026-09-14",
+    "staleness_alerting": "Alert on any of: row count not equal to 9; any change to the product_code set; any change to a rate, threshold or flag; any per-row variation appearing in the three constant columns. Because a value edit is invisible in the schema, compute and store a content hash of the file on every load and alert on change.",
+    "change_control": "Per product_risk_policy.md, a material change to limits, terms, pricing structure, eligibility, collateral or distribution requires documented review before introduction. A silent file edit does not satisfy that control. Archive the prior file version and record a dated change-log entry on every load where the hash changes.",
+    "backfill_policy": "Full replacement. Historical versions must be preserved externally until the table carries temporal columns."
+  },
+
+  "business_interpretation_consumers_must_preserve": [
+    {
+      "id": "BI-P01",
+      "rule": "minimum_credit_tier is an inverted ordinal.",
+      "detail": "T1 is the best tier, so 'minimum credit tier T4' means the product accepts T1 through T4 — a HIGHER number is MORE permissive. AUT-TT at T1 is the most restrictive product in the catalog; CRD-SC and AUT-SP at T5 accept every tier. Any comparison must be tier_rank(applicant) <= tier_rank(product). Writing it in the intuitive direction inverts every eligibility decision in the project, and the inversion is silent because both sides are valid T-codes.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-P02",
+      "rule": "The catalog has no history and cannot be applied retrospectively without a disclaimer.",
+      "detail": "There is no effective_date. Applications run from 2024-01-01 to 2026-12-31 while the catalog is a single instant. Any rate or eligibility statement about a dated application is computed at current terms applied backwards. State that qualifier wherever the result is presented.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-P03",
+      "rule": "allow_bankruptcy_flag and allow_collections_flag describe the product, never an applicant.",
+      "detail": "TRUE means the product will consider applicants with that condition, which marks it as the more permissive and higher-risk product. It does not mean bankruptcy is permitted, encouraged, or present. Rendering 'allow_bankruptcy_flag: TRUE' in a retrieval chunk without that framing invites the reading that the product is associated with bankruptcy.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-P04",
+      "rule": "base_rate_pct is never an offered rate.",
+      "detail": "The offered rate is base plus tier adjustment plus applicable condition adjustments, then capped for SCRA. On AUT-SP the spread runs from 11.49 (T1) to 20.49 (T5 with collections and bankruptcy), and to 6.00 under SCRA. Quoting 12.99 as 'the rate on AUT-SP' is wrong for every applicant. Note also that the calculation order is reconstructed, not documented — flag it as an inference when reporting a computed rate.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-P05",
+      "rule": "The SCRA cap is a protection owed to the applicant, applied last.",
+      "detail": "scra_rate_cap_pct is a ceiling on the final rate, not an adjustment to combine with the others. It must bind after all additive adjustments. The effect is largest where the base rate is highest: CRD-SC at 24.99 caps to 6.00, a reduction of nearly 19 points. Applying the cap before adjustments would produce a final rate above it and silently strip the protection. Related: military_scra_flag on the application side is a protections marker and must never be used as a risk input.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-P06",
+      "rule": "Product names are marketing labels, not risk classifications.",
+      "detail": "product_risk_policy.md section 1 states directly that names such as Elite or Subprime are not substitutes for an applicant's calculated T1-T5 tier. 'Elite 720+' additionally hard-codes a 720 figure that the same row's tier gate contradicts. Never infer applicant quality, risk, or eligibility from a product name.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-P07",
+      "rule": "Some pricing fields are unreachable on some products.",
+      "detail": "bankruptcy_rate_adjustment_pct is 2.5 on all nine products but can only apply on the three where allow_bankruptcy_flag is TRUE; collections_rate_adjustment_pct is likewise dead on three products. The values are arithmetically valid and semantically unreachable, which is precisely the shape that yields a confidently computed rate for an applicant who can never be approved. Gate every adjustment on its corresponding allow flag before applying it.",
+      "severity": "high"
+    },
+    {
+      "id": "BI-P08",
+      "rule": "The FICO minimums here conflict with product_eligibility_rules.md on seven of nine products.",
+      "detail": "The gaps run from 20 to 80 points and are systematic, not rounding. The conflict is unresolved and is a logged open item in that document. Any answer citing a FICO minimum must name which source it came from; reconciling them silently, or averaging them, misrepresents an unresolved policy question as settled fact.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-P09",
+      "rule": "Eligibility per this catalog and preliminary_decision per loan_application.csv are independent and sometimes contradictory.",
+      "detail": "226 of 600 applications are tier-ineligible for the product applied for, 26 carry a bankruptcy on a product that disallows it, and 24 carry collections on a product that disallows it. Those are expected — applicants may apply for anything. What is not expected: 15 applications were Approved despite failing a catalog gate, because the intake screen never reads this table. Never present catalog eligibility as though it explains or validates the recorded decision.",
+      "severity": "critical"
+    },
+    {
+      "id": "BI-P10",
+      "rule": "eligibility_criteria is a summary, not the criteria.",
+      "detail": "Values such as 'Owner-occupied property; documented income' omit down payment, LTV, reserves, vehicle age and mileage, term limits, documentation standards and the cross-product disqualifiers in product_eligibility_rules.md section 4. Presenting the field as complete understates requirements substantially. Always point to the eligibility document alongside it.",
+      "severity": "medium"
+    },
+    {
+      "id": "BI-P11",
+      "rule": "This catalog is not the only product catalog in the project.",
+      "detail": "product_eligibility_rules.md documents a separate, broader catalog using codes such as CC-STD-02, AUTO-NEW-01 and PL-STD-01. Those are a different reference table with different thresholds, not variants of these nine codes. Retrieval must not blend the two; a threshold quoted from one is not evidence about the other.",
+      "severity": "medium"
+    },
+    {
+      "id": "BI-P12",
+      "rule": "State regulation constrains these rates and is not encoded here.",
+      "detail": "regional_state_lending_requirements.md notes that state usury caps, fee limits and disclosure rules can bind more tightly than the catalog, and that where state law is stricter it governs. A rate that is valid per this file may be impermissible in a given state. Never present a computed rate as legally offerable without that caveat.",
+      "severity": "medium"
+    }
+  ],
+
+  "field_semantics": {
+    "product_code": "Stable business key. Prefix encodes family (MTG, CRD, AUT), suffix encodes tier within family. Foreign key target for loan_application.product_code.",
+    "product_name": "Human-readable marketing label. Not a risk classification; see BI-P06.",
+    "product_family": "One of Mortgage, Credit Card, Auto Loan. Must agree with the product_code prefix.",
+    "eligibility_criteria": "One-line prose summary of headline requirements. Incomplete and not machine-enforceable; see BI-P10.",
+    "minimum_credit_tier": "Worst applicant risk tier the product accepts. Inverted ordinal; see BI-P01.",
+    "minimum_fico": "Inclusive FICO floor. Aligns exactly with the minimum_credit_tier band floor on 8 of 9 products; contradicts it on CRD-EL.",
+    "base_rate_pct": "Annual percentage rate before adjustments. Never an offered rate; see BI-P04.",
+    "maximum_amount_usd": "Inclusive ceiling on the amount that may be borrowed under this product. Applications may legitimately request more and be screened out.",
+    "max_dti_pct": "Inclusive DTI ceiling as a percent. Compares against loan_application.dti_pct only.",
+    "allow_bankruptcy_flag": "TRUE where the product considers applicants with a bankruptcy in the last 7 years. Product attribute; see BI-P03.",
+    "allow_collections_flag": "TRUE where the product considers applicants with collections in the last 12 months. Product attribute; see BI-P03.",
+    "tier_rate_adjustment_rule": "Packed map of tier to additive percentage-point adjustment. Its key set also enumerates the eligible tiers, giving a built-in cross-check against minimum_credit_tier.",
+    "collections_rate_adjustment_pct": "Percentage points added where the applicant has collections AND the product allows them. Enterprise constant of 1; unreachable on three products.",
+    "bankruptcy_rate_adjustment_pct": "Percentage points added where the applicant has a bankruptcy AND the product allows it. Enterprise constant of 2.5; unreachable on six products.",
+    "scra_rate_cap_pct": "Absolute ceiling on the final rate for SCRA-covered applicants. Enterprise constant of 6. Applied last; see BI-P05."
+  },
+
+  "compliance_notes": {
+    "prohibited_uses": [
+      "Quoting a computed rate as an offered or legally permissible rate without the state-regulation and current-terms caveats.",
+      "Applying the SCRA cap anywhere other than last in the calculation, which would understate the protection owed.",
+      "Presenting catalog eligibility as an explanation or validation of a recorded preliminary_decision.",
+      "Silently reconciling the FICO-minimum conflict with product_eligibility_rules.md, or presenting either figure as settled.",
+      "Editing a rate or threshold in place without archiving the prior version and recording a dated change-log entry."
+    ],
+    "referenced_authorities": [
+      "Servicemembers Civil Relief Act (SCRA) / Military Lending Act (MLA) — rate caps and protections for covered borrowers",
+      "Truth in Lending Act (TILA) / Regulation Z — rate and fee disclosure",
+      "Equal Credit Opportunity Act (ECOA) — prohibited bases in eligibility and pricing",
+      "product_risk_policy.md (PRODUCT-RISK v1.0) — approved nine-product scope; product names are not risk classifications; change control before material product changes",
+      "product_eligibility_rules.md — full eligibility criteria and the unresolved FICO-threshold conflict",
+      "regional_state_lending_requirements.md — state usury caps, fee limits and disclosure rules",
+      "enterprise_risk_policy.md (ERM-001) — lineage, calculation definitions, version control, and holding action on conflicting requirements"
+    ],
+    "simulation_simplifications": [
+      "A single 6% SCRA cap is applied uniformly to all products. In reality the SCRA 6% cap attaches to pre-service obligations while the Military Lending Act applies a 36% MAPR to new consumer credit; this project collapses both into one parameter.",
+      "Rate adjustments are flat additive constants with no term, LTV, collateral or channel component.",
+      "No state, channel or promotional variation in pricing is represented."
+    ],
+    "escalation": "If a consumer finds a conflict between this contract, the catalog, and a policy document, hold the affected action and obtain documented resolution from the relevant owners, per enterprise_risk_policy.md section 3."
+  },
+
+  "change_log": [
+    {
+      "version": "1.0.0",
+      "date": "2026-09-14",
+      "author_role": "Knowledge & Retrieval Lead",
+      "summary": "Initial semantic contract. Grain, units, the absent-as-of problem, contested source-of-truth boundaries, freshness and change-control expectations, and twelve mandatory interpretation rules derived from a full profile of the nine-row catalog cross-referenced against the project policy corpus and the 600-row application file."
+    }
+  ]
+}
