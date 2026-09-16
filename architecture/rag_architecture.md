@@ -1,5 +1,6 @@
 # RAG System Architecture
-<img width="1460" height="885" alt="image" src="https://github.com/user-attachments/assets/8a706711-d050-4a5e-9a26-861589853eee" />
+<img width="1460" height="885" alt="image" src="https://github.com/user-attachments/assets/4400a299-63c1-4377-8305-f81402ba4af0" />
+
 
 
 ## Summary
