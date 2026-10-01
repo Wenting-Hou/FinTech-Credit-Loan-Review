@@ -31,15 +31,21 @@ fields:
   - name: eligibility_criteria
     type: string
     required: true
-  - name: minimum_credit_tier
+  - name: minimum_risk_tier
     type: string
     required: true
     allowed_values: [T1, T2, T3, T4, T5]
+    notes: Worst applicant tier accepted, tested against applicant_risk_features.risk_tier (policy RISK-TIER). Never a FICO band.
   - name: minimum_fico
     type: integer
     required: true
     minimum: 300
     maximum: 850
+  - name: allow_no_score_flag
+    type: boolean
+    required: true
+    allowed_values: [FALSE, TRUE]
+    notes: TRUE where the product accepts an applicant with no credit score through manual underwriting (MTG-FH, CRD-SC, AUT-SP).
   - name: base_rate_pct
     type: decimal
     required: true
@@ -89,7 +95,7 @@ quality_rules:
     expectation: product_name, product_family, and eligibility_criteria are not null or empty
     severity: error
   - rule_id: LOAN_PRODUCT_003
-    expectation: minimum_credit_tier is one of T1, T2, T3, T4, or T5 and minimum_fico is between 300 and 850
+    expectation: minimum_risk_tier is one of T1, T2, T3, T4, or T5 and minimum_fico is between 300 and 850
     severity: error
   - rule_id: LOAN_PRODUCT_004
     expectation: base_rate_pct, max_dti_pct, and all rate adjustment and cap percentages are between 0 and 100
@@ -98,7 +104,7 @@ quality_rules:
     expectation: maximum_amount_usd is non-negative
     severity: error
   - rule_id: LOAN_PRODUCT_006
-    expectation: allow_bankruptcy_flag and allow_collections_flag contain only TRUE or FALSE
+    expectation: allow_bankruptcy_flag, allow_collections_flag and allow_no_score_flag contain only TRUE or FALSE
     severity: error
   - rule_id: LOAN_PRODUCT_007
     expectation: tier_rate_adjustment_rule contains one or more tier-to-rate adjustments using T1 through T5

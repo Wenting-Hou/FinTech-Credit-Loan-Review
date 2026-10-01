@@ -2,8 +2,8 @@
 
 **Policy ID:** REG-001      
 **Version:** V1.0  
-**Status:** In progress    
-**Prepared:** NA   
+**Status:** active    
+**Prepared:** December 15, 2023   
 **Proposed owner:** Head of Compliance    
 **Proposed approver:** Board    
 **Review cycle:** Annually
@@ -83,13 +83,13 @@ Lending is governed by a layered set of requirements:
 
 ---
 
-## 5. Open Items / TBD
+## 5. Planned Enhancements (not part of this version)
 
-- [ ] Confirm state-by-state usury cap table (auto and credit card) — needs Legal/Compliance sign-off.
-- [ ] Confirm which states require bilingual disclosures.
-- [ ] Add county-level FHA/conforming loan limit lookup reference or link to FHFA/HUD published tables.
-- [ ] Add source citations per state once finalized (currently general/summary level only — **not a substitute for Legal/Compliance review**).
+- Confirm state-by-state usury cap table (auto and credit card); needs Legal/Compliance sign-off.
+- Confirm which states require bilingual disclosures.
+- Add county-level FHA/conforming loan limit lookup reference or link to FHFA/HUD published tables.
+- Add source citations per state once finalized (currently general/summary level only; **not a substitute for Legal/Compliance review**).
 
 ---
 
-*This document is a working knowledge-base draft and general summary only. It is not legal advice and must be reviewed by Compliance/Legal before use in production underwriting decisions.*
+*This document is a general summary for an academic microcosm. It is not legal advice and does not replace Compliance or Legal review.*

@@ -36,14 +36,20 @@ dataset:
       or future credit events may be used.
 
 fields:
+  - name: appli_risk_id
+    type: string
+    required: true
+    unique: true
+    pattern: "^LA[0-9]{6}$"
   - name: application_id
     type: string
     required: true
     unique: true
+    pattern: "^APP[0-9]{6}$"
   - name: as_of_date
     type: date
     required: true
-    derivation: loan_applications.application_date
+    derivation: loan_application.date
   - name: credit_history_status
     type: string
     required: true
@@ -72,26 +78,36 @@ fields:
     type: decimal
     required: false
     minimum: 0
-  - name: debt_to_income_ratio
+  - name: debt_burden_ratio
     type: decimal
     required: false
     minimum: 0
+    derivation: total_outstanding_debt / loan_application.annual_income_usd, rounded to 4 places
   - name: overdue_amount_to_income
     type: decimal
     required: false
     minimum: 0
   - name: delinquency_points
     type: integer
-    required: true
+    required: false
     minimum: 0
+    maximum: 5
   - name: debt_burden_points
     type: integer
-    required: true
+    required: false
     minimum: 0
+    maximum: 3
+  - name: overdue_amount_points
+    type: integer
+    required: false
+    minimum: 0
+    maximum: 3
   - name: risk_tier_score
     type: integer
-    required: true
+    required: false
     minimum: 0
+    maximum: 11
+    derivation: delinquency_points + debt_burden_points + overdue_amount_points; empty for NO_HISTORY
   - name: risk_tier
     type: string
     required: true
@@ -123,7 +139,7 @@ quality_rules:
     severity: error
   - rule_id: RISK_004
     expectation: >
-      as_of_date must equal loan_applications.application_date
+      as_of_date must equal loan_application.date
     severity: error
   - rule_id: RISK_005
     expectation: >
@@ -148,7 +164,9 @@ quality_rules:
     severity: critical
   - rule_id: RISK_009
     expectation: >
-      NO_HISTORY records must have credit_history_months_observed = 0
+      NO_HISTORY records must have credit_history_months_observed = 0,
+      empty measures, empty points and an empty risk_tier_score, and their
+      application has no credit pulls and no fico_score
     severity: error
   - rule_id: RISK_010
     expectation: >
@@ -157,7 +175,8 @@ quality_rules:
   - rule_id: RISK_011
     expectation: >
       delinquent_event_count, delinquency_points, debt_burden_points,
-      and risk_tier_score must be non-negative
+      overdue_amount_points and risk_tier_score must be non-negative when
+      populated, and risk_tier_score must equal the sum of the three points
     severity: error
   - rule_id: RISK_012
     expectation: >
@@ -166,7 +185,7 @@ quality_rules:
     severity: error
   - rule_id: RISK_013
     expectation: >
-      debt_to_income_ratio and overdue_amount_to_income must be
+      debt_burden_ratio and overdue_amount_to_income must be
       non-negative when populated
     severity: error
   - rule_id: RISK_014
@@ -178,6 +197,12 @@ quality_rules:
     expectation: >
       Applicant risk features must be calculated independently of
       loan-product eligibility thresholds such as minimum_fico,
-      minimum_credit_tier, maximum_amount_usd, max_dti_pct,
+      minimum_risk_tier, maximum_amount_usd, max_dti_pct,
       bankruptcy permissions, collections permissions, and pricing rules
     severity: critical
+  - rule_id: RISK_016
+    expectation: >
+      credit_history_months_observed covers the oldest credit pull with a
+      returned score inside the 24-month lookback, and credit_history_status
+      and risk_tier_basis follow from it
+    severity: error

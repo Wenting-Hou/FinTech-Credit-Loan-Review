@@ -9,11 +9,11 @@
     "effective_date": "2026-09-14",
     "review_cycle": "Annually and following a material policy change, per applicant_risk_policy.md",
     "owner_role": "Knowledge & Retrieval Lead",
-    "steward_role": "Quality & Governance Lead (proposed owner); Credit Risk Committee (proposed approver), per policy CREDIT_RISK V1.0",
+    "steward_role": "Quality & Governance Lead (proposed owner); Credit Risk Committee (proposed approver), per policy RISK-TIER V1.0",
     "governing_policy": {
       "policy_id": "RISK-TIER",
       "policy_version": "1.0",
-      "policy_effective_date": "2026-09-01",
+      "policy_effective_date": "2024-01-01",
       "document": "applicant_risk_policy.md"
     },
     "disclaimer": "Synthetic dataset for a Data Engineering for AI course project. Thresholds, scoring weights, lookback periods and tier definitions are project assumptions and do not represent actual lender underwriting standards, regulatory requirements or credit bureau methodologies."
@@ -30,12 +30,12 @@
       "Which ruleset version produced this classification?"
     ],
     "does_not_answer": [
-      "What tier appeared on the application record. That is loan_application.credit_risk_tier, a FICO band that agrees with this tier only 28% of the time.",
-      "Whether the applicant was approved. No decision field exists here, deliberately — decision status is a prohibited risk factor under the policy.",
+      "Whether the applicant clears a product's FICO gate. That is loan_application.fico_score tested against loan_product.minimum_fico; this tier is the applicant tier that loan_product.minimum_risk_tier is tested against, and it is never a FICO band.",
+      "Whether the applicant was approved. No decision field exists here, deliberately: decision status is a prohibited risk factor under the policy. Decisions live in loan_application.preliminary_decision and final_decision, downstream of this tier.",
       "What the applicant's credit profile looks like today. Every measure is bounded to the 24 months preceding the application date.",
-      "The applicant's FICO score. This dataset scores delinquency and debt burden, not bureau scores, and contains no FICO field at all."
+      "The applicant's FICO score. This dataset scores delinquency, debt burden and overdue burden, not bureau scores, and contains no FICO field at all. The score is loan_application.fico_score, empty for the 20 NO_HISTORY applicants."
     ],
-    "in_scope": "All 600 applications, classified under ruleset version 1.0 with as-of dates spanning 2024-01-01 to 2026-12-31.",
+    "in_scope": "All 600 applications, classified under ruleset version 1.0 with as-of dates spanning 2024-01-01 to 2026-12-31. RISK-TIER v1.0 is effective 2024-01-01, so the ruleset was in force on every as-of date.",
     "out_of_scope": "Prohibited factors — gender, family status, region, decision status, decision reason, approved amount, and any credit event after the application date."
   },
 
@@ -43,11 +43,11 @@
     "declared_grain": "One row per loan application risk classification.",
     "grain_keys": ["application_id"],
     "primary_key": "application_id",
-    "alternate_key": "applicant_id",
+    "alternate_key": "appli_risk_id",
     "uniqueness_verified": true,
     "row_count_at_profiling": 600,
-    "dual_key_warning": "CRITICAL: this table carries TWO identifiers. application_id (LA######) is the primary key; applicant_id (APP######) is the join key to every other dataset. loan_application.csv carries only applicant_id and names it as its own primary key. Joining on application_id to any other table fails; joining on the wrong column silently returns nothing. Always join on applicant_id.",
-    "cardinality_notes": "1:1 with loan_application.csv on applicant_id — all 600 resolve in both directions, and as_of_date equals the application date on 600 of 600 rows.",
+    "dual_key_warning": "CRITICAL: this table carries TWO identifiers. application_id (APP######) is the primary key and the join key to every other dataset; appli_risk_id (LA######) is a surrogate key unique to this table. loan_application.csv and credit_pull_event.csv carry only application_id, and loan_application.csv names it as its own primary key. Joining on appli_risk_id to any other table fails; joining on the wrong column silently returns nothing. Always join on application_id.",
+    "cardinality_notes": "1:1 with loan_application.csv on application_id: all 600 resolve in both directions, and as_of_date equals the application date on 600 of 600 rows. 1:many with credit_pull_event.csv: the 580 scored applications carry 1 to 5 pulls each (1,775 in total); the 20 NO_HISTORY applications have no pulls.",
     "grain_is_versioned_by_ruleset": "The row represents a classification under a specific ruleset version, not a timeless fact about the applicant. A recompute under ruleset 2.0 would produce a different row for the same application. Treat (application_id, risk_tier_ruleset_version) as the logical grain even though the file carries one version today."
   },
 
@@ -55,11 +55,11 @@
     "credit_history_months_observed": {
       "unit": "months",
       "scale": "integer, 0-24 (bounded by the lookback window)",
-      "notes": "Months of observable credit history WITHIN the 24-month lookback, not the applicant's total credit age. A value of 24 means the window is saturated, not that history began exactly 24 months ago."
+      "notes": "Months of observable credit history WITHIN the 24-month lookback, not the applicant's total credit age. It covers the oldest scored pull in credit_pull_event.csv inside the window. A value of 24 means the window is saturated, not that history began exactly 24 months ago."
     },
     "max_days_overdue": {
       "unit": "days",
-      "scale": "float, 0 or more",
+      "scale": "integer, 0 or more; observed 0-133",
       "notes": "Maximum days overdue across eligible credit events in the lookback. Null where no credit history exists — never impute as 0, which would read as perfect payment behaviour."
     },
     "delinquent_event_count": {
@@ -77,27 +77,28 @@
       "scale": "float, 2 decimal places",
       "notes": "Most recent overdue amount per credit record within the lookback, summed. Same exclusion rule as above."
     },
-    "debt_to_income_ratio": {
+    "debt_burden_ratio": {
       "unit": "ratio (NOT percent)",
-      "scale": "float, 4 decimal places, unbounded above; observed 0.115-2.376",
-      "notes": "CRITICAL: total_outstanding_debt divided by ANNUAL income — a stock-to-flow ratio that legitimately exceeds 1.0. It is NOT loan_application.dti_pct, which is a payment-based percent bounded 8.2-59.8. Multiplying this by 100 does not produce that field in any of the 600 rows."
+      "scale": "float, 4 decimal places, unbounded above; observed 0.0804-2.376, mean 0.701",
+      "notes": "CRITICAL: total_outstanding_debt divided by ANNUAL income, a stock-to-flow ratio that legitimately exceeds 1.0. Renamed from debt_to_income_ratio on 2026-10-01 to match the policy's 'Debt Burden Ratio'. It is NOT loan_application.dti_pct, which is a payment-to-income percent bounded 8.2-59.8. Multiplying this by 100 does not produce that field in any of the 580 populated rows."
     },
     "overdue_amount_to_income": {
       "unit": "ratio (NOT percent)",
-      "scale": "float, 4 decimal places; observed 0.0-0.42",
+      "scale": "float, 4 decimal places; observed 0.0-0.2647",
       "notes": "total_overdue_amount divided by annual income. Policy bands are expressed in percent (0%, >0-2%, >2-5%, >5%) while the field is stored as a ratio — convert before comparing to the policy table."
     },
     "delinquency_points": {"unit": "risk points", "scale": "integer 0-5", "notes": "Derived from max_days_overdue bands."},
-    "debt_burden_points": {"unit": "risk points", "scale": "integer 0-3", "notes": "Derived from debt_to_income_ratio bands."},
+    "debt_burden_points": {"unit": "risk points", "scale": "integer 0-3", "notes": "Derived from debt_burden_ratio bands."},
+    "overdue_amount_points": {"unit": "risk points", "scale": "integer 0-3", "notes": "Derived from overdue_amount_to_income bands. Published from 2026-10-01."},
     "risk_tier_score": {
       "unit": "risk points (sum)",
-      "scale": "float, 0-11",
-      "notes": "Higher means greater observed risk. Null by design where basis is NO_CREDIT_HISTORY. Not a probability, not a percentage, and not comparable to a FICO score."
+      "scale": "integer, 0-11",
+      "notes": "Higher means greater observed risk. Equals delinquency_points + debt_burden_points + overdue_amount_points on 580 of 580 scored rows. Null by design where basis is NO_CREDIT_HISTORY. Not a probability, not a percentage, and not comparable to a FICO score."
     },
     "risk_tier": {
       "unit": "ordinal category",
       "scale": "T1 (very low risk) to T5 (very high risk)",
-      "notes": "Ordered but not interval-scaled. Do not average. Note the direction differs in meaning from loan_product.minimum_credit_tier, which uses the same codes to express a product's tolerance rather than an applicant's risk."
+      "notes": "Ordered but not interval-scaled. Do not average. loan_product.minimum_risk_tier uses the same codes to express a product's tolerance rather than an applicant's risk, and is tested against this field: an applicant passes when risk_tier is at or better than the product's minimum_risk_tier."
     },
     "as_of_date": {"unit": "calendar date", "scale": "day", "format": "ISO 8601 (YYYY-MM-DD)"},
     "risk_tier_ruleset_version": {"unit": "version number", "scale": "float; 1.0 on all rows", "notes": "Stored as a float, which will sort and compare incorrectly past version 1.9. Treat as a string identifier."}
@@ -118,30 +119,30 @@
     "system_of_record": "Risk classification engine implementing policy RISK-TIER v1.0 (simulated).",
     "authoritative_for": [
       "risk_tier — the governing risk classification for this applicant, under the named policy",
-      "risk_tier_score, delinquency_points, debt_burden_points and the underlying credit-history measures",
+      "risk_tier_score, delinquency_points, debt_burden_points, overdue_amount_points and the underlying credit-history measures",
       "credit_history_status and risk_tier_basis",
       "risk_tier_ruleset_version — the provenance of the classification"
     ],
     "not_authoritative_for": [
       {
-        "field": "Any FICO-based tier",
-        "authoritative_source": "loan_application.credit_risk_tier",
-        "reason": "That field is a deterministic FICO band assigned at intake. This one is a delinquency and debt-burden score. They share the T1-T5 domain and agree on 28% of applicants. Neither is a corrected version of the other; they answer different questions. State which tier is meant, every time."
+        "field": "FICO score",
+        "authoritative_source": "loan_application.fico_score",
+        "reason": "The score of the latest returned pull on or before the application date, tested against loan_product.minimum_fico. It is not banded into a tier: loan_application.credit_risk_tier, the old FICO band with T1-T5 labels, was dropped on 2026-10-01, and risk_tier here is the single applicant tier in the project."
       },
       {
         "field": "Payment-based DTI",
         "authoritative_source": "loan_application.dti_pct",
-        "reason": "Different measure, different scale. See units_of_measure.debt_to_income_ratio."
+        "reason": "Different measure, different scale. See units_of_measure.debt_burden_ratio."
       },
       {
         "field": "Any decision or outcome",
-        "authoritative_source": "Not present in this project",
-        "reason": "Decision status, reason codes and approved amounts are prohibited risk factors under the policy and are deliberately absent. Their absence is a control, not a gap to fill."
+        "authoritative_source": "loan_application.preliminary_decision, final_decision and final_decision_date (never this dataset)",
+        "reason": "Decision status, reason codes and approved amounts are prohibited risk factors under the policy and are deliberately absent here. Decisions are derived downstream of this tier, not inputs to it. Their absence is a control, not a gap to fill."
       }
     ],
-    "reproducibility": "FULLY REPRODUCIBLE AND VERIFIED. Every derivation reproduces from its inputs on 100% of scorable rows: delinquency points from max_days_overdue bands, debt burden points from debt_to_income_ratio bands, tier from risk_tier_score bands, and credit_history_status from credit_history_months_observed bands. This is the only dataset in the project whose stated methodology fully reconciles with its contents.",
-    "upstream_dependencies": ["Credit history observations within the 24-month lookback", "Annual income from the application", "Policy RISK-TIER v1.0 thresholds"],
-    "downstream_consumers": ["Credit decisioning", "Model feature sets", "Retrieval / RAG index over the risk corpus", "Portfolio risk reporting"]
+    "reproducibility": "FULLY REPRODUCIBLE AND VERIFIED. Every derivation reproduces from the published columns on 580 of 580 scored rows: delinquency points from max_days_overdue bands, debt burden points from debt_burden_ratio bands, overdue amount points from overdue_amount_to_income bands, risk_tier_score as the sum of the three, tier from risk_tier_score bands, and credit_history_status from credit_history_months_observed bands (571 ESTABLISHED, 9 LIMITED_HISTORY, 20 NO_HISTORY). No component is hidden; the score can be rebuilt from this file alone.",
+    "upstream_dependencies": ["Credit history observations within the 24-month lookback (credit_history_months_observed covers the oldest scored pull in credit_pull_event.csv)", "Annual income from the application", "Policy RISK-TIER v1.0 thresholds"],
+    "downstream_consumers": ["Credit decisioning (loan_product.minimum_risk_tier gate and the applicant-tier overlay in product_risk_policy.md section 3, which drive loan_application.preliminary_decision)", "Model feature sets", "Retrieval / RAG index over the risk corpus", "Portfolio risk reporting"]
   },
 
   "freshness": {
@@ -149,9 +150,9 @@
     "expected_cadence": "Recomputed when applications are added or when the ruleset version changes",
     "max_acceptable_staleness": "The classification must be recomputed before any decision is taken under a new ruleset version. A classification carrying an outdated risk_tier_ruleset_version is not merely stale, it is invalid.",
     "freshness_signal": "risk_tier_ruleset_version compared against the current policy version, plus MAX(as_of_date) against the application file",
-    "profiled_at": "2026-09-14",
+    "profiled_at": "2026-10-01",
     "coverage_window": {"start": "2024-01-01", "end": "2026-12-31"},
-    "staleness_alerting": "Alert if row count diverges from loan_application.csv, if any applicant_id fails to resolve in both directions, if more than one risk_tier_ruleset_version appears without a documented migration, or if the null pattern in the five scoring columns stops aligning exactly with credit_history_status = NO_HISTORY.",
+    "staleness_alerting": "Alert if row count diverges from loan_application.csv, if any application_id fails to resolve in both directions, if more than one risk_tier_ruleset_version appears without a documented migration, if the null pattern in the nine scoring columns (five measures, three points, score) stops aligning exactly with credit_history_status = NO_HISTORY, if risk_tier_score stops equalling the sum of the three points columns, or if any NO_HISTORY application gains a credit pull or a FICO score.",
     "backfill_policy": "A ruleset change requires a full recompute of all rows, not an incremental update. Archive the prior file with its version identifier before recomputing, per enterprise_risk_policy.md version-control requirements."
   },
 
@@ -159,24 +160,24 @@
     {
       "id": "BI-R01",
       "rule": "Nulls in the scoring columns are a policy decision, not missing data.",
-      "detail": "Exactly 20 rows carry nulls in max_days_overdue, total_outstanding_debt, total_overdue_amount, debt_to_income_ratio, overdue_amount_to_income and risk_tier_score. All 20 are credit_history_status = NO_HISTORY, where the policy states a numeric score is not calculated because the underlying measures are unavailable. Imputing zero would read as perfect payment behaviour and zero debt — the strongest possible profile — when it actually means nothing is known. The policy is explicit: unknown outstanding debt and overdue amounts must not automatically be treated as zero, and missing days_overdue must not be imputed without source confirmation.",
+      "detail": "Exactly 20 rows carry nulls in max_days_overdue, total_outstanding_debt, total_overdue_amount, debt_burden_ratio, overdue_amount_to_income, delinquency_points, debt_burden_points, overdue_amount_points and risk_tier_score (credit_history_months_observed and delinquent_event_count read 0 on those rows). All 20 are credit_history_status = NO_HISTORY, where the policy states a numeric score is not calculated and the three points fields are left empty because the underlying measures are unavailable. These applicants genuinely have no history: they have no credit pulls in credit_pull_event.csv and an empty loan_application.fico_score. Imputing zero would read as perfect payment behaviour and zero debt, the strongest possible profile, when it actually means nothing is known. The policy is explicit: unknown outstanding debt and overdue amounts must not automatically be treated as zero, and missing days_overdue must not be imputed without source confirmation.",
       "severity": "critical"
     },
     {
       "id": "BI-R02",
       "rule": "T3 means two entirely different things in this file.",
-      "detail": "For 35 applicants T3 is an earned score of 4-5 points. For 20 applicants T3 is a policy default assigned because no credit history exists, with a null score and risk_tier_basis = NO_CREDIT_HISTORY. The policy states this reflects uncertainty from insufficient information rather than demonstrated delinquency. Any statement about T3 applicants that does not separate the two groups conflates measured moderate risk with unmeasured risk. Always read risk_tier alongside risk_tier_basis; the tier alone is incomplete.",
+      "detail": "For 39 applicants T3 is an earned score of 4-5 points. For 20 applicants T3 is a policy default assigned because no credit history exists, with a null score and risk_tier_basis = NO_CREDIT_HISTORY. The policy states this reflects uncertainty from insufficient information rather than demonstrated delinquency. Any statement about T3 applicants that does not separate the two groups conflates measured moderate risk with unmeasured risk. Always read risk_tier alongside risk_tier_basis; the tier alone is incomplete.",
       "severity": "critical"
     },
     {
       "id": "BI-R03",
-      "rule": "This tier is not the tier on the application record.",
-      "detail": "risk_tier and loan_application.credit_risk_tier share the T1-T5 domain and agree on 28% of applicants. This one is policy-governed and is the authoritative risk classification; that one is a FICO band. Rename at ingest (policy_risk_tier vs app_credit_risk_tier) so the two cannot be joined or substituted by accident.",
+      "rule": "This is the single applicant tier, and product tier gates test against it.",
+      "detail": "risk_tier is the only applicant tier in the project; the FICO band loan_application.credit_risk_tier was dropped on 2026-10-01. loan_product.minimum_risk_tier (renamed from minimum_credit_tier) is tested against this field, and the FICO score is tested separately against loan_product.minimum_fico. Do not rebuild a FICO band with T1-T5 labels, or test minimum_risk_tier against anything but risk_tier, since that recreates the two-tier confusion the change removed.",
       "severity": "critical"
     },
     {
       "id": "BI-R04",
-      "rule": "debt_to_income_ratio is a ratio, not a percent, and legitimately exceeds 1.0.",
+      "rule": "debt_burden_ratio is a ratio, not a percent, and legitimately exceeds 1.0.",
       "detail": "It divides total outstanding debt by ANNUAL income, so values above 1.0 — 1.3369, 2.376 — mean total debt exceeds a year's income. That is normal for a mortgage holder and is not an error. Rendering it as '134% DTI' invites comparison against loan_application.dti_pct and against product max_dti_pct thresholds, neither of which it is commensurate with.",
       "severity": "high"
     },
@@ -188,20 +189,20 @@
     },
     {
       "id": "BI-R06",
-      "rule": "A third scoring component exists but is not materialized as a column.",
-      "detail": "The policy defines Risk Score = delinquency points + debt burden points + OVERDUE AMOUNT points. The first two are columns; the third is not. It is recoverable as risk_tier_score minus the two stored components, and recovering it that way matches the policy's overdue bands on 100% of scorable rows. Until it is materialized, any feature-importance or tier-explanation exercise built only on the stored point columns will misattribute up to 3 of 11 points. Materializing overdue_amount_points is the recommended fix.",
+      "rule": "All three scoring components are published, so every score is reproducible.",
+      "detail": "The policy defines Risk Score = delinquency points + debt burden points + overdue amount points, and all three are columns: delinquency_points, debt_burden_points and overdue_amount_points (added 2026-10-01). risk_tier_score equals their sum on 580 of 580 scored rows, and overdue_amount_points matches the policy's overdue bands on all 580. Any feature-importance or tier-explanation exercise must use all three point columns; leaving out overdue_amount_points misattributes up to 3 of 11 points. On the 20 NO_HISTORY rows all three are empty, never zero.",
       "severity": "high"
     },
     {
       "id": "BI-R07",
       "rule": "The classification is only valid under its stated ruleset version.",
-      "detail": "risk_tier_ruleset_version is 1.0 on every row, matching policy RISK-TIER v1.0 effective 2026-09-01. A tier quoted without its ruleset version is an unversioned claim. If the ruleset changes, every row must be recomputed — rows under mixed versions are not comparable and must not be aggregated together. Note the field is stored as a float and will sort incorrectly past 1.9; treat it as a string.",
+      "detail": "risk_tier_ruleset_version is 1.0 on every row, matching policy RISK-TIER v1.0 effective 2024-01-01, so the recorded ruleset was in force on every application date. A tier quoted without its ruleset version is an unversioned claim. If the ruleset changes, every row must be recomputed; rows under mixed versions are not comparable and must not be aggregated together. Note the field is stored as a float and will sort incorrectly past 1.9; treat it as a string.",
       "severity": "high"
     },
     {
       "id": "BI-R08",
       "rule": "The absence of decision fields is a control.",
-      "detail": "The policy prohibits using decision status, reason codes, approved amounts, region, gender, family status and post-application credit events in risk classification. Their absence here is deliberate. Enriching this feature set with any of them — including joining loan_application.preliminary_decision or region_state into a model feature table built on these rows — defeats the control and reintroduces outcome leakage.",
+      "detail": "The policy prohibits using decision status, reason codes, approved amounts, region, gender, family status and post-application credit events in risk classification. Their absence here is deliberate. Enriching this feature set with any of them, including joining loan_application.preliminary_decision, final_decision or region_state into a model feature table built on these rows, defeats the control and reintroduces outcome leakage. preliminary_decision is itself derived from risk_tier through the product rules and the product_risk_policy.md section 3 overlay, so feeding it back is circular as well as leaky.",
       "severity": "critical"
     },
     {
@@ -212,28 +213,29 @@
     },
     {
       "id": "BI-R10",
-      "rule": "Join on applicant_id, never application_id.",
-      "detail": "This is the only table carrying both identifiers. application_id (LA######) exists nowhere else in the project; applicant_id (APP######) is the universal key. A join on the wrong column returns an empty result rather than an error.",
+      "rule": "Join on application_id, never appli_risk_id.",
+      "detail": "This is the only table carrying both identifiers. appli_risk_id (LA######) exists nowhere else in the project; application_id (APP######) is the universal key. A join on the wrong column returns an empty result rather than an error.",
       "severity": "high"
     }
   ],
 
   "field_semantics": {
-    "application_id": "Primary key of this table (LA######). Does not appear in any other dataset.",
-    "applicant_id": "Join key to every other dataset (APP######). 1:1 with loan_application.csv.",
+    "appli_risk_id": "Surrogate key of this table (LA######), unique per row. Does not appear in any other dataset.",
+    "application_id": "Primary key of this table and join key to every other dataset (APP######). 1:1 with loan_application.csv.",
     "as_of_date": "The application date. Anchors the 24-month lookback. Equals loan_application.date on all 600 rows.",
-    "credit_history_status": "ESTABLISHED (6+ months), LIMITED_HISTORY (1-5), NO_HISTORY (0). Determines whether the standard scoring methodology applies.",
-    "credit_history_months_observed": "Months of observable history within the 24-month window, 0-24. Not credit age.",
+    "credit_history_status": "ESTABLISHED (6+ months), LIMITED_HISTORY (1-5), NO_HISTORY (0). Determines whether the standard scoring methodology applies. Observed: ESTABLISHED 571, LIMITED_HISTORY 9, NO_HISTORY 20.",
+    "credit_history_months_observed": "Months of observable history within the 24-month window, 0-24, covering the oldest scored pull in that window. Not credit age.",
     "max_days_overdue": "Maximum days overdue across eligible events. Sole input to delinquency_points. Null where no history.",
     "delinquent_event_count": "Count of delinquent events in the lookback. Informational only; not a scoring input.",
     "total_outstanding_debt": "Sum of most recent outstanding debt per credit record in the lookback, USD. Unknowns excluded, not zeroed.",
     "total_overdue_amount": "Sum of most recent overdue amount per credit record in the lookback, USD. Unknowns excluded, not zeroed.",
-    "debt_to_income_ratio": "total_outstanding_debt / annual income. A ratio, unbounded above. Input to debt_burden_points.",
-    "overdue_amount_to_income": "total_overdue_amount / annual income. A ratio. Input to the unmaterialized overdue points component.",
-    "delinquency_points": "0-5, from max_days_overdue bands (0, 1-29, 30-59, 60-89, 90-119, 120+).",
-    "debt_burden_points": "0-3, from debt_to_income_ratio bands (<=25%, >25-50%, >50-75%, >75%).",
-    "risk_tier_score": "Sum of all three point components, 0-11. Null where basis is NO_CREDIT_HISTORY.",
-    "risk_tier": "T1 (0-1), T2 (2-3), T3 (4-5), T4 (6-7), T5 (8-11) — or T3 by rule where no credit history exists.",
+    "debt_burden_ratio": "total_outstanding_debt / annual income (the policy's Debt Burden Ratio; formerly debt_to_income_ratio). A ratio, unbounded above. Input to debt_burden_points.",
+    "overdue_amount_to_income": "total_overdue_amount / annual income. A ratio. Input to overdue_amount_points.",
+    "delinquency_points": "0-5, from max_days_overdue bands (0, 1-29, 30-59, 60-89, 90-119, 120+). Null where basis is NO_CREDIT_HISTORY.",
+    "debt_burden_points": "0-3, from debt_burden_ratio bands (<=25%, >25-50%, >50-75%, >75%). Null where basis is NO_CREDIT_HISTORY.",
+    "overdue_amount_points": "0-3, from overdue_amount_to_income bands (0%, >0-2%, >2-5%, >5%). Null where basis is NO_CREDIT_HISTORY.",
+    "risk_tier_score": "delinquency_points + debt_burden_points + overdue_amount_points, 0-11, reproducible on 580 of 580 scored rows. Null where basis is NO_CREDIT_HISTORY.",
+    "risk_tier": "T1 (0-1), T2 (2-3), T3 (4-5), T4 (6-7), T5 (8-11), or T3 by rule where no credit history exists. Observed: T1 160, T2 230, T3 59, T4 79, T5 72.",
     "risk_tier_basis": "CREDIT_HISTORY, LIMITED_HISTORY, or NO_CREDIT_HISTORY. Required context for interpreting risk_tier; see BI-R02.",
     "risk_tier_ruleset_version": "Version of the scoring ruleset that produced this row. 1.0 throughout."
   },
@@ -244,12 +246,12 @@
       "Quoting risk_tier without risk_tier_basis where the applicant has no credit history.",
       "Quoting risk_tier without its ruleset version.",
       "Joining decision, region, or demographic fields into a feature set built on these rows.",
-      "Substituting this tier for loan_application.credit_risk_tier, or vice versa."
+      "Substituting a FICO band for this tier, or testing loan_product.minimum_risk_tier against anything other than risk_tier."
     ],
     "referenced_authorities": [
       "Equal Credit Opportunity Act (ECOA) — prohibited bases; the policy's prohibited-factor list implements this",
       "Fair Credit Reporting Act (FCRA) — accuracy of credit information used in decisions",
-      "applicant_risk_policy.md (CREDIT_RISK V1.0 / RISK-TIER 1.0) — methodology, permitted and prohibited factors, missing-data policy",
+      "applicant_risk_policy.md (RISK-TIER V1.0, effective 2024-01-01): methodology, permitted and prohibited factors, missing-data policy",
       "enterprise_risk_policy.md (ERM-001) — lineage, calculation definitions, version control"
     ],
     "escalation": "Per the policy's missing-data section, a derivation that cannot be completed must fail and the record must be flagged for data-quality review rather than defaulted. Conflicts with other sources are held pending documented resolution, per enterprise_risk_policy.md section 3."
@@ -261,6 +263,12 @@
       "date": "2026-09-14",
       "author_role": "Knowledge & Retrieval Lead",
       "summary": "Initial semantic contract. Grain, units, lookback semantics, source-of-truth boundaries, freshness and ten interpretation rules, verified against policy RISK-TIER v1.0 — every documented derivation reproduces on 100% of scorable rows."
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-10-01",
+      "author_role": "Team Lead / Liaison",
+      "summary": "Re-profiled against the regenerated data: debt_to_income_ratio renamed debt_burden_ratio, overdue_amount_points published so the score reproduces on 580/580, NO_HISTORY rows (20) now empty with no pulls or FICO, keys corrected to appli_risk_id / application_id, and loan_application.credit_risk_tier removed so risk_tier is the single tier tested by loan_product.minimum_risk_tier. Policy RISK-TIER v1.0 effective date updated to 2024-01-01."
     }
   ]
 }

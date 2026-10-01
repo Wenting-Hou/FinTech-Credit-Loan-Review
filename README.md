@@ -35,7 +35,7 @@
 - `loan_application.csv` - [represents the primary applicant profile used in the loan review process, 600, application_id]
 - `applicant_risk_features.csv` - [the applicant’s credit-risk profile at the time of each loan application, 600, application_id]
 - `loan_product.csv` - [defines the available loan products and their associated eligibility, risk, and pricing requirements, 9, product_code]
-- `credit_pull_event.csv` - [represents the applicant’s historical credit-related events and changes over time, 1836, event_id & application_id]
+- `credit_pull_event.csv` - [represents the applicant’s historical credit bureau pulls over time, one score per pull, 1775, event_id & application_id]
 
 ### Knowledge Corpus (`data/documents/source/`)
 
@@ -60,8 +60,8 @@
 | Quality Problem | Examples           | Proposed Control                        | 
 | :-------------- | :----------------------- | :-------------------------------- | 
 | Unstructured Data | enterprise_risk_policy.md states that tiering rules are in risk_policy.md, but the actual filename is applicant_risk_policy.md | Create a document registry that maps “Policy ID” in the metadata headers to the respective filenames |
-| Unstructured Data | applicant_risk_policy.md has an effective date of September 1st, 2026, which is prior to its “prepared” date of September 10th, 2026.         | Require a standardized metadata header on every document | 
-| Structured Data      | Format inconsistencies across loan_application.csv and credit_pull_events.csv Dates: M/D/YYYY vs ISO Booleans: TRUE vs Trueloan_product.csv stores maximum_amount_usd as a string, so can’t be compared to request_amount_usd in loan_application.csv | Write a schema contract that fixes types and formats for each column | 
+| Unstructured Data | applicant_risk_policy.md has an effective date of January 1st, 2024, which is prior to its “prepared” date of September 10th, 2026.         | Require a standardized metadata header on every document | 
+| Structured Data      | Format inconsistencies across loan_application.csv and credit_pull_event.csv Dates: M/D/YYYY vs ISO Booleans: TRUE vs Trueloan_product.csv stores maximum_amount_usd as a string, so can’t be compared to request_amount_usd in loan_application.csv | Write a schema contract that fixes types and formats for each column | 
 
 ---
 
@@ -71,4 +71,12 @@
 2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
+   ```
+3. Check that the source data is consistent with itself and with the policies (57 checks):
+   ```bash
+   python src/validation/check_source_consistency.py
+   ```
+4. Only if the synthetic source data needs rebuilding (see `src/synthetic/README.md`):
+   ```bash
+   python src/synthetic/regenerate_source_data.py
    ```

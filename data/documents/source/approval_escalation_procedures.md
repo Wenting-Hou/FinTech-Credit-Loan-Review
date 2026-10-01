@@ -2,8 +2,8 @@
 
 **Policy ID:** APPR-001  
 **Version:** V1.0  
-**Status:** In progress    
-**Prepared:** NA   
+**Status:** active    
+**Prepared:** December 15, 2023   
 **Proposed owner:** Credit Risk Function    
 **Proposed approver:** Credit Risk Committee  
 **Review cycle:** Annually
@@ -100,13 +100,13 @@ Describes the standard approval authority levels and escalation paths for applic
 
 ---
 
-## 7. Open Items / TBD
+## 7. Planned Enhancements (not part of this version)
 
-- [ ] Confirm actual dollar-amount/exposure thresholds that trigger each approval level (currently framed by risk factors only, not confirmed $ limits).
-- [ ] Confirm named approval authorities/committees if mapping to a specific institution's org structure.
-- [ ] Add SLA/turnaround time expectations per escalation level.
-- [ ] Cross-reference with BSA/AML escalation procedures document (if separate) to avoid duplication vs. contradiction.
+- Confirm actual dollar-amount/exposure thresholds that trigger each approval level (currently framed by risk factors only, not confirmed $ limits).
+- Confirm named approval authorities/committees if mapping to a specific institution's org structure.
+- Add SLA/turnaround time expectations per escalation level.
+- Cross-reference with BSA/AML escalation procedures document (if separate) to avoid duplication vs. contradiction.
 
 ---
 
-*This document is a working knowledge-base draft describing general industry-standard escalation structure. It must be validated against actual internal policy and named approval authorities before production use.*
+*This document describes a general industry-standard escalation structure for an academic microcosm. It does not represent any institution's actual approval authorities.*

@@ -3,7 +3,7 @@
 **Policy ID:** ERM-001  
 **Version:** V1.0  
 **Status:** active  
-**Prepared:** September 10, 2026   
+**Prepared:** December 15, 2023   
 **Proposed owner:** Head of Risk   
 **Proposed approver:** Board   
 **Review cycle:** At least annually and following material changes
@@ -135,8 +135,8 @@ Apply applicant classification, product eligibility, product controls and applic
 Do not feed subsequent approvals, approved amounts, outcomes or later credit events into the original applicant score. 
 Subsequent outcomes may support separately dated monitoring.
 
-Do not confuse total outstanding debt divided by annual income, used in the applicant risk policy, 
-with monthly debt payments divided by monthly income used for product payment DTI. 
+Do not confuse the debt burden ratio (`debt_burden_ratio`, total outstanding debt divided by annual income), used in the applicant risk policy, 
+with monthly debt payments divided by monthly income used for product payment DTI (`dti_pct`). 
 Define inputs and treatment of missing values before implementation.   
 
 Unknown information is not zero, and an incomplete extract is not confirmed NO_HISTORY.

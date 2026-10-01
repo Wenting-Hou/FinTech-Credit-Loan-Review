@@ -3,7 +3,7 @@
 **Policy ID:** PRODUCT-RISK  
 **Version:** V1.0  
 **Status:** active  
-**Prepared:** September 10, 2026  
+**Prepared:** December 15, 2023  
 **Proposed owner:** Credit Risk function  
 **Proposed approver:** Credit Risk Committee  
 **Review cycle:** Annually and following a material product or policy change
@@ -18,7 +18,7 @@ This document is a supporting policy under the proposed `enterprise_risk_policy.
 New controls and routing rules below are project design assumptions, not existing approved rules or real lender requirements. 
 Numerical eligibility criteria remain in the eligibility document and require the validation already identified there.
 
-### 1.1 Approved-scope catalog for this draft
+### 1.1 Approved-scope catalog
 
 The scope contains exactly the following nine products
 
@@ -77,7 +77,7 @@ Term Definition:
 
 ### 2.2 Initial product risk assessment matrix 
 
-These starting assessments use catalog characteristics plus the explicitly illustrative structures in the existing eligibility draft. 
+These starting assessments use catalog characteristics plus the explicitly illustrative structures in the eligibility rules. 
 They must be reviewed when actual product terms, limits, channels, volumes and control evidence become available. 
 
 
@@ -141,14 +141,16 @@ Residual risk is the remaining risk after considering evidence of control design
 
 ## 3. Applicant-tier overlay
 
+The applicant tier in this overlay, and the tier that `loan_product.minimum_risk_tier` is tested against, is `risk_tier` from `applicant_risk_features.csv`, derived under RISK-TIER (`applicant_risk_policy.md`). It describes the applicant, not the product, and it is not a band of the FICO score. The FICO score is tested separately against `minimum_fico`. The product ratings in section 2 describe the product and are never combined with this tier.
+
 | Applicant tier / history | Proposed treatment across all nine products |
 |---|---|
 | T1–T2 | Follow the normal product route if every other requirement is met; product-specific mandatory reviews still apply |
 | T3 with established history | Follow the normal product route, checking repayment capacity and any additional product triggers |
-| T3 with NO_HISTORY | Require documented manual assessment of available repayment evidence; retain the NO_HISTORY basis and null numeric score |
+| T3 with NO_HISTORY | Available only on products with `allow_no_score_flag` = TRUE (MTG-FH, CRD-SC, AUT-SP). Require documented manual assessment of available repayment evidence, such as verified income, reserves or down payment, and non-traditional credit such as rent and utility history; retain the NO_HISTORY basis and null numeric score |
 | Any tier with LIMITED_HISTORY | Record the limited-history flag and require manual review of evidence sufficiency |
 | T4 | Require the relevant senior product reviewer: Senior Underwriter / Underwriting Manager for mortgages, Underwriting Supervisor for cards, Underwriting Manager for auto |
-| T5 | Refer to the Credit Risk Committee for assessment within its confirmed authority; no automatic approval or decline solely from this draft |
+| T5 | Refer to the Credit Risk Committee for assessment within its confirmed authority; no automatic approval or decline solely from this overlay |
 
 Application rules:
 - Where multiple triggers apply, use the highest applicable review level.  

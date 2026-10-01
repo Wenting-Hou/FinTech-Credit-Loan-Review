@@ -1,6 +1,6 @@
 # Applicant Credit Risk Classification Policy
 
-**Policy ID:** CREDIT_RISK  
+**Policy ID:** RISK-TIER  
 **Version:** V1.0  
 **Status:** active  
 **Prepared:** September 10, 2026  
@@ -23,7 +23,7 @@ The methodology is designed solely for this academic microcosm. The thresholds, 
 
 **Policy ID:** RISK-TIER
 **Policy Version:** 1.0
-**Effective Date:** September 1, 2026
+**Effective Date:** January 1, 2024
 
 
 ## Policy Principle
@@ -109,9 +109,11 @@ Total outstanding debt is calculated using the most recent outstanding debt obse
 
 Debt burden is calculated as:
 
-**Debt-to-Income Ratio = Total Outstanding Debt ÷ Annual Income**
+**Debt Burden Ratio = Total Outstanding Debt ÷ Annual Income**
 
-| Debt-to-Income Ratio | Risk Points |
+The debt burden ratio is published as `debt_burden_ratio`. It is a balance measure and is not the product payment DTI (`dti_pct`), which compares monthly debt payments with monthly income.
+
+| Debt Burden Ratio | Risk Points |
 | -------------------: | ----------: |
 |                ≤ 25% |           0 |
 |             >25%–50% |           1 |
@@ -147,6 +149,8 @@ The possible score ranges from **0 to 11 points**:
 
 A higher score represents greater observed credit risk.
 
+All three components are published in `applicant_risk_features.csv` as `delinquency_points`, `debt_burden_points` and `overdue_amount_points`, so every score can be reproduced from the dataset alone.
+
 | Total Risk score | Risk tier | Risk Classification |
 | ---------------: | --------- | ------------------- |
 |    **0–1**       | **T1**    | Very Low Risk       |
@@ -165,7 +169,7 @@ Applicants with no observable credit history during the 24-month lookback period
 **Risk Classification:** Moderate Risk
 **Risk Tier Basis:** NO_CREDIT_HISTORY
 
-A numeric `risk_tier_score` is not calculated when the applicant has no eligible credit history because the underlying credit-history measures are unavailable.
+A numeric `risk_tier_score` is not calculated, and the three points fields are left empty, when the applicant has no eligible credit history because the underlying credit-history measures are unavailable.
 
 This classification reflects uncertainty caused by insufficient historical information rather than demonstrated delinquency.
 
