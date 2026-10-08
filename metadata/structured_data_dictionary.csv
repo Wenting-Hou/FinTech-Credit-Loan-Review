@@ -11,11 +11,11 @@ loan_application.csv,dti_pct,DECIMAL(5,2),Debt-to-income ratio as a percentage,,
 loan_application.csv,military_scra_flag,BOOLEAN,Flag indicating whether the applicant may qualify for SCRA-related protections,,TRUE
 loan_application.csv,bankruptcy_last_7y_flag,BOOLEAN,Flag indicating whether the applicant has had a bankruptcy in the last seven years,,TRUE
 loan_application.csv,collections_past_12_months_flag,BOOLEAN,Flag indicating whether the applicant has collection activity in the past 12 months,,TRUE
-loan_application.csv,preliminary_decision,VARCHAR,Initial application routing outcome such as Approved, Review, or Declined,,TRUE
+loan_application.csv,preliminary_decision,VARCHAR,"Initial application routing outcome such as Approved, Review, or Declined",,TRUE
 loan_application.csv,date,DATE,Date the loan application was submitted or recorded,,TRUE
 loan_product.csv,product_code,VARCHAR,Unique product identifier used across loan applications,PK,TRUE
 loan_product.csv,product_name,VARCHAR,Human-readable name of the loan product,,TRUE
-loan_product.csv,product_family,VARCHAR,Loan category such as Mortgage, Credit Card, or Auto Loan,,TRUE
+loan_product.csv,product_family,VARCHAR,"Loan category such as Mortgage, Credit Card, or Auto Loan",,TRUE
 loan_product.csv,eligibility_criteria,VARCHAR,Key conditions required to qualify for the product,,TRUE
 loan_product.csv,minimum_credit_tier,VARCHAR,Minimum credit tier required for eligibility,,TRUE
 loan_product.csv,minimum_fico,INTEGER,Minimum FICO score required for product eligibility,,TRUE
@@ -36,13 +36,13 @@ credit_pull_events.csv,new_tier,VARCHAR,Applicant credit tier after the bureau p
 credit_pull_events.csv,prior_fico,INTEGER,FICO score before the bureau pull,,TRUE
 credit_pull_events.csv,new_fico,INTEGER,FICO score after the bureau pull,,TRUE
 credit_pull_events.csv,tier_changed_flag,BOOLEAN,Flag indicating whether the applicant's tier changed as a result of the pull,,TRUE
-credit_pull_events.csv,bureau_source,VARCHAR,Name of the credit bureau source such as Experian or TransUnion,,TRUE
+credit_pull_events.csv,bureau_source,VARCHAR,"Name of the credit bureau source such as Experian or TransUnion",,TRUE
 credit_pull_events.csv,event_status,VARCHAR,Status of the credit pull event such as Completed or Pending,,TRUE
 credit_pull_events.csv,event_reason,VARCHAR,Reason for the credit pull event or re-pull,,TRUE
 applicant_risk_features.csv,appli_risk_id,VARCHAR,Unique synthetic risk-feature row identifier for the application-level risk profile,PK,TRUE
 applicant_risk_features.csv,application_id,VARCHAR,Unique application identifier associated with the loan application and used as the record key,PK,TRUE
 applicant_risk_features.csv,as_of_date,DATE,Date on which the pre-decision risk profile was evaluated for the application,,TRUE
-applicant_risk_features.csv,credit_history_status,VARCHAR,Status of available credit history at the as-of date as established limited or no-history, ,TRUE
+applicant_risk_features.csv,credit_history_status,VARCHAR,"Status of available credit history at the as-of date as established limited or no-history",,TRUE
 applicant_risk_features.csv,credit_history_months_observed,INTEGER,Number of months of credit history observed within the lookback window,,TRUE
 applicant_risk_features.csv,max_days_overdue,INTEGER,Maximum number of days any account was overdue during the observed credit history period,,FALSE
 applicant_risk_features.csv,delinquent_event_count,INTEGER,Count of delinquency events observed within the defined lookback period,,TRUE
@@ -55,5 +55,5 @@ applicant_risk_features.csv,debt_burden_points,INTEGER,Risk points assigned base
 applicant_risk_features.csv,overdue_amount_points,INTEGER,Risk points assigned based on overdue amount severity,,FALSE
 applicant_risk_features.csv,risk_tier_score,INTEGER,Composite risk score calculated from delinquency debt-burden and overdue-amount points,,FALSE
 applicant_risk_features.csv,risk_tier,VARCHAR,Assigned credit risk tier used for underwriting review,Tier,TRUE
-applicant_risk_features.csv,risk_tier_basis,VARCHAR,Reference basis used to assign the risk tier such as credit history limited-history or no-credit-history,,TRUE
+applicant_risk_features.csv,risk_tier_basis,VARCHAR,"Reference basis used to assign the risk tier such as credit history limited-history or no-credit-history",,TRUE
 applicant_risk_features.csv,risk_tier_ruleset_version,VARCHAR,Version of the risk-tier ruleset applied to determine the final tier,,TRUE
