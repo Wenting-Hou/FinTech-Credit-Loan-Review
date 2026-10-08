@@ -39,3 +39,21 @@ credit_pull_events.csv,tier_changed_flag,BOOLEAN,Flag indicating whether the app
 credit_pull_events.csv,bureau_source,VARCHAR,Name of the credit bureau source such as Experian or TransUnion,,TRUE
 credit_pull_events.csv,event_status,VARCHAR,Status of the credit pull event such as Completed or Pending,,TRUE
 credit_pull_events.csv,event_reason,VARCHAR,Reason for the credit pull event or re-pull,,TRUE
+applicant_risk_features.csv,appli_risk_id,VARCHAR,Unique synthetic risk-feature row identifier for the application-level risk profile,PK,TRUE
+applicant_risk_features.csv,application_id,VARCHAR,Unique application identifier associated with the loan application and used as the record key,PK,TRUE
+applicant_risk_features.csv,as_of_date,DATE,Date on which the pre-decision risk profile was evaluated for the application,,TRUE
+applicant_risk_features.csv,credit_history_status,VARCHAR,Status of available credit history at the as-of date as established limited or no-history, ,TRUE
+applicant_risk_features.csv,credit_history_months_observed,INTEGER,Number of months of credit history observed within the lookback window,,TRUE
+applicant_risk_features.csv,max_days_overdue,INTEGER,Maximum number of days any account was overdue during the observed credit history period,,FALSE
+applicant_risk_features.csv,delinquent_event_count,INTEGER,Count of delinquency events observed within the defined lookback period,,TRUE
+applicant_risk_features.csv,total_outstanding_debt,DECIMAL(12,2),Total outstanding debt balance reflected in the applicant risk profile,,FALSE
+applicant_risk_features.csv,total_overdue_amount,DECIMAL(12,2),Total overdue amount associated with the applicant in the risk window,,FALSE
+applicant_risk_features.csv,debt_burden_ratio,DECIMAL(6,4),Ratio of total outstanding debt to annual income at the risk snapshot,,FALSE
+applicant_risk_features.csv,overdue_amount_to_income,DECIMAL(6,4),Ratio of total overdue amount to annual income at the risk snapshot,,FALSE
+applicant_risk_features.csv,delinquency_points,INTEGER,Risk points assigned based on delinquency severity and count,,FALSE
+applicant_risk_features.csv,debt_burden_points,INTEGER,Risk points assigned based on debt burden severity,,FALSE
+applicant_risk_features.csv,overdue_amount_points,INTEGER,Risk points assigned based on overdue amount severity,,FALSE
+applicant_risk_features.csv,risk_tier_score,INTEGER,Composite risk score calculated from delinquency debt-burden and overdue-amount points,,FALSE
+applicant_risk_features.csv,risk_tier,VARCHAR,Assigned credit risk tier used for underwriting review,Tier,TRUE
+applicant_risk_features.csv,risk_tier_basis,VARCHAR,Reference basis used to assign the risk tier such as credit history limited-history or no-credit-history,,TRUE
+applicant_risk_features.csv,risk_tier_ruleset_version,VARCHAR,Version of the risk-tier ruleset applied to determine the final tier,,TRUE
