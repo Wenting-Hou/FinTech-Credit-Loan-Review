@@ -1,0 +1,83 @@
+contract_name: applicant
+version: 1.0.0
+status: active
+dataset:
+  file_name: applicant.csv
+  path: data/structured/raw/applicant.csv
+  format: csv
+  encoding: UTF-8
+  delimiter: ","
+  header_required: true
+  null_representation: ""
+  grain: each row represents one applicant
+  primary_key: [applicant_id]
+  expected_row_count: 480
+  privacy_classification: restricted_academic
+  source_lineage:
+    primary_source: synthetic_academic_fixture
+    notes: Names, addresses, contact details, birth dates, occupations, citizenship/marital statuses, tax placeholders, and applicant assignments are synthetic. Profile income is derived from the latest linked application.
+  relationships:
+    - related_dataset: loan_application
+      relationship: one_to_many
+      parent_columns: [applicant_id]
+      child_columns: [applicant_id]
+      minimum_applications_per_applicant: 1
+      maximum_applications_per_applicant: null
+      notes: No business maximum is imposed. A foreign key alone does not enforce that every applicant has at least one application.
+fields:
+  - name: applicant_id
+    type: string
+    required: true
+    unique: true
+    pattern: "^APL[0-9]{6}$"
+  - name: first_name
+    type: string
+    required: true
+  - name: middle_name
+    type: string
+    required: false
+  - name: last_name
+    type: string
+    required: true
+  - name: birth_date
+    type: date
+    required: true
+    input_format: YYYY-MM-DD
+  - name: address_line_1
+    type: string
+    required: true
+  - name: address_line_2
+    type: string
+    required: false
+  - name: city
+    type: string
+    required: true
+  - name: state
+    type: string
+    required: true
+    allowed_values: [NC, FL, TX]
+  - name: zip_code
+    type: string
+    required: true
+    pattern: "^[0-9]{5}$"
+  - name: country_code
+    type: string
+    required: true
+    allowed_values: [US]
+  - name: phone_number
+    type: string
+    required: true
+    pattern: "^\\+1-[0-9]{3}-555-01[0-9]{2}$"
+  - name: email_address
+    type: string
+    required: true
+    pattern: "^[a-z0-9]+\\.[a-z0-9]+@(gmail|yahoo)\\.com$"
+    unique: true
+    description: Generated name-based Gmail/Yahoo sample address, not a verified contact. It may coincide with a real mailbox.
+  - name: preferred_contact_method
+    type: string
+    required: true
+    allowed_values: [Email, Phone, Mail]
+  - name: marital_status
+    type: string
+    required: true

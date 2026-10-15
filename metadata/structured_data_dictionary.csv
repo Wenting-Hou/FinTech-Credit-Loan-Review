@@ -1,5 +1,6 @@
 dataset,field_name,data_type,business_definition,key_status,is_required
-loan_application.csv,applicant_id,VARCHAR,Unique applicant identifier associated with the loan application,PK,TRUE
+loan_application.csv,application_id,VARCHAR,Unique loan application identifier,PK,TRUE
+loan_application.csv,applicant_id,VARCHAR,Unique applicant identifier associated with the loan application,FK,TRUE
 loan_application.csv,annual_income_usd,DECIMAL(12,2),Applicant annual income in U.S. dollars,,TRUE
 loan_application.csv,employment_duration_months,INTEGER,Applicant employment duration in months at current job,,TRUE
 loan_application.csv,credit_risk_tier,VARCHAR,Preliminary credit risk tier assigned during application review,Tier,TRUE
@@ -57,3 +58,20 @@ applicant_risk_features.csv,risk_tier_score,INTEGER,Composite risk score calcula
 applicant_risk_features.csv,risk_tier,VARCHAR,Assigned credit risk tier used for underwriting review,Tier,TRUE
 applicant_risk_features.csv,risk_tier_basis,VARCHAR,"Reference basis used to assign the risk tier such as credit history limited-history or no-credit-history",,TRUE
 applicant_risk_features.csv,risk_tier_ruleset_version,VARCHAR,Version of the risk-tier ruleset applied to determine the final tier,,TRUE
+applicant.csv,applicant_id,VARCHAR,Unique synthetic applicant identifier,PK,TRUE
+applicant.csv,first_name,VARCHAR,Applicant first name,,TRUE
+applicant.csv,middle_name,VARCHAR,Applicant middle name,,FALSE
+applicant.csv,last_name,VARCHAR,Applicant last name,,TRUE
+applicant.csv,birth_date,DATE,Applicant date of birth,,TRUE
+applicant.csv,address_line_1,VARCHAR,Applicant primary street address,,TRUE
+applicant.csv,address_line_2,VARCHAR,Applicant secondary address details such as unit or apartment,,FALSE
+applicant.csv,city,VARCHAR,Applicant city of residence,,TRUE
+applicant.csv,state,VARCHAR,Two-letter U.S. state associated with the applicant address,,TRUE
+applicant.csv,zip_code,VARCHAR,Five-digit ZIP code for the applicant address,,TRUE
+applicant.csv,country_code,VARCHAR,Country code for the applicant address,,TRUE
+applicant.csv,phone_number,VARCHAR,Synthetic applicant phone number,,TRUE
+applicant.csv,email_address,VARCHAR,Synthetic name-based applicant email address,,TRUE
+applicant.csv,preferred_contact_method,VARCHAR,Applicant preferred method of contact,,TRUE
+applicant.csv,marital_status,VARCHAR,Applicant marital status,,TRUE
+applicant.csv,citizenship_status,VARCHAR,Applicant citizenship status,,TRUE
+applicant.csv,occupation,VARCHAR,Applicant occupation,,TRUE

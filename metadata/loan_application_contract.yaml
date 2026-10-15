@@ -26,6 +26,12 @@ fields:
     type: decimal
     required: true
     minimum: 0
+  - name: applicant_id
+    type: string
+    required: true
+    unique: true
+    pattern: "^APP[0-9]{6}$"
+    description: Unique identifier for the applicant associated with the loan application
   - name: employment_duration_months
     type: integer
     required: true

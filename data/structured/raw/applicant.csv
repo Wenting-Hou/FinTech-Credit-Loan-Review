@@ -1,0 +1,481 @@
+applicant_id,first_name,middle_name,last_name,birth_date,address_line_1,address_line_2,city,state,zip_code,country_code,phone_number,email_address,preferred_contact_method,marital_status,citizenship_status,occupation
+APL100000,Alex,Lee,Hernandez,9/6/1979,4809 Springwood Lane,Unit 1,Charlotte,NC,28202,US,1-704-555-100,alex.hernandez@gmail.com,Phone,Separated,Noncitizen,Operations Manager
+APL100001,Jordan,Sage,Mendoza,6/11/1988,9251 Sycamore Drive,,Charlotte,NC,28202,US,1-704-555-101,jordan.mendoza@yahoo.com,Phone,Married,Noncitizen,Sales Representative
+APL100002,Taylor,Robin,Huang,8/14/1990,5398 Maple Court,,Charlotte,NC,28202,US,1-704-555-102,taylor.huang@gmail.com,Email,Married,Noncitizen,Data Analyst
+APL100003,Morgan,Sage,Ho,6/22/1979,2912 Elm Street,,Charlotte,NC,28202,US,1-704-555-103,morgan.ho@yahoo.com,Mail,Separated,Noncitizen,Sales Representative
+APL100004,Casey,Blair,Flores,5/25/1969,2728 Maple Drive,Unit 5,Charlotte,NC,28202,US,1-704-555-104,casey.flores@gmail.com,Mail,Married,US Citizen,Logistics Coordinator
+APL100005,Riley,Blair,Martin,4/4/1970,9882 Glenwood Avenue,,Charlotte,NC,28202,US,1-704-555-105,riley.martin@yahoo.com,Email,Married,Noncitizen,Software Developer
+APL100006,Jamie,,Sato,5/13/1979,3247 Fox Run Street,,Charlotte,NC,28202,US,1-704-555-106,jamie.sato@gmail.com,Phone,Unmarried,US Citizen,Registered Nurse
+APL100007,Cameron,Robin,Yoon,12/25/1979,4403 Fox Run Place,,Charlotte,NC,28202,US,1-704-555-107,cameron.yoon@yahoo.com,Phone,Married,Permanent Resident,Logistics Coordinator
+APL100008,Avery,,Mehta,1/7/1980,8577 Glenwood Way,Unit 9,Charlotte,NC,28202,US,1-704-555-108,avery.mehta@gmail.com,Phone,Separated,Noncitizen,Software Developer
+APL100009,Quinn,,Thomas,5/28/1989,4118 Autumn Lane,,Charlotte,NC,28202,US,1-704-555-109,quinn.thomas@yahoo.com,Phone,Separated,Noncitizen,Logistics Coordinator
+APL100010,Drew,Robin,Tesfaye,12/4/1975,7355 Hawthorne Street,,Charlotte,NC,28202,US,1-704-555-110,drew.tesfaye@gmail.com,Email,Unmarried,US Citizen,Accountant
+APL100011,Parker,,Li,8/31/1978,1123 Highland Road,,Charlotte,NC,28202,US,1-704-555-111,parker.li@yahoo.com,Email,Married,Noncitizen,Registered Nurse
+APL100012,Reese,Lee,Gomez,9/11/1978,912 Pine Avenue,Unit 13,Charlotte,NC,28202,US,1-704-555-112,reese.gomez@gmail.com,Phone,Unmarried,US Citizen,Teacher
+APL100013,Skyler,Sage,Klein,2/24/1998,519 Rosewood Place,,Charlotte,NC,28202,US,1-704-555-113,skyler.klein@yahoo.com,Mail,Married,US Citizen,Accountant
+APL100014,Rowan,Sage,Parker,4/12/1970,7770 Fox Run Lane,,Charlotte,NC,28202,US,1-704-555-114,rowan.parker@gmail.com,Phone,Separated,US Citizen,Mechanical Engineer
+APL100015,Dakota,,Baker,3/1/1983,7637 Pine Road,,Charlotte,NC,28202,US,1-704-555-115,dakota.baker@yahoo.com,Phone,Separated,Noncitizen,Data Analyst
+APL100016,Emerson,,Conti,10/15/1971,4989 Meadow Way,Unit 17,Charlotte,NC,28202,US,1-704-555-116,emerson.conti@gmail.com,Phone,Separated,Permanent Resident,Electrician
+APL100017,Finley,Robin,Tan,4/27/1991,2985 Walnut Place,,Charlotte,NC,28202,US,1-704-555-117,finley.tan@yahoo.com,Email,Unmarried,Permanent Resident,Operations Manager
+APL100018,Hayden,Blair,Yang,10/5/1994,5527 Fairview Lane,,Charlotte,NC,28202,US,1-704-555-118,hayden.yang@gmail.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100019,Kendall,Lee,Iyer,7/20/1969,1564 Elm Place,,Charlotte,NC,28202,US,1-704-555-119,kendall.iyer@yahoo.com,Phone,Unmarried,Permanent Resident,Operations Manager
+APL100020,Alex,Lee,Patel,2/27/1975,6137 Hickory Place,Unit 21,Charlotte,NC,28202,US,1-704-555-120,alex.patel@gmail.com,Phone,Separated,Noncitizen,Office Administrator
+APL100021,Jordan,,Banerjee,4/13/1980,1115 Glenwood Road,,Charlotte,NC,28202,US,1-704-555-121,jordan.banerjee@yahoo.com,Email,Unmarried,Permanent Resident,Electrician
+APL100022,Taylor,Blair,Mori,4/24/1979,9051 Brookside Avenue,,Charlotte,NC,28202,US,1-704-555-122,taylor.mori@gmail.com,Phone,Married,Permanent Resident,Project Manager
+APL100023,Morgan,,Lewandowski,7/17/1997,8473 Maple Drive,,Charlotte,NC,28202,US,1-704-555-123,morgan.lewandowski@yahoo.com,Email,Married,US Citizen,Sales Representative
+APL100024,Casey,Lee,Sun,5/24/1988,2907 Walnut Street,Unit 25,Charlotte,NC,28202,US,1-704-555-124,casey.sun@gmail.com,Mail,Unmarried,Permanent Resident,Logistics Coordinator
+APL100025,Riley,Blair,Kumar,5/8/1983,6183 Walnut Place,,Charlotte,NC,28202,US,1-704-555-125,riley.kumar@yahoo.com,Phone,Married,US Citizen,Office Administrator
+APL100026,Jamie,Robin,Lombardi,9/7/1975,2319 Fox Run Avenue,,Charlotte,NC,28202,US,1-704-555-126,jamie.lombardi@gmail.com,Email,Separated,Noncitizen,Mechanical Engineer
+APL100027,Cameron,Blair,Mitchell,11/7/1989,9317 Woodland Street,,Charlotte,NC,28202,US,1-704-555-127,cameron.mitchell@yahoo.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100028,Avery,Sage,Ferrari,12/12/1995,7867 Walnut Street,Unit 29,Charlotte,NC,28202,US,1-704-555-128,avery.ferrari@gmail.com,Mail,Unmarried,US Citizen,Operations Manager
+APL100029,Quinn,Lee,Choi,11/14/1980,675 Riverbend Road,,Charlotte,NC,28202,US,1-704-555-129,quinn.choi@yahoo.com,Mail,Unmarried,US Citizen,Software Developer
+APL100030,Drew,Sage,Yamada,7/11/1992,5233 Fairview Drive,,Charlotte,NC,28202,US,1-704-555-130,drew.yamada@gmail.com,Mail,Married,Permanent Resident,Electrician
+APL100031,Parker,Lee,Johnson,12/4/1996,8831 Laurel Lane,,Charlotte,NC,28202,US,1-704-555-131,parker.johnson@yahoo.com,Mail,Unmarried,US Citizen,Accountant
+APL100032,Reese,Blair,Takahashi,9/26/1979,675 Magnolia Road,Unit 3,Charlotte,NC,28202,US,1-704-555-132,reese.takahashi@gmail.com,Phone,Separated,Noncitizen,Registered Nurse
+APL100033,Skyler,Sage,Graham,11/23/2002,1762 Dogwood Road,,Charlotte,NC,28202,US,1-704-555-133,skyler.graham@yahoo.com,Mail,Unmarried,US Citizen,Mechanical Engineer
+APL100034,Rowan,Robin,Eriksson,8/8/1973,7703 Maple Court,,Charlotte,NC,28202,US,1-704-555-134,rowan.eriksson@gmail.com,Phone,Married,US Citizen,Teacher
+APL100035,Dakota,Sage,Tolentino,1/17/1975,5349 Rosewood Court,,Charlotte,NC,28202,US,1-704-555-135,dakota.tolentino@yahoo.com,Email,Married,Noncitizen,Teacher
+APL100036,Emerson,Robin,Nair,11/12/1993,3541 Woodland Drive,Unit 7,Charlotte,NC,28202,US,1-704-555-136,emerson.nair@gmail.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100037,Finley,Blair,Stewart,11/2/2005,4986 Oak Avenue,,Charlotte,NC,28202,US,1-704-555-137,finley.stewart@yahoo.com,Mail,Married,Noncitizen,Teacher
+APL100038,Hayden,Robin,Chan,12/11/1977,3964 Fairview Way,,Charlotte,NC,28202,US,1-704-555-138,hayden.chan@gmail.com,Mail,Unmarried,Noncitizen,Sales Representative
+APL100039,Kendall,Lee,Campbell,2/6/1996,8531 Walnut Street,,Charlotte,NC,28202,US,1-704-555-139,kendall.campbell@yahoo.com,Email,Married,Permanent Resident,Office Administrator
+APL100040,Alex,Lee,Thompson,8/10/1986,9762 Walnut Avenue,Unit 11,Charlotte,NC,28202,US,1-704-555-140,alex.thompson@gmail.com,Email,Separated,Permanent Resident,Registered Nurse
+APL100041,Jordan,Sage,Cameron,3/22/1995,2747 Ridgewood Lane,,Charlotte,NC,28202,US,1-704-555-141,jordan.cameron@yahoo.com,Phone,Married,Noncitizen,Registered Nurse
+APL100042,Taylor,Lee,Alvarez,9/8/1979,5722 Oak Way,,Charlotte,NC,28202,US,1-704-555-142,taylor.alvarez@gmail.com,Email,Married,Permanent Resident,Data Analyst
+APL100043,Morgan,Blair,Schmidt,1/30/1991,1700 Pine Lane,,Charlotte,NC,28202,US,1-704-555-143,morgan.schmidt@yahoo.com,Mail,Married,Noncitizen,Logistics Coordinator
+APL100044,Casey,Sage,Walsh,3/31/1987,436 Hawthorne Street,Unit 15,Charlotte,NC,28202,US,1-704-555-144,casey.walsh@gmail.com,Phone,Married,Noncitizen,Software Developer
+APL100045,Riley,Robin,Laurent,11/24/1992,5619 Springwood Place,,Charlotte,NC,28202,US,1-704-555-145,riley.laurent@yahoo.com,Phone,Unmarried,Permanent Resident,Operations Manager
+APL100046,Jamie,Blair,Rao,10/16/1983,797 Riverbend Drive,,Charlotte,NC,28202,US,1-704-555-146,jamie.rao@gmail.com,Phone,Married,Noncitizen,Electrician
+APL100047,Cameron,,Baker,11/25/1993,4368 Cypress Lane,,Charlotte,NC,28202,US,1-704-555-147,cameron.baker@yahoo.com,Phone,Separated,US Citizen,Operations Manager
+APL100048,Avery,,Michel,5/4/1997,1286 Laurel Road,Unit 19,Charlotte,NC,28202,US,1-704-555-148,avery.michel@gmail.com,Phone,Married,Permanent Resident,Electrician
+APL100049,Quinn,Blair,Gomez,1/24/1990,2952 Brookside Road,,Charlotte,NC,28202,US,1-704-555-149,quinn.gomez@yahoo.com,Phone,Separated,US Citizen,Electrician
+APL100050,Drew,Lee,Mahmoud,3/19/1975,4567 Sycamore Lane,,Charlotte,NC,28202,US,1-704-555-150,drew.mahmoud@gmail.com,Phone,Married,US Citizen,Mechanical Engineer
+APL100051,Parker,Robin,Brennan,6/14/1979,9897 Willow Road,,Charlotte,NC,28202,US,1-704-555-151,parker.brennan@yahoo.com,Phone,Married,US Citizen,Sales Representative
+APL100052,Reese,Robin,Fujita,7/17/1967,5467 Autumn Court,Unit 23,Charlotte,NC,28202,US,1-704-555-152,reese.fujita@gmail.com,Email,Unmarried,Permanent Resident,Accountant
+APL100053,Skyler,Lee,Ibrahim,6/29/1987,7047 Meadow Court,,Charlotte,NC,28202,US,1-704-555-153,skyler.ibrahim@yahoo.com,Email,Unmarried,Permanent Resident,Logistics Coordinator
+APL100054,Rowan,Lee,McCarthy,1/3/1975,6886 Riverbend Place,,Charlotte,NC,28202,US,1-704-555-154,rowan.mccarthy@gmail.com,Phone,Unmarried,US Citizen,Office Administrator
+APL100055,Dakota,Blair,Lefebvre,12/13/1995,3020 Autumn Court,,Charlotte,NC,28202,US,1-704-555-155,dakota.lefebvre@yahoo.com,Phone,Married,Noncitizen,Project Manager
+APL100056,Emerson,,Tang,6/29/1983,4764 Woodland Street,Unit 27,Charlotte,NC,28202,US,1-704-555-156,emerson.tang@gmail.com,Email,Separated,Permanent Resident,Registered Nurse
+APL100057,Finley,,DeLuca,8/7/1990,2403 Summerfield Avenue,,Charlotte,NC,28202,US,1-704-555-157,finley.deluca@yahoo.com,Phone,Separated,Permanent Resident,Office Administrator
+APL100058,Hayden,Lee,Fang,4/7/1981,873 Willow Place,,Charlotte,NC,28202,US,1-704-555-158,hayden.fang@gmail.com,Phone,Separated,US Citizen,Sales Representative
+APL100059,Kendall,Blair,Sato,2/5/1998,5127 Parkview Court,,Charlotte,NC,28202,US,1-704-555-159,kendall.sato@yahoo.com,Mail,Separated,Noncitizen,Teacher
+APL100060,Alex,Robin,Huynh,8/5/1994,6017 Laurel Place,Unit 1,Charlotte,NC,28202,US,1-704-555-160,alex.huynh@gmail.com,Email,Separated,Permanent Resident,Software Developer
+APL100061,Jordan,Sage,Vo,12/18/1975,9687 Cedar Avenue,,Charlotte,NC,28202,US,1-704-555-161,jordan.vo@yahoo.com,Phone,Separated,US Citizen,Software Developer
+APL100062,Taylor,Blair,Edwards,11/7/1980,6263 Magnolia Way,,Charlotte,NC,28202,US,1-704-555-162,taylor.edwards@gmail.com,Mail,Married,Permanent Resident,Electrician
+APL100063,Morgan,Sage,Novak,2/1/1977,8929 Riverbend Avenue,,Charlotte,NC,28202,US,1-704-555-163,morgan.novak@yahoo.com,Email,Unmarried,Permanent Resident,Accountant
+APL100064,Casey,Lee,Mercado,9/23/1984,6412 Woodland Street,Unit 5,Charlotte,NC,28202,US,1-704-555-164,casey.mercado@gmail.com,Mail,Unmarried,US Citizen,Teacher
+APL100065,Riley,Robin,Wagner,7/28/1986,358 Lakeview Court,,Charlotte,NC,28202,US,1-704-555-165,riley.wagner@yahoo.com,Phone,Separated,Noncitizen,Office Administrator
+APL100066,Jamie,Robin,Smirnov,9/23/1989,3209 Stonebridge Street,,Charlotte,NC,28202,US,1-704-555-166,jamie.smirnov@gmail.com,Phone,Separated,Permanent Resident,Logistics Coordinator
+APL100067,Cameron,Sage,Soriano,10/17/2003,931 Autumn Place,,Charlotte,NC,28202,US,1-704-555-167,cameron.soriano@yahoo.com,Email,Separated,Permanent Resident,Data Analyst
+APL100068,Avery,,Mansour,10/7/1997,3666 Windermere Way,Unit 9,Charlotte,NC,28202,US,1-704-555-168,avery.mansour@gmail.com,Phone,Unmarried,Noncitizen,Office Administrator
+APL100069,Quinn,Sage,Boateng,3/15/1988,2774 Willow Avenue,,Charlotte,NC,28202,US,1-704-555-169,quinn.boateng@yahoo.com,Phone,Married,Permanent Resident,Project Manager
+APL100070,Drew,Lee,Nielsen,11/6/1971,4950 Laurel Lane,,Charlotte,NC,28202,US,1-704-555-170,drew.nielsen@gmail.com,Phone,Separated,Permanent Resident,Electrician
+APL100071,Parker,Robin,Koh,9/3/1972,5782 Brookside Way,,Charlotte,NC,28202,US,1-704-555-171,parker.koh@yahoo.com,Email,Married,US Citizen,Accountant
+APL100072,Reese,Blair,Reddy,2/3/1976,7354 Rosewood Street,Unit 13,Charlotte,NC,28202,US,1-704-555-172,reese.reddy@gmail.com,Email,Unmarried,Noncitizen,Data Analyst
+APL100073,Skyler,Robin,Almeida,4/16/1994,9741 Laurel Lane,,Charlotte,NC,28202,US,1-704-555-173,skyler.almeida@yahoo.com,Mail,Separated,Permanent Resident,Logistics Coordinator
+APL100074,Rowan,,Abebe,4/9/1996,4242 Hickory Avenue,,Charlotte,NC,28202,US,1-704-555-174,rowan.abebe@gmail.com,Phone,Married,US Citizen,Software Developer
+APL100075,Dakota,Lee,Harris,7/8/1970,729 Laurel Lane,,Charlotte,NC,28202,US,1-704-555-175,dakota.harris@yahoo.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100076,Emerson,Lee,Bennett,1/25/1971,4005 Riverbend Avenue,Unit 17,Charlotte,NC,28202,US,1-704-555-176,emerson.bennett@gmail.com,Phone,Married,Permanent Resident,Data Analyst
+APL100077,Finley,Lee,Morales,5/25/1974,2934 Hickory Place,,Charlotte,NC,28202,US,1-704-555-177,finley.morales@yahoo.com,Mail,Separated,Noncitizen,Accountant
+APL100078,Hayden,Sage,Reyes,12/12/1980,4396 Magnolia Way,,Charlotte,NC,28202,US,1-704-555-178,hayden.reyes@gmail.com,Mail,Married,Noncitizen,Software Developer
+APL100079,Kendall,Blair,Siddiqui,3/22/1972,5133 Magnolia Avenue,,Charlotte,NC,28202,US,1-704-555-179,kendall.siddiqui@yahoo.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100080,Alex,Blair,Kapoor,12/25/1977,8973 Brookside Lane,Unit 21,Charlotte,NC,28202,US,1-704-555-180,alex.kapoor@gmail.com,Phone,Married,US Citizen,Mechanical Engineer
+APL100081,Jordan,,Dang,6/9/1981,5710 Magnolia Road,,Charlotte,NC,28202,US,1-704-555-181,jordan.dang@yahoo.com,Email,Unmarried,Permanent Resident,Electrician
+APL100082,Taylor,,Gonzalez,6/18/1973,2740 Riverbend Avenue,,Charlotte,NC,28202,US,1-704-555-182,taylor.gonzalez@gmail.com,Phone,Unmarried,Permanent Resident,Electrician
+APL100083,Morgan,,Chua,7/21/1974,3512 Fox Run Place,,Charlotte,NC,28202,US,1-704-555-183,morgan.chua@yahoo.com,Email,Married,Permanent Resident,Registered Nurse
+APL100084,Casey,Sage,Patel,5/14/1997,6079 Rosewood Avenue,Unit 25,Charlotte,NC,28202,US,1-704-555-184,casey.patel@gmail.com,Mail,Married,Permanent Resident,Registered Nurse
+APL100085,Riley,Sage,Okeke,2/28/2002,1894 Maple Way,,Charlotte,NC,28202,US,1-704-555-185,riley.okeke@yahoo.com,Phone,Unmarried,US Citizen,Teacher
+APL100086,Jamie,Blair,Zhao,8/8/1993,5487 Elm Drive,,Charlotte,NC,28202,US,1-704-555-186,jamie.zhao@gmail.com,Email,Unmarried,US Citizen,Logistics Coordinator
+APL100087,Cameron,Lee,Wong,7/8/1995,3193 Cypress Avenue,,Charlotte,NC,28202,US,1-704-555-187,cameron.wong@yahoo.com,Email,Separated,Noncitizen,Project Manager
+APL100088,Avery,Blair,Lee,6/12/1965,7153 Walnut Avenue,Unit 29,Charlotte,NC,28202,US,1-704-555-188,avery.lee@gmail.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100089,Quinn,,Vargas,4/2/1980,7329 Highland Street,,Charlotte,NC,28202,US,1-704-555-189,quinn.vargas@yahoo.com,Phone,Unmarried,Permanent Resident,Electrician
+APL100090,Drew,Lee,Tesfaye,8/25/1991,7920 Parkview Avenue,,Charlotte,NC,28202,US,1-704-555-190,drew.tesfaye2@gmail.com,Email,Married,US Citizen,Electrician
+APL100091,Parker,Robin,Pedersen,7/8/1987,713 Brookside Drive,,Charlotte,NC,28202,US,1-704-555-191,parker.pedersen@yahoo.com,Email,Unmarried,Noncitizen,Accountant
+APL100092,Reese,Blair,Schulz,8/26/1998,7659 Fox Run Drive,Unit 3,Charlotte,NC,28202,US,1-704-555-192,reese.schulz@gmail.com,Email,Married,Noncitizen,Accountant
+APL100093,Skyler,Lee,Rodriguez,6/10/1997,1297 Dogwood Court,,Charlotte,NC,28202,US,1-704-555-193,skyler.rodriguez@yahoo.com,Email,Married,Permanent Resident,Data Analyst
+APL100094,Rowan,Lee,Watanabe,6/1/1972,6047 Briarwood Place,,Charlotte,NC,28202,US,1-704-555-194,rowan.watanabe@gmail.com,Phone,Unmarried,Noncitizen,Data Analyst
+APL100095,Dakota,,Reddy,2/16/1975,998 Rosewood Avenue,,Charlotte,NC,28202,US,1-704-555-195,dakota.reddy@yahoo.com,Email,Separated,US Citizen,Software Developer
+APL100096,Emerson,,Osman,10/7/1996,3622 Stonebridge Drive,Unit 7,Charlotte,NC,28202,US,1-704-555-196,emerson.osman@gmail.com,Email,Unmarried,Noncitizen,Electrician
+APL100097,Finley,,Kim,11/25/1980,5871 Fox Run Drive,,Charlotte,NC,28202,US,1-704-555-197,finley.kim@yahoo.com,Mail,Married,US Citizen,Accountant
+APL100098,Hayden,Blair,Martinez,9/4/1992,8949 Oak Avenue,,Charlotte,NC,28202,US,1-704-555-198,hayden.martinez@gmail.com,Phone,Unmarried,US Citizen,Teacher
+APL100099,Kendall,Sage,Ho,9/4/1976,5971 Ridgewood Road,,Charlotte,NC,28202,US,1-704-555-199,kendall.ho@yahoo.com,Email,Unmarried,US Citizen,Teacher
+APL100100,Alex,Sage,Bekele,2/26/1985,2291 Oak Drive,Unit 11,Charlotte,NC,28202,US,1-704-555-100,alex.bekele@gmail.com,Phone,Separated,US Citizen,Office Administrator
+APL100101,Jordan,Lee,Svensson,7/8/1974,6556 Summerfield Place,,Charlotte,NC,28202,US,1-704-555-101,jordan.svensson@yahoo.com,Mail,Separated,US Citizen,Registered Nurse
+APL100102,Taylor,Robin,Do,3/26/1983,484 Walnut Drive,,Charlotte,NC,28202,US,1-704-555-102,taylor.do@gmail.com,Email,Separated,US Citizen,Mechanical Engineer
+APL100103,Morgan,Robin,Pereira,1/31/1997,5643 Fox Run Way,,Charlotte,NC,28202,US,1-704-555-103,morgan.pereira@yahoo.com,Phone,Separated,Noncitizen,Software Developer
+APL100104,Casey,Robin,Walker,1/27/1982,2554 Ridgewood Road,Unit 15,Charlotte,NC,28202,US,1-704-555-104,casey.walker@gmail.com,Phone,Married,Permanent Resident,Sales Representative
+APL100105,Riley,Sage,Pereira,12/12/1994,1374 Hickory Avenue,,Charlotte,NC,28202,US,1-704-555-105,riley.pereira@yahoo.com,Mail,Unmarried,Noncitizen,Electrician
+APL100106,Jamie,Blair,Braun,11/25/1997,9626 Magnolia Way,,Charlotte,NC,28202,US,1-704-555-106,jamie.braun@gmail.com,Phone,Married,Permanent Resident,Project Manager
+APL100107,Cameron,Lee,Chua,8/8/1996,9430 Hawthorne Drive,,Charlotte,NC,28202,US,1-704-555-107,cameron.chua@yahoo.com,Mail,Unmarried,Permanent Resident,Accountant
+APL100108,Avery,Blair,Ali,7/13/1993,973 Riverbend Court,Unit 19,Charlotte,NC,28202,US,1-704-555-108,avery.ali@gmail.com,Email,Separated,US Citizen,Sales Representative
+APL100109,Quinn,,Goh,9/27/1981,6177 Stonebridge Avenue,,Charlotte,NC,28202,US,1-704-555-109,quinn.goh@yahoo.com,Phone,Married,Permanent Resident,Office Administrator
+APL100110,Drew,Lee,Costa,11/30/1986,7512 Walnut Avenue,,Charlotte,NC,28202,US,1-704-555-110,drew.costa@gmail.com,Phone,Separated,Noncitizen,Accountant
+APL100111,Parker,Blair,Sousa,6/20/1987,323 Stonebridge Drive,,Charlotte,NC,28202,US,1-704-555-111,parker.sousa@yahoo.com,Phone,Married,Permanent Resident,Software Developer
+APL100112,Reese,,Mensah,5/28/1979,6192 Dogwood Place,Unit 23,Charlotte,NC,28202,US,1-704-555-112,reese.mensah@gmail.com,Mail,Unmarried,US Citizen,Data Analyst
+APL100113,Skyler,Robin,Vega,8/21/1976,7793 Fox Run Place,,Charlotte,NC,28202,US,1-704-555-113,skyler.vega@yahoo.com,Email,Separated,Permanent Resident,Registered Nurse
+APL100114,Rowan,Sage,Cho,2/21/1989,8249 Windermere Way,,Charlotte,NC,28202,US,1-704-555-114,rowan.cho@gmail.com,Mail,Unmarried,Noncitizen,Mechanical Engineer
+APL100115,Dakota,,Tse,12/5/1991,568 Autumn Drive,,Charlotte,NC,28202,US,1-704-555-115,dakota.tse@yahoo.com,Phone,Separated,US Citizen,Teacher
+APL100116,Emerson,Robin,Ferreira,12/10/1978,1882 Hickory Street,Unit 27,Miami,FL,33130,US,1-305-555-116,emerson.ferreira@gmail.com,Mail,Separated,Permanent Resident,Software Developer
+APL100117,Finley,Lee,Medina,12/23/1973,5154 Willow Avenue,,Miami,FL,33130,US,1-305-555-117,finley.medina@yahoo.com,Phone,Married,Permanent Resident,Operations Manager
+APL100118,Hayden,Lee,Liu,7/21/1978,4333 Sycamore Street,,Miami,FL,33130,US,1-305-555-118,hayden.liu@gmail.com,Email,Married,Permanent Resident,Mechanical Engineer
+APL100119,Kendall,,Popov,9/28/1981,2975 Riverbend Way,,Miami,FL,33130,US,1-305-555-119,kendall.popov@yahoo.com,Phone,Unmarried,US Citizen,Accountant
+APL100120,Alex,Robin,Owusu,7/7/1977,2334 Glenwood Court,Unit 1,Miami,FL,33130,US,1-305-555-120,alex.owusu@gmail.com,Mail,Unmarried,Noncitizen,Electrician
+APL100121,Jordan,Sage,Sharma,11/20/1974,2119 Lakeview Lane,,Miami,FL,33130,US,1-305-555-121,jordan.sharma@yahoo.com,Mail,Married,Permanent Resident,Software Developer
+APL100122,Taylor,Lee,Weber,5/13/1975,8678 Magnolia Street,,Miami,FL,33130,US,1-305-555-122,taylor.weber@gmail.com,Phone,Separated,Permanent Resident,Project Manager
+APL100123,Morgan,,Traore,9/25/1972,2243 Walnut Court,,Miami,FL,33130,US,1-305-555-123,morgan.traore@yahoo.com,Phone,Married,Permanent Resident,Sales Representative
+APL100124,Casey,Blair,Reed,5/28/1981,4470 Stonebridge Road,Unit 5,Miami,FL,33130,US,1-305-555-124,casey.reed@gmail.com,Phone,Unmarried,Permanent Resident,Office Administrator
+APL100125,Riley,Blair,Khalil,7/18/1978,7644 Summerfield Lane,,Miami,FL,33130,US,1-305-555-125,riley.khalil@yahoo.com,Mail,Married,US Citizen,Logistics Coordinator
+APL100126,Jamie,,Brooks,5/5/1981,4674 Glenwood Way,,Miami,FL,33130,US,1-305-555-126,jamie.brooks@gmail.com,Mail,Married,US Citizen,Project Manager
+APL100127,Cameron,Sage,Gonzalez,7/28/1996,8402 Dogwood Lane,,Miami,FL,33130,US,1-305-555-127,cameron.gonzalez@yahoo.com,Mail,Unmarried,Permanent Resident,Electrician
+APL100128,Avery,Robin,Carter,10/28/1974,7962 Cypress Place,Unit 9,Miami,FL,33130,US,1-305-555-128,avery.carter@gmail.com,Phone,Married,Permanent Resident,Accountant
+APL100129,Quinn,Blair,Navarro,9/8/1983,482 Meadow Road,,Miami,FL,33130,US,1-305-555-129,quinn.navarro@yahoo.com,Email,Separated,Permanent Resident,Software Developer
+APL100130,Drew,Lee,Valdez,2/11/1977,9726 Highland Drive,,Miami,FL,33130,US,1-305-555-130,drew.valdez@gmail.com,Mail,Separated,Noncitizen,Data Analyst
+APL100131,Parker,Sage,Okafor,6/6/1979,7223 Maple Street,,Miami,FL,33130,US,1-305-555-131,parker.okafor@yahoo.com,Mail,Unmarried,Permanent Resident,Data Analyst
+APL100132,Reese,Blair,Le,12/7/1975,1050 Sycamore Drive,Unit 13,Miami,FL,33130,US,1-305-555-132,reese.le@gmail.com,Email,Separated,Noncitizen,Operations Manager
+APL100133,Skyler,Lee,Andersen,6/24/1985,7172 Briarwood Place,,Miami,FL,33130,US,1-305-555-133,skyler.andersen@yahoo.com,Email,Unmarried,Permanent Resident,Software Developer
+APL100134,Rowan,Robin,Esposito,2/1/1979,4896 Walnut Place,,Miami,FL,33130,US,1-305-555-134,rowan.esposito@gmail.com,Phone,Unmarried,US Citizen,Mechanical Engineer
+APL100135,Dakota,Lee,Romano,6/22/1975,8402 Ridgewood Place,,Miami,FL,33130,US,1-305-555-135,dakota.romano@yahoo.com,Phone,Unmarried,Noncitizen,Office Administrator
+APL100136,Emerson,Blair,Tadesse,3/3/1983,7507 Woodland Court,Unit 17,Miami,FL,33130,US,1-305-555-136,emerson.tadesse@gmail.com,Mail,Separated,US Citizen,Data Analyst
+APL100137,Finley,Sage,Kang,6/12/1980,1369 Maple Street,,Miami,FL,33130,US,1-305-555-137,finley.kang@yahoo.com,Phone,Separated,Noncitizen,Logistics Coordinator
+APL100138,Hayden,Blair,Nguyen,5/27/1971,5201 Riverbend Lane,,Miami,FL,33130,US,1-305-555-138,hayden.nguyen@gmail.com,Email,Married,Permanent Resident,Logistics Coordinator
+APL100139,Kendall,,Nakamura,5/16/1984,4575 Pine Road,,Miami,FL,33130,US,1-305-555-139,kendall.nakamura@yahoo.com,Email,Unmarried,Permanent Resident,Logistics Coordinator
+APL100140,Alex,Lee,Ferguson,8/13/1997,2507 Autumn Road,Unit 21,Miami,FL,33130,US,1-305-555-140,alex.ferguson@gmail.com,Mail,Separated,Permanent Resident,Office Administrator
+APL100141,Jordan,Lee,Zhang,12/20/1973,4241 Brookside Way,,Miami,FL,33130,US,1-305-555-141,jordan.zhang@yahoo.com,Mail,Separated,Noncitizen,Registered Nurse
+APL100142,Taylor,Lee,Almeida,4/16/1973,2715 Hawthorne Avenue,,Miami,FL,33130,US,1-305-555-142,taylor.almeida@gmail.com,Email,Separated,Noncitizen,Accountant
+APL100143,Morgan,,Wisniewski,12/21/1987,5343 Dogwood Lane,,Miami,FL,33130,US,1-305-555-143,morgan.wisniewski@yahoo.com,Phone,Married,Permanent Resident,Logistics Coordinator
+APL100144,Casey,Sage,Mensah,10/8/1979,2951 Magnolia Court,Unit 25,Miami,FL,33130,US,1-305-555-144,casey.mensah@gmail.com,Phone,Unmarried,Noncitizen,Accountant
+APL100145,Riley,,Sharma,3/3/1985,189 Autumn Street,,Miami,FL,33130,US,1-305-555-145,riley.sharma@yahoo.com,Mail,Unmarried,Noncitizen,Logistics Coordinator
+APL100146,Jamie,,Ricci,2/12/1990,8565 Ridgewood Court,,Miami,FL,33130,US,1-305-555-146,jamie.ricci@gmail.com,Email,Separated,Noncitizen,Mechanical Engineer
+APL100147,Cameron,Blair,Yeo,11/28/1968,4571 Summerfield Street,,Miami,FL,33130,US,1-305-555-147,cameron.yeo@yahoo.com,Email,Married,Noncitizen,Accountant
+APL100148,Avery,Blair,Park,1/4/1992,5972 Hawthorne Lane,Unit 29,Miami,FL,33130,US,1-305-555-148,avery.park@gmail.com,Phone,Unmarried,US Citizen,Project Manager
+APL100149,Quinn,Blair,Suzuki,3/19/1992,3298 Lakeview Lane,,Miami,FL,33130,US,1-305-555-149,quinn.suzuki@yahoo.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100150,Drew,,Ryan,5/15/1988,149 Oak Street,,Miami,FL,33130,US,1-305-555-150,drew.ryan@gmail.com,Email,Separated,Permanent Resident,Accountant
+APL100151,Parker,,Sasaki,1/4/1984,1966 Woodland Drive,,Miami,FL,33130,US,1-305-555-151,parker.sasaki@yahoo.com,Email,Unmarried,Permanent Resident,Accountant
+APL100152,Reese,Lee,Zhao,8/26/1986,7638 Dogwood Drive,Unit 3,Miami,FL,33130,US,1-305-555-152,reese.zhao@gmail.com,Phone,Unmarried,Permanent Resident,Mechanical Engineer
+APL100153,Skyler,Lee,Chen,2/13/1996,9180 Fairview Place,,Miami,FL,33130,US,1-305-555-153,skyler.chen@yahoo.com,Phone,Married,US Citizen,Operations Manager
+APL100154,Rowan,Robin,Hoffmann,3/26/1968,4023 Maple Street,,Miami,FL,33130,US,1-305-555-154,rowan.hoffmann@gmail.com,Email,Unmarried,Permanent Resident,Logistics Coordinator
+APL100155,Dakota,,Anderson,2/13/1977,9008 Elm Street,,Miami,FL,33130,US,1-305-555-155,dakota.anderson@yahoo.com,Mail,Married,Permanent Resident,Mechanical Engineer
+APL100156,Emerson,,Khan,2/11/1983,1248 Oak Road,Unit 7,Miami,FL,33130,US,1-305-555-156,emerson.khan@gmail.com,Mail,Separated,US Citizen,Data Analyst
+APL100157,Finley,,Adebayo,9/27/1996,6479 Laurel Avenue,,Miami,FL,33130,US,1-305-555-157,finley.adebayo@yahoo.com,Email,Separated,US Citizen,Teacher
+APL100158,Hayden,Robin,Murphy,6/27/1980,7712 Meadow Place,,Miami,FL,33130,US,1-305-555-158,hayden.murphy@gmail.com,Mail,Unmarried,US Citizen,Logistics Coordinator
+APL100159,Kendall,,Seo,8/10/1994,8679 Willow Street,,Miami,FL,33130,US,1-305-555-159,kendall.seo@yahoo.com,Phone,Unmarried,Permanent Resident,Office Administrator
+APL100160,Alex,Blair,Lee,4/9/1994,3771 Rosewood Place,Unit 11,Miami,FL,33130,US,1-305-555-160,alex.lee@gmail.com,Email,Separated,Permanent Resident,Software Developer
+APL100161,Jordan,Robin,Doyle,7/6/1980,7681 Autumn Street,,Miami,FL,33130,US,1-305-555-161,jordan.doyle@yahoo.com,Email,Separated,Permanent Resident,Teacher
+APL100162,Taylor,Robin,Nowak,3/9/1974,666 Oak Drive,,Miami,FL,33130,US,1-305-555-162,taylor.nowak@gmail.com,Phone,Separated,US Citizen,Mechanical Engineer
+APL100163,Morgan,Robin,Dela-Cruz,2/16/2002,339 Cedar Place,,Miami,FL,33130,US,1-305-555-163,morgan.delacruz@yahoo.com,Email,Married,Noncitizen,Software Developer
+APL100164,Casey,Lee,Morgan,6/15/1977,3552 Briarwood Court,Unit 15,Miami,FL,33130,US,1-305-555-164,casey.morgan@gmail.com,Phone,Unmarried,Permanent Resident,Office Administrator
+APL100165,Riley,Lee,Gupta,8/7/1981,4377 Summerfield Lane,,Miami,FL,33130,US,1-305-555-165,riley.gupta@yahoo.com,Phone,Separated,Noncitizen,Operations Manager
+APL100166,Jamie,Sage,Dahl,9/6/1997,6654 Walnut Place,,Miami,FL,33130,US,1-305-555-166,jamie.dahl@gmail.com,Email,Unmarried,Noncitizen,Accountant
+APL100167,Cameron,Lee,Torres,8/6/1980,1712 Springwood Drive,,Miami,FL,33130,US,1-305-555-167,cameron.torres@yahoo.com,Mail,Separated,Noncitizen,Project Manager
+APL100168,Avery,Lee,Henderson,8/16/1995,7584 Maple Avenue,Unit 19,Miami,FL,33130,US,1-305-555-168,avery.henderson@gmail.com,Mail,Married,Noncitizen,Electrician
+APL100169,Quinn,,Tadesse,8/29/1995,3633 Dogwood Place,,Miami,FL,33130,US,1-305-555-169,quinn.tadesse@yahoo.com,Mail,Unmarried,Noncitizen,Teacher
+APL100170,Drew,Lee,Osei,6/4/1995,3748 Brookside Way,,Miami,FL,33130,US,1-305-555-170,drew.osei@gmail.com,Phone,Unmarried,Permanent Resident,Logistics Coordinator
+APL100171,Parker,Blair,Ito,6/16/1995,7737 Autumn Lane,,Miami,FL,33130,US,1-305-555-171,parker.ito@yahoo.com,Email,Married,Noncitizen,Data Analyst
+APL100172,Reese,Blair,Cheung,6/24/1997,2975 Cypress Drive,Unit 23,Miami,FL,33130,US,1-305-555-172,reese.cheung@gmail.com,Phone,Married,Noncitizen,Mechanical Engineer
+APL100173,Skyler,Blair,Gupta,1/9/1988,7849 Briarwood Road,,Miami,FL,33130,US,1-305-555-173,skyler.gupta@yahoo.com,Phone,Unmarried,US Citizen,Project Manager
+APL100174,Rowan,Blair,Sokolov,9/19/1994,3125 Dogwood Place,,Miami,FL,33130,US,1-305-555-174,rowan.sokolov@gmail.com,Mail,Separated,US Citizen,Accountant
+APL100175,Dakota,Sage,Chen,8/25/1996,5025 Oak Court,,Miami,FL,33130,US,1-305-555-175,dakota.chen@yahoo.com,Phone,Married,Permanent Resident,Electrician
+APL100176,Emerson,Robin,Lund,11/29/1973,7204 Cypress Way,Unit 27,Miami,FL,33130,US,1-305-555-176,emerson.lund@gmail.com,Email,Unmarried,Permanent Resident,Project Manager
+APL100177,Finley,Blair,Cruz,11/25/1976,3521 Oak Road,,Miami,FL,33130,US,1-305-555-177,finley.cruz@yahoo.com,Mail,Married,Permanent Resident,Logistics Coordinator
+APL100178,Hayden,Sage,Lin,12/25/1989,5152 Woodland Lane,,Miami,FL,33130,US,1-305-555-178,hayden.lin@gmail.com,Phone,Unmarried,US Citizen,Mechanical Engineer
+APL100179,Kendall,Lee,Rahman,4/20/1988,9019 Stonebridge Road,,Miami,FL,33130,US,1-305-555-179,kendall.rahman@yahoo.com,Phone,Separated,Permanent Resident,Logistics Coordinator
+APL100180,Alex,Lee,Sow,8/16/1982,3686 Elm Drive,Unit 1,Miami,FL,33130,US,1-305-555-180,alex.sow@gmail.com,Email,Unmarried,Noncitizen,Mechanical Engineer
+APL100181,Jordan,Sage,Alvarez,7/12/1997,8054 Hawthorne Way,,Miami,FL,33130,US,1-305-555-181,jordan.alvarez@yahoo.com,Phone,Separated,Permanent Resident,Teacher
+APL100182,Taylor,Sage,Iyer,5/24/1992,5117 Ridgewood Way,,Miami,FL,33130,US,1-305-555-182,taylor.iyer@gmail.com,Phone,Unmarried,US Citizen,Software Developer
+APL100183,Morgan,Blair,Torres,6/26/1981,523 Highland Street,,Miami,FL,33130,US,1-305-555-183,morgan.torres@yahoo.com,Mail,Unmarried,US Citizen,Data Analyst
+APL100184,Casey,Sage,Lau,4/9/1978,2856 Willow Avenue,Unit 5,Miami,FL,33130,US,1-305-555-184,casey.lau@gmail.com,Phone,Separated,Permanent Resident,Software Developer
+APL100185,Riley,Robin,Zhang,2/12/1998,9544 Oak Drive,,Miami,FL,33130,US,1-305-555-185,riley.zhang@yahoo.com,Mail,Separated,Noncitizen,Mechanical Engineer
+APL100186,Jamie,Lee,Adebayo,6/25/1989,6136 Glenwood Road,,Miami,FL,33130,US,1-305-555-186,jamie.adebayo@gmail.com,Phone,Married,US Citizen,Registered Nurse
+APL100187,Cameron,,Turner,5/4/1994,7588 Cedar Court,,Miami,FL,33130,US,1-305-555-187,cameron.turner@yahoo.com,Phone,Separated,US Citizen,Sales Representative
+APL100188,Avery,Lee,Lindberg,4/3/1985,8056 Laurel Place,Unit 9,Miami,FL,33130,US,1-305-555-188,avery.lindberg@gmail.com,Email,Separated,Noncitizen,Operations Manager
+APL100189,Quinn,,Wallace,6/16/1986,4505 Cedar Court,,Miami,FL,33130,US,1-305-555-189,quinn.wallace@yahoo.com,Mail,Unmarried,US Citizen,Electrician
+APL100190,Drew,Robin,Zielinski,4/26/1999,9663 Elm Court,,Miami,FL,33130,US,1-305-555-190,drew.zielinski@gmail.com,Phone,Married,US Citizen,Sales Representative
+APL100191,Parker,,Hernandez,4/6/1983,8960 Riverbend Road,,Miami,FL,33130,US,1-305-555-191,parker.hernandez@yahoo.com,Mail,Married,US Citizen,Project Manager
+APL100192,Reese,Blair,Hansen,7/4/1969,8049 Elm Street,Unit 13,Miami,FL,33130,US,1-305-555-192,reese.hansen@gmail.com,Mail,Separated,US Citizen,Sales Representative
+APL100193,Skyler,Blair,Yamamoto,6/1/1981,8657 Highland Road,,Miami,FL,33130,US,1-305-555-193,skyler.yamamoto@yahoo.com,Phone,Unmarried,US Citizen,Logistics Coordinator
+APL100194,Rowan,,Das,12/28/1978,7804 Maple Way,,Miami,FL,33130,US,1-305-555-194,rowan.das@gmail.com,Phone,Married,Noncitizen,Data Analyst
+APL100195,Dakota,,Farah,4/19/1991,5198 Springwood Place,,Miami,FL,33130,US,1-305-555-195,dakota.farah@yahoo.com,Email,Separated,Permanent Resident,Mechanical Engineer
+APL100196,Emerson,Lee,Zhou,8/24/1970,443 Autumn Avenue,Unit 17,Miami,FL,33130,US,1-305-555-196,emerson.zhou@gmail.com,Mail,Unmarried,Permanent Resident,Operations Manager
+APL100197,Finley,Blair,Farooq,3/17/1998,5967 Walnut Place,,Miami,FL,33130,US,1-305-555-197,finley.farooq@yahoo.com,Phone,Married,Permanent Resident,Data Analyst
+APL100198,Hayden,,Wang,1/24/1994,1972 Glenwood Road,,Miami,FL,33130,US,1-305-555-198,hayden.wang@gmail.com,Phone,Married,Noncitizen,Accountant
+APL100199,Kendall,Robin,Sheikh,9/7/1998,7980 Magnolia Court,,Miami,FL,33130,US,1-305-555-199,kendall.sheikh@yahoo.com,Mail,Married,US Citizen,Accountant
+APL100200,Alex,Lee,Collins,2/21/1993,1612 Woodland Drive,Unit 21,Miami,FL,33130,US,1-305-555-100,alex.collins@gmail.com,Mail,Separated,Permanent Resident,Teacher
+APL100201,Jordan,Sage,Carter,12/12/1986,1185 Springwood Court,,Miami,FL,33130,US,1-305-555-101,jordan.carter@yahoo.com,Mail,Married,Noncitizen,Operations Manager
+APL100202,Taylor,Lee,Yang,4/18/2003,1064 Willow Way,,Miami,FL,33130,US,1-305-555-102,taylor.yang@gmail.com,Mail,Unmarried,Noncitizen,Operations Manager
+APL100203,Morgan,Blair,Shah,10/24/1972,1770 Stonebridge Street,,Miami,FL,33130,US,1-305-555-103,morgan.shah@yahoo.com,Phone,Unmarried,Noncitizen,Accountant
+APL100204,Casey,,Njoroge,7/15/1982,4058 Oak Street,Unit 25,Miami,FL,33130,US,1-305-555-104,casey.njoroge@gmail.com,Phone,Unmarried,Permanent Resident,Accountant
+APL100205,Riley,Lee,Banerjee,10/6/1982,4991 Hickory Road,,Miami,FL,33130,US,1-305-555-105,riley.banerjee@yahoo.com,Mail,Married,Permanent Resident,Accountant
+APL100206,Jamie,,Abe,5/31/1994,3684 Brookside Street,,Miami,FL,33130,US,1-305-555-106,jamie.abe@gmail.com,Phone,Married,Permanent Resident,Operations Manager
+APL100207,Cameron,Blair,Lim,7/1/1985,9774 Briarwood Drive,,Miami,FL,33130,US,1-305-555-107,cameron.lim@yahoo.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100208,Avery,,Tanaka,7/1/1976,1299 Walnut Street,Unit 29,Miami,FL,33130,US,1-305-555-108,avery.tanaka@gmail.com,Email,Unmarried,US Citizen,Office Administrator
+APL100209,Quinn,,Wilson,12/1/1976,8639 Windermere Road,,Miami,FL,33130,US,1-305-555-109,quinn.wilson@yahoo.com,Phone,Separated,US Citizen,Logistics Coordinator
+APL100210,Drew,Robin,Lam,4/18/1972,6483 Oak Drive,,Miami,FL,33130,US,1-305-555-110,drew.lam@gmail.com,Phone,Separated,US Citizen,Operations Manager
+APL100211,Parker,Robin,Reyes,5/19/1984,8118 Maple Avenue,,Miami,FL,33130,US,1-305-555-111,parker.reyes@yahoo.com,Phone,Separated,US Citizen,Office Administrator
+APL100212,Reese,,Clark,1/1/2001,4495 Hawthorne Place,Unit 3,Miami,FL,33130,US,1-305-555-112,reese.clark@gmail.com,Mail,Separated,Permanent Resident,Accountant
+APL100213,Skyler,Sage,Thompson,6/17/1972,1555 Windermere Avenue,,Miami,FL,33130,US,1-305-555-113,skyler.thompson@yahoo.com,Email,Married,Noncitizen,Registered Nurse
+APL100214,Rowan,Robin,Diop,7/15/1984,4516 Meadow Way,,Miami,FL,33130,US,1-305-555-114,rowan.diop@gmail.com,Phone,Married,Noncitizen,Project Manager
+APL100215,Dakota,Blair,Takahashi,10/21/1990,3815 Meadow Drive,,Miami,FL,33130,US,1-305-555-115,dakota.takahashi@yahoo.com,Mail,Separated,Permanent Resident,Software Developer
+APL100216,Emerson,Blair,Teo,3/17/1987,647 Summerfield Drive,Unit 7,Miami,FL,33130,US,1-305-555-116,emerson.teo@gmail.com,Email,Separated,Permanent Resident,Operations Manager
+APL100217,Finley,Robin,Gallagher,6/21/1968,3813 Sycamore Way,,Miami,FL,33130,US,1-305-555-117,finley.gallagher@yahoo.com,Mail,Separated,Noncitizen,Operations Manager
+APL100218,Hayden,Lee,Salazar,12/20/1990,2387 Willow Place,,Miami,FL,33130,US,1-305-555-118,hayden.salazar@gmail.com,Email,Married,Permanent Resident,Office Administrator
+APL100219,Kendall,,Russo,4/8/1977,5422 Elm Lane,,Miami,FL,33130,US,1-305-555-119,kendall.russo@yahoo.com,Phone,Married,Noncitizen,Project Manager
+APL100220,Alex,Blair,Nair,12/4/1976,127 Summerfield Way,Unit 11,Miami,FL,33130,US,1-305-555-120,alex.nair@gmail.com,Email,Married,Permanent Resident,Accountant
+APL100221,Jordan,Lee,Carvalho,8/4/1992,2661 Sycamore Road,,Miami,FL,33130,US,1-305-555-121,jordan.carvalho@yahoo.com,Email,Unmarried,Permanent Resident,Data Analyst
+APL100222,Taylor,Robin,Koch,12/10/1999,7160 Windermere Street,,Miami,FL,33130,US,1-305-555-122,taylor.koch@gmail.com,Mail,Married,Noncitizen,Accountant
+APL100223,Morgan,,Ortiz,9/12/1981,9804 Fairview Street,,Miami,FL,33130,US,1-305-555-123,morgan.ortiz@yahoo.com,Phone,Separated,Permanent Resident,Sales Representative
+APL100224,Casey,Lee,Castillo,1/8/1994,9385 Hawthorne Street,Unit 15,Miami,FL,33130,US,1-305-555-124,casey.castillo@gmail.com,Mail,Unmarried,Permanent Resident,Data Analyst
+APL100225,Riley,,Johnson,12/14/1971,8068 Highland Court,,Miami,FL,33130,US,1-305-555-125,riley.johnson@yahoo.com,Mail,Married,Permanent Resident,Operations Manager
+APL100226,Jamie,Sage,Dubois,7/13/1985,3925 Woodland Street,,Miami,FL,33130,US,1-305-555-126,jamie.dubois@gmail.com,Email,Unmarried,Noncitizen,Electrician
+APL100227,Cameron,Sage,Cho,12/15/1968,1997 Springwood Drive,,Miami,FL,33130,US,1-305-555-127,cameron.cho@yahoo.com,Phone,Married,Permanent Resident,Logistics Coordinator
+APL100228,Avery,Robin,Jensen,12/28/1986,6454 Windermere Way,Unit 19,Miami,FL,33130,US,1-305-555-128,avery.jensen@gmail.com,Mail,Married,US Citizen,Software Developer
+APL100229,Quinn,Robin,Foster,2/27/1994,3879 Oak Avenue,,Miami,FL,33130,US,1-305-555-129,quinn.foster@yahoo.com,Phone,Married,Noncitizen,Registered Nurse
+APL100230,Drew,Sage,Goh,11/24/1974,860 Summerfield Court,,Miami,FL,33130,US,1-305-555-130,drew.goh@gmail.com,Mail,Married,Permanent Resident,Office Administrator
+APL100231,Parker,Blair,Vargas,10/4/1973,3662 Oak Place,,Miami,FL,33130,US,1-305-555-131,parker.vargas@yahoo.com,Email,Separated,US Citizen,Software Developer
+APL100232,Reese,,Ivanov,10/8/1996,4073 Cypress Drive,Unit 23,Miami,FL,33130,US,1-305-555-132,reese.ivanov@gmail.com,Mail,Separated,Noncitizen,Teacher
+APL100233,Skyler,Lee,Rossi,11/3/1978,6021 Oak Road,,Miami,FL,33130,US,1-305-555-133,skyler.rossi@yahoo.com,Phone,Married,Permanent Resident,Project Manager
+APL100234,Rowan,Blair,Kumar,7/31/1994,6979 Glenwood Road,,Miami,FL,33130,US,1-305-555-134,rowan.kumar@gmail.com,Email,Separated,Noncitizen,Sales Representative
+APL100235,Dakota,,Tang,9/12/1976,9233 Briarwood Court,,Miami,FL,33130,US,1-305-555-135,dakota.tang@yahoo.com,Mail,Unmarried,Permanent Resident,Accountant
+APL100236,Emerson,Lee,Chan,2/14/1982,9228 Highland Way,Unit 27,Miami,FL,33130,US,1-305-555-136,emerson.chan@gmail.com,Phone,Unmarried,US Citizen,Registered Nurse
+APL100237,Finley,Sage,Yoon,6/15/1991,4569 Brookside Place,,Miami,FL,33130,US,1-305-555-137,finley.yoon@yahoo.com,Mail,Unmarried,Permanent Resident,Operations Manager
+APL100238,Hayden,Lee,Joshi,3/26/1978,7611 Summerfield Street,,Miami,FL,33130,US,1-305-555-138,hayden.joshi@gmail.com,Email,Separated,US Citizen,Data Analyst
+APL100239,Kendall,,Njoroge,6/5/1983,2336 Oak Drive,,Charlotte,NC,28202,US,1-704-555-139,kendall.njoroge@yahoo.com,Mail,Unmarried,US Citizen,Office Administrator
+APL100240,Alex,Sage,Sow,12/22/1988,9826 Oak Road,Unit 1,Charlotte,NC,28202,US,1-704-555-140,alex.sow2@gmail.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100241,Jordan,,Walker,1/6/1986,477 Walnut Avenue,,Charlotte,NC,28202,US,1-704-555-141,jordan.walker@yahoo.com,Phone,Unmarried,Permanent Resident,Electrician
+APL100242,Taylor,Sage,Zhou,9/22/1978,5453 Brookside Street,,Charlotte,NC,28202,US,1-704-555-142,taylor.zhou@gmail.com,Phone,Married,US Citizen,Accountant
+APL100243,Morgan,Robin,Richter,3/24/1974,6641 Meadow Street,,Charlotte,NC,28202,US,1-704-555-143,morgan.richter@yahoo.com,Phone,Separated,Permanent Resident,Logistics Coordinator
+APL100244,Casey,Lee,Asante,6/13/1991,8275 Stonebridge Avenue,Unit 5,Charlotte,NC,28202,US,1-704-555-144,casey.asante@gmail.com,Email,Unmarried,Noncitizen,Accountant
+APL100245,Riley,Lee,Li,10/11/1972,1974 Glenwood Drive,,Charlotte,NC,28202,US,1-704-555-145,riley.li@yahoo.com,Phone,Married,Permanent Resident,Teacher
+APL100246,Jamie,Sage,Brooks,11/18/1985,4112 Elm Drive,,Charlotte,NC,28202,US,1-704-555-146,jamie.brooks2@gmail.com,Email,Unmarried,Noncitizen,Registered Nurse
+APL100247,Cameron,Sage,Desai,5/3/1981,2762 Walnut Way,,Charlotte,NC,28202,US,1-704-555-147,cameron.desai@yahoo.com,Phone,Married,Permanent Resident,Operations Manager
+APL100248,Avery,Blair,Diallo,8/7/1977,7359 Autumn Drive,Unit 9,Charlotte,NC,28202,US,1-704-555-148,avery.diallo@gmail.com,Phone,Separated,Permanent Resident,Software Developer
+APL100249,Quinn,Robin,Watanabe,8/28/1973,6602 Cypress Way,,Charlotte,NC,28202,US,1-704-555-149,quinn.watanabe@yahoo.com,Email,Unmarried,Noncitizen,Office Administrator
+APL100250,Drew,Sage,Hughes,10/24/1988,6517 Ridgewood Street,,Charlotte,NC,28202,US,1-704-555-150,drew.hughes@gmail.com,Phone,Married,US Citizen,Software Developer
+APL100251,Parker,,Yusuf,5/17/2001,6147 Autumn Avenue,,Charlotte,NC,28202,US,1-704-555-151,parker.yusuf@yahoo.com,Email,Married,Noncitizen,Logistics Coordinator
+APL100252,Reese,Lee,Flores,11/20/1968,9703 Cedar Road,Unit 13,Charlotte,NC,28202,US,1-704-555-152,reese.flores@gmail.com,Phone,Unmarried,US Citizen,Data Analyst
+APL100253,Skyler,,Ito,6/14/1986,3052 Fairview Court,,Charlotte,NC,28202,US,1-704-555-153,skyler.ito@yahoo.com,Phone,Unmarried,US Citizen,Software Developer
+APL100254,Rowan,Sage,Suzuki,12/14/1976,8349 Briarwood Court,,Charlotte,NC,28202,US,1-704-555-154,rowan.suzuki@gmail.com,Email,Unmarried,Permanent Resident,Data Analyst
+APL100255,Dakota,,Wolf,9/13/1983,1240 Briarwood Avenue,,Charlotte,NC,28202,US,1-704-555-155,dakota.wolf@yahoo.com,Phone,Separated,Noncitizen,Software Developer
+APL100256,Emerson,Blair,Reynolds,6/4/1981,2749 Woodland Avenue,Unit 17,Charlotte,NC,28202,US,1-704-555-156,emerson.reynolds@gmail.com,Phone,Married,Noncitizen,Office Administrator
+APL100257,Finley,,McDonald,9/9/1974,1756 Ridgewood Place,,Charlotte,NC,28202,US,1-704-555-157,finley.mcdonald@yahoo.com,Mail,Unmarried,US Citizen,Teacher
+APL100258,Hayden,Robin,Oliveira,2/2/1990,2259 Dogwood Place,,Charlotte,NC,28202,US,1-704-555-158,hayden.oliveira@gmail.com,Phone,Separated,Noncitizen,Registered Nurse
+APL100259,Kendall,Lee,Diallo,2/28/1974,2257 Willow Avenue,,Charlotte,NC,28202,US,1-704-555-159,kendall.diallo@yahoo.com,Phone,Unmarried,Permanent Resident,Operations Manager
+APL100260,Alex,Sage,Zhu,1/10/1975,4318 Oak Avenue,Unit 21,Charlotte,NC,28202,US,1-704-555-160,alex.zhu@gmail.com,Mail,Unmarried,US Citizen,Accountant
+APL100261,Jordan,Sage,Santos,7/31/1975,2525 Hawthorne Street,,Charlotte,NC,28202,US,1-704-555-161,jordan.santos@yahoo.com,Email,Unmarried,US Citizen,Project Manager
+APL100262,Taylor,Sage,Lopez,9/4/1983,5751 Autumn Road,,Charlotte,NC,28202,US,1-704-555-162,taylor.lopez@gmail.com,Mail,Separated,Noncitizen,Logistics Coordinator
+APL100263,Morgan,Lee,Do,10/31/1981,8050 Brookside Drive,,Charlotte,NC,28202,US,1-704-555-163,morgan.do@yahoo.com,Email,Separated,US Citizen,Registered Nurse
+APL100264,Casey,Sage,Fontaine,11/23/1980,3575 Pine Place,Unit 25,Charlotte,NC,28202,US,1-704-555-164,casey.fontaine@gmail.com,Email,Unmarried,US Citizen,Project Manager
+APL100265,Riley,Robin,Santiago,9/16/2000,7448 Autumn Avenue,,Charlotte,NC,28202,US,1-704-555-165,riley.santiago@yahoo.com,Mail,Separated,Noncitizen,Sales Representative
+APL100266,Jamie,Robin,Scott,3/12/1991,7870 Fox Run Avenue,,Charlotte,NC,28202,US,1-704-555-166,jamie.scott@gmail.com,Email,Unmarried,US Citizen,Data Analyst
+APL100267,Cameron,Robin,Lim,4/17/1989,6118 Cedar Lane,,Charlotte,NC,28202,US,1-704-555-167,cameron.lim2@yahoo.com,Mail,Unmarried,US Citizen,Logistics Coordinator
+APL100268,Avery,Sage,Castillo,2/10/1980,9731 Cypress Place,Unit 29,Charlotte,NC,28202,US,1-704-555-168,avery.castillo@gmail.com,Mail,Unmarried,Permanent Resident,Office Administrator
+APL100269,Quinn,Sage,Choi,5/22/1984,304 Brookside Lane,,Charlotte,NC,28202,US,1-704-555-169,quinn.choi2@yahoo.com,Phone,Married,Permanent Resident,Operations Manager
+APL100270,Drew,,Martin,3/2/1993,8330 Brookside Court,,Charlotte,NC,28202,US,1-704-555-170,drew.martin@gmail.com,Phone,Separated,US Citizen,Operations Manager
+APL100271,Parker,Robin,Farouk,11/15/1970,4274 Oak Way,,Charlotte,NC,28202,US,1-704-555-171,parker.farouk@yahoo.com,Phone,Married,Permanent Resident,Sales Representative
+APL100272,Reese,Sage,Mendoza,7/27/1974,2091 Glenwood Road,Unit 3,Charlotte,NC,28202,US,1-704-555-172,reese.mendoza@gmail.com,Mail,Unmarried,Noncitizen,Electrician
+APL100273,Skyler,Lee,Chandra,8/1/1990,3015 Oak Avenue,,Charlotte,NC,28202,US,1-704-555-173,skyler.chandra@yahoo.com,Email,Separated,US Citizen,Project Manager
+APL100274,Rowan,Blair,Seo,11/22/1988,4202 Laurel Drive,,Charlotte,NC,28202,US,1-704-555-174,rowan.seo@gmail.com,Mail,Married,Noncitizen,Registered Nurse
+APL100275,Dakota,,Cheung,12/21/1990,2743 Fox Run Lane,,Charlotte,NC,28202,US,1-704-555-175,dakota.cheung@yahoo.com,Email,Unmarried,US Citizen,Software Developer
+APL100276,Emerson,Blair,Evans,2/15/1982,2139 Parkview Place,Unit 7,Charlotte,NC,28202,US,1-704-555-176,emerson.evans@gmail.com,Email,Separated,US Citizen,Accountant
+APL100277,Finley,Lee,Cruz,10/15/1986,5736 Elm Lane,,Charlotte,NC,28202,US,1-704-555-177,finley.cruz2@yahoo.com,Email,Married,Noncitizen,Operations Manager
+APL100278,Hayden,Sage,Ong,10/19/1990,2724 Laurel Court,,Charlotte,NC,28202,US,1-704-555-178,hayden.ong@gmail.com,Phone,Married,US Citizen,Mechanical Engineer
+APL100279,Kendall,Blair,Ramirez,8/6/2000,2545 Dogwood Street,,Charlotte,NC,28202,US,1-704-555-179,kendall.ramirez@yahoo.com,Email,Married,Noncitizen,Data Analyst
+APL100280,Alex,Lee,Williams,9/25/1987,4008 Fox Run Place,Unit 11,Charlotte,NC,28202,US,1-704-555-180,alex.williams@gmail.com,Email,Separated,Noncitizen,Operations Manager
+APL100281,Jordan,,Campbell,4/2/1973,5020 Hawthorne Avenue,,Charlotte,NC,28202,US,1-704-555-181,jordan.campbell@yahoo.com,Email,Married,US Citizen,Mechanical Engineer
+APL100282,Taylor,Lee,Vega,12/18/1991,2728 Sycamore Way,,Charlotte,NC,28202,US,1-704-555-182,taylor.vega@gmail.com,Phone,Separated,Permanent Resident,Sales Representative
+APL100283,Morgan,Sage,Kamau,12/23/1973,2700 Highland Drive,,Charlotte,NC,28202,US,1-704-555-183,morgan.kamau@yahoo.com,Mail,Separated,Permanent Resident,Office Administrator
+APL100284,Casey,,Wang,9/27/1995,7130 Woodland Way,Unit 15,Charlotte,NC,28202,US,1-704-555-184,casey.wang@gmail.com,Email,Separated,Noncitizen,Accountant
+APL100285,Riley,Blair,Foster,11/27/1982,5820 Brookside Court,,Charlotte,NC,28202,US,1-704-555-185,riley.foster@yahoo.com,Mail,Married,US Citizen,Operations Manager
+APL100286,Jamie,Robin,Rojas,7/15/1999,3555 Meadow Street,,Charlotte,NC,28202,US,1-704-555-186,jamie.rojas@gmail.com,Mail,Married,US Citizen,Accountant
+APL100287,Cameron,Blair,Malik,11/2/1988,3841 Meadow Court,,Charlotte,NC,28202,US,1-704-555-187,cameron.malik@yahoo.com,Email,Unmarried,US Citizen,Data Analyst
+APL100288,Avery,Sage,Singh,3/24/1969,3853 Brookside Lane,Unit 19,Charlotte,NC,28202,US,1-704-555-188,avery.singh@gmail.com,Mail,Separated,Noncitizen,Software Developer
+APL100289,Quinn,Lee,Haddad,10/31/1978,3086 Pine Place,,Charlotte,NC,28202,US,1-704-555-189,quinn.haddad@yahoo.com,Mail,Married,Permanent Resident,Data Analyst
+APL100290,Drew,Sage,Bernard,11/3/1991,206 Elm Street,,Charlotte,NC,28202,US,1-704-555-190,drew.bernard@gmail.com,Phone,Separated,Permanent Resident,Office Administrator
+APL100291,Parker,Blair,Bose,10/12/1984,4588 Rosewood Place,,Charlotte,NC,28202,US,1-704-555-191,parker.bose@yahoo.com,Email,Unmarried,US Citizen,Operations Manager
+APL100292,Reese,,Nguyen,11/12/1982,2424 Dogwood Way,Unit 23,Charlotte,NC,28202,US,1-704-555-192,reese.nguyen@gmail.com,Email,Married,Permanent Resident,Office Administrator
+APL100293,Skyler,Lee,Bautista,6/25/1988,3414 Maple Court,,Charlotte,NC,28202,US,1-704-555-193,skyler.bautista@yahoo.com,Phone,Unmarried,Noncitizen,Registered Nurse
+APL100294,Rowan,Sage,Wong,12/18/1992,6456 Windermere Court,,Charlotte,NC,28202,US,1-704-555-194,rowan.wong@gmail.com,Email,Married,Permanent Resident,Electrician
+APL100295,Dakota,Blair,Delgado,4/5/1983,2429 Hawthorne Avenue,,Charlotte,NC,28202,US,1-704-555-195,dakota.delgado@yahoo.com,Phone,Separated,Permanent Resident,Electrician
+APL100296,Emerson,Robin,Ahmed,9/13/1978,3452 Cedar Place,Unit 27,Charlotte,NC,28202,US,1-704-555-196,emerson.ahmed@gmail.com,Phone,Separated,Noncitizen,Electrician
+APL100297,Finley,Blair,Malhotra,5/4/1988,7153 Summerfield Avenue,,Charlotte,NC,28202,US,1-704-555-197,finley.malhotra@yahoo.com,Email,Unmarried,US Citizen,Electrician
+APL100298,Hayden,Lee,Bianchi,7/27/1968,7217 Laurel Court,,Charlotte,NC,28202,US,1-704-555-198,hayden.bianchi@gmail.com,Mail,Separated,US Citizen,Accountant
+APL100299,Kendall,Blair,O’Connor,10/15/1976,8313 Parkview Way,,Charlotte,NC,28202,US,1-704-555-199,kendall.oconnor@yahoo.com,Mail,Separated,Noncitizen,Mechanical Engineer
+APL100300,Alex,Blair,Bennett,1/7/1974,5872 Hickory Avenue,Unit 1,Charlotte,NC,28202,US,1-704-555-100,alex.bennett@gmail.com,Email,Separated,Permanent Resident,Project Manager
+APL100301,Jordan,Lee,Reynolds,9/3/1988,9521 Springwood Way,,Charlotte,NC,28202,US,1-704-555-101,jordan.reynolds@yahoo.com,Mail,Unmarried,US Citizen,Operations Manager
+APL100302,Taylor,Blair,O’Brien,8/29/1985,3164 Hawthorne Way,,Charlotte,NC,28202,US,1-704-555-102,taylor.obrien@gmail.com,Mail,Unmarried,US Citizen,Sales Representative
+APL100303,Morgan,Sage,Desai,11/17/1991,6607 Hawthorne Road,,Charlotte,NC,28202,US,1-704-555-103,morgan.desai@yahoo.com,Email,Married,US Citizen,Operations Manager
+APL100304,Casey,Lee,Chandra,1/26/1985,9763 Glenwood Court,Unit 5,Charlotte,NC,28202,US,1-704-555-104,casey.chandra@gmail.com,Email,Separated,US Citizen,Electrician
+APL100305,Riley,Robin,Clark,8/18/1974,1946 Oak Avenue,,Charlotte,NC,28202,US,1-704-555-105,riley.clark@yahoo.com,Mail,Married,Permanent Resident,Software Developer
+APL100306,Jamie,,Hoang,10/2/1979,3790 Willow Avenue,,Charlotte,NC,28202,US,1-704-555-106,jamie.hoang@gmail.com,Email,Unmarried,Permanent Resident,Project Manager
+APL100307,Cameron,Robin,Rao,6/8/1985,2840 Hawthorne Avenue,,Charlotte,NC,28202,US,1-704-555-107,cameron.rao@yahoo.com,Email,Separated,US Citizen,Office Administrator
+APL100308,Avery,Robin,Shah,10/29/1979,6338 Maple Road,Unit 9,Charlotte,NC,28202,US,1-704-555-108,avery.shah@gmail.com,Phone,Separated,Permanent Resident,Mechanical Engineer
+APL100309,Quinn,Sage,Mehta,7/21/1997,9363 Magnolia Avenue,,Charlotte,NC,28202,US,1-704-555-109,quinn.mehta@yahoo.com,Phone,Separated,Noncitizen,Data Analyst
+APL100310,Drew,Blair,Lopez,6/27/1998,7562 Stonebridge Way,,Charlotte,NC,28202,US,1-704-555-110,drew.lopez@gmail.com,Phone,Separated,Permanent Resident,Data Analyst
+APL100311,Parker,Blair,Huynh,1/16/1971,8990 Riverbend Way,,Charlotte,NC,28202,US,1-704-555-111,parker.huynh@yahoo.com,Phone,Married,US Citizen,Sales Representative
+APL100312,Reese,Sage,Kapoor,6/19/1990,257 Briarwood Avenue,Unit 13,Charlotte,NC,28202,US,1-704-555-112,reese.kapoor@gmail.com,Mail,Separated,Noncitizen,Project Manager
+APL100313,Skyler,Robin,Diop,11/30/1982,3991 Magnolia Lane,,Charlotte,NC,28202,US,1-704-555-113,skyler.diop@yahoo.com,Mail,Unmarried,Permanent Resident,Teacher
+APL100314,Rowan,Robin,Nasser,11/5/1988,3477 Glenwood Avenue,,Charlotte,NC,28202,US,1-704-555-114,rowan.nasser@gmail.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100315,Dakota,Robin,Zheng,9/15/1979,1839 Hawthorne Road,,Charlotte,NC,28202,US,1-704-555-115,dakota.zheng@yahoo.com,Email,Married,Noncitizen,Data Analyst
+APL100316,Emerson,,Anderson,4/29/1989,5535 Riverbend Place,Unit 17,Charlotte,NC,28202,US,1-704-555-116,emerson.anderson@gmail.com,Email,Married,US Citizen,Sales Representative
+APL100317,Finley,Sage,Roux,4/25/1969,4659 Magnolia Road,,Charlotte,NC,28202,US,1-704-555-117,finley.roux@yahoo.com,Mail,Married,Permanent Resident,Data Analyst
+APL100318,Hayden,Lee,De-Guzman,4/3/1992,2429 Highland Avenue,,Charlotte,NC,28202,US,1-704-555-118,hayden.deguzman@gmail.com,Phone,Separated,Noncitizen,Registered Nurse
+APL100319,Kendall,Robin,Asante,10/26/1968,747 Fox Run Avenue,,Charlotte,NC,28202,US,1-704-555-119,kendall.asante@yahoo.com,Phone,Separated,Noncitizen,Operations Manager
+APL100320,Alex,Lee,Edwards,4/10/1974,4037 Parkview Drive,Unit 21,Charlotte,NC,28202,US,1-704-555-120,alex.edwards@gmail.com,Email,Separated,Permanent Resident,Electrician
+APL100321,Jordan,,Silva,7/16/1973,894 Walnut Court,,Charlotte,NC,28202,US,1-704-555-121,jordan.silva@yahoo.com,Email,Unmarried,Permanent Resident,Operations Manager
+APL100322,Taylor,,Adeyemi,8/17/1985,3299 Fox Run Way,,Charlotte,NC,28202,US,1-704-555-122,taylor.adeyemi@gmail.com,Phone,Separated,Noncitizen,Operations Manager
+APL100323,Morgan,Lee,Lam,11/27/1974,4890 Hickory Way,,Charlotte,NC,28202,US,1-704-555-123,morgan.lam@yahoo.com,Phone,Married,Permanent Resident,Sales Representative
+APL100324,Casey,,Yeo,2/27/1974,4546 Stonebridge Way,Unit 25,Charlotte,NC,28202,US,1-704-555-124,casey.yeo@gmail.com,Phone,Unmarried,Permanent Resident,Project Manager
+APL100325,Riley,Blair,Medina,11/28/2003,6071 Highland Avenue,,Charlotte,NC,28202,US,1-704-555-125,riley.medina@yahoo.com,Mail,Separated,Permanent Resident,Office Administrator
+APL100326,Jamie,Blair,Adams,4/15/1974,7911 Meadow Street,,Charlotte,NC,28202,US,1-704-555-126,jamie.adams@gmail.com,Phone,Separated,Permanent Resident,Mechanical Engineer
+APL100327,Cameron,Sage,Nakamura,9/7/1972,3154 Windermere Drive,,Charlotte,NC,28202,US,1-704-555-127,cameron.nakamura@yahoo.com,Mail,Separated,Permanent Resident,Mechanical Engineer
+APL100328,Avery,Robin,Sullivan,4/19/1995,1478 Brookside Court,Unit 29,Charlotte,NC,28202,US,1-704-555-128,avery.sullivan@gmail.com,Email,Separated,US Citizen,Software Developer
+APL100329,Quinn,Lee,Joshi,11/27/1991,7319 Riverbend Lane,,Charlotte,NC,28202,US,1-704-555-129,quinn.joshi@yahoo.com,Email,Unmarried,Noncitizen,Data Analyst
+APL100330,Drew,Robin,Ramirez,4/9/1987,5347 Rosewood Road,,Charlotte,NC,28202,US,1-704-555-130,drew.ramirez@gmail.com,Mail,Separated,Noncitizen,Teacher
+APL100331,Parker,Robin,Salazar,11/8/1983,5301 Summerfield Avenue,,Charlotte,NC,28202,US,1-704-555-131,parker.salazar@yahoo.com,Mail,Unmarried,US Citizen,Data Analyst
+APL100332,Reese,Sage,Mwangi,12/21/1981,8677 Fox Run Drive,Unit 3,Charlotte,NC,28202,US,1-704-555-132,reese.mwangi@gmail.com,Mail,Married,Permanent Resident,Registered Nurse
+APL100333,Skyler,Lee,Saleh,7/19/1980,963 Windermere Drive,,Charlotte,NC,28202,US,1-704-555-133,skyler.saleh@yahoo.com,Mail,Married,Permanent Resident,Sales Representative
+APL100334,Rowan,Lee,Kato,7/25/1987,3834 Lakeview Place,,Charlotte,NC,28202,US,1-704-555-134,rowan.kato@gmail.com,Mail,Married,US Citizen,Mechanical Engineer
+APL100335,Dakota,Blair,Lau,5/12/2002,5402 Walnut Way,,Charlotte,NC,28202,US,1-704-555-135,dakota.lau@yahoo.com,Email,Separated,Permanent Resident,Mechanical Engineer
+APL100336,Emerson,,Schneider,5/6/1988,4113 Elm Way,Unit 7,Charlotte,NC,28202,US,1-704-555-136,emerson.schneider@gmail.com,Phone,Unmarried,Noncitizen,Electrician
+APL100337,Finley,,Murray,7/30/2001,5540 Fairview Road,,Charlotte,NC,28202,US,1-704-555-137,finley.murray@yahoo.com,Email,Unmarried,Permanent Resident,Electrician
+APL100338,Hayden,Sage,Le,2/7/1971,1413 Fairview Lane,,Charlotte,NC,28202,US,1-704-555-138,hayden.le@gmail.com,Email,Separated,US Citizen,Data Analyst
+APL100339,Kendall,Lee,Hayes,3/30/1988,3221 Fairview Road,,Charlotte,NC,28202,US,1-704-555-139,kendall.hayes@yahoo.com,Mail,Married,Permanent Resident,Data Analyst
+APL100340,Alex,Lee,Morales,6/24/1968,1958 Fairview Court,Unit 11,Charlotte,NC,28202,US,1-704-555-140,alex.morales@gmail.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100341,Jordan,,Villanueva,6/29/1979,4838 Cedar Place,,Charlotte,NC,28202,US,1-704-555-141,jordan.villanueva@yahoo.com,Email,Married,US Citizen,Electrician
+APL100342,Taylor,,Rivera,9/20/1981,9796 Magnolia Drive,,Charlotte,NC,28202,US,1-704-555-142,taylor.rivera@gmail.com,Phone,Married,Noncitizen,Data Analyst
+APL100343,Morgan,Lee,Reed,4/5/1976,4547 Lakeview Way,,Charlotte,NC,28202,US,1-704-555-143,morgan.reed@yahoo.com,Phone,Separated,US Citizen,Operations Manager
+APL100344,Casey,,Williams,10/9/1983,5581 Rosewood Court,Unit 15,Charlotte,NC,28202,US,1-704-555-144,casey.williams@gmail.com,Email,Unmarried,Permanent Resident,Accountant
+APL100345,Riley,Robin,Nelson,2/18/1986,9478 Laurel Road,,Charlotte,NC,28202,US,1-704-555-145,riley.nelson@yahoo.com,Phone,Separated,Permanent Resident,Electrician
+APL100346,Jamie,Blair,Bekele,3/20/1971,5096 Magnolia Way,,Charlotte,NC,28202,US,1-704-555-146,jamie.bekele@gmail.com,Mail,Married,US Citizen,Data Analyst
+APL100347,Cameron,,Menon,7/26/2001,7465 Laurel Way,,Charlotte,NC,28202,US,1-704-555-147,cameron.menon@yahoo.com,Mail,Unmarried,US Citizen,Teacher
+APL100348,Avery,Lee,Kowalski,12/31/1990,2633 Glenwood Place,Unit 19,Charlotte,NC,28202,US,1-704-555-148,avery.kowalski@gmail.com,Mail,Separated,Permanent Resident,Operations Manager
+APL100349,Quinn,Lee,Navarro,8/30/1998,1908 Dogwood Drive,,Charlotte,NC,28202,US,1-704-555-149,quinn.navarro2@yahoo.com,Phone,Unmarried,Permanent Resident,Project Manager
+APL100350,Drew,Lee,Dang,11/5/1992,8896 Pine Place,,Charlotte,NC,28202,US,1-704-555-150,drew.dang@gmail.com,Mail,Married,US Citizen,Office Administrator
+APL100351,Parker,Lee,Guerrero,12/5/1999,4509 Woodland Street,,Charlotte,NC,28202,US,1-704-555-151,parker.guerrero@yahoo.com,Mail,Unmarried,Noncitizen,Teacher
+APL100352,Reese,Blair,Fraser,9/21/1972,8774 Sycamore Road,Unit 23,Charlotte,NC,28202,US,1-704-555-152,reese.fraser@gmail.com,Mail,Separated,US Citizen,Accountant
+APL100353,Skyler,Robin,Fischer,5/31/1992,500 Dogwood Drive,,Charlotte,NC,28202,US,1-704-555-153,skyler.fischer@yahoo.com,Email,Unmarried,US Citizen,Project Manager
+APL100354,Rowan,Robin,Okeke,1/6/1969,4259 Cypress Drive,,Charlotte,NC,28202,US,1-704-555-154,rowan.okeke@gmail.com,Email,Married,Noncitizen,Mechanical Engineer
+APL100355,Dakota,Robin,Silva,4/9/1995,4239 Rosewood Street,,Charlotte,NC,28202,US,1-704-555-155,dakota.silva@yahoo.com,Phone,Separated,Permanent Resident,Sales Representative
+APL100356,Emerson,Lee,Davis,7/29/1989,6293 Sycamore Way,Unit 27,Charlotte,NC,28202,US,1-704-555-156,emerson.davis@gmail.com,Email,Married,Noncitizen,Sales Representative
+APL100357,Finley,Sage,Boateng,2/1/1968,6419 Riverbend Lane,,Charlotte,NC,28202,US,1-704-555-157,finley.boateng@yahoo.com,Mail,Separated,Noncitizen,Logistics Coordinator
+APL100358,Hayden,Blair,Owusu,10/4/1978,1875 Woodland Way,,Charlotte,NC,28202,US,1-704-555-158,hayden.owusu@gmail.com,Phone,Unmarried,Permanent Resident,Electrician
+APL100359,Kendall,Lee,Rodriguez,10/24/1976,9588 Oak Drive,,Charlotte,NC,28202,US,1-704-555-159,kendall.rodriguez@yahoo.com,Phone,Separated,Permanent Resident,Mechanical Engineer
+APL100360,Alex,,Kuznetsov,8/11/1993,6112 Rosewood Place,Unit 1,Charlotte,NC,28202,US,1-704-555-160,alex.kuznetsov@gmail.com,Mail,Unmarried,Permanent Resident,Software Developer
+APL100361,Jordan,Lee,Hoang,10/28/1976,201 Rosewood Court,,Charlotte,NC,28202,US,1-704-555-161,jordan.hoang@yahoo.com,Mail,Unmarried,Permanent Resident,Software Developer
+APL100362,Taylor,Sage,Aquino,12/14/1977,586 Hawthorne Road,,Charlotte,NC,28202,US,1-704-555-162,taylor.aquino@gmail.com,Email,Separated,Permanent Resident,Registered Nurse
+APL100363,Morgan,Blair,Singh,12/20/1983,5008 Highland Court,,Charlotte,NC,28202,US,1-704-555-163,morgan.singh@yahoo.com,Mail,Married,Permanent Resident,Operations Manager
+APL100364,Casey,Sage,Tan,1/14/1982,5140 Briarwood Avenue,Unit 5,Charlotte,NC,28202,US,1-704-555-164,casey.tan@gmail.com,Email,Separated,Noncitizen,Electrician
+APL100365,Riley,Blair,Yamada,4/6/1987,6431 Ridgewood Drive,,Charlotte,NC,28202,US,1-704-555-165,riley.yamada@yahoo.com,Email,Separated,Noncitizen,Operations Manager
+APL100366,Jamie,Sage,Larsen,1/11/1971,1636 Cedar Drive,,Charlotte,NC,28202,US,1-704-555-166,jamie.larsen@gmail.com,Email,Separated,Permanent Resident,Accountant
+APL100367,Cameron,Sage,Greco,10/24/1988,1743 Glenwood Road,,Charlotte,NC,28202,US,1-704-555-167,cameron.greco@yahoo.com,Phone,Separated,US Citizen,Logistics Coordinator
+APL100368,Avery,Robin,Delgado,2/15/1980,768 Dogwood Way,Unit 9,Dallas,TX,75201,US,1-214-555-168,avery.delgado@gmail.com,Email,Unmarried,Noncitizen,Electrician
+APL100369,Quinn,Sage,Robinson,5/27/1992,6069 Hawthorne Lane,,Dallas,TX,75201,US,1-214-555-169,quinn.robinson@yahoo.com,Email,Unmarried,Permanent Resident,Software Developer
+APL100370,Drew,Robin,Fujita,10/29/1989,819 Fairview Way,,Dallas,TX,75201,US,1-214-555-170,drew.fujita@gmail.com,Email,Married,US Citizen,Accountant
+APL100371,Parker,Lee,Zhu,2/11/1977,7954 Sycamore Lane,,Dallas,TX,75201,US,1-214-555-171,parker.zhu@yahoo.com,Email,Separated,US Citizen,Teacher
+APL100372,Reese,Sage,Tran,8/18/1975,943 Autumn Avenue,Unit 13,Dallas,TX,75201,US,1-214-555-172,reese.tran@gmail.com,Mail,Married,Noncitizen,Electrician
+APL100373,Skyler,Blair,Sasaki,4/23/1981,2048 Springwood Road,,Dallas,TX,75201,US,1-214-555-173,skyler.sasaki@yahoo.com,Phone,Unmarried,US Citizen,Data Analyst
+APL100374,Rowan,Blair,Bui,5/3/1972,2724 Summerfield Lane,,Dallas,TX,75201,US,1-214-555-174,rowan.bui@gmail.com,Email,Married,Noncitizen,Software Developer
+APL100375,Dakota,,Oliveira,2/8/1986,7559 Highland Court,,Dallas,TX,75201,US,1-214-555-175,dakota.oliveira@yahoo.com,Phone,Separated,US Citizen,Logistics Coordinator
+APL100376,Emerson,Lee,Osei,4/29/1984,1517 Briarwood Court,Unit 17,Dallas,TX,75201,US,1-214-555-176,emerson.osei@gmail.com,Phone,Married,US Citizen,Operations Manager
+APL100377,Finley,,Kang,5/23/1979,8642 Lakeview Lane,,Dallas,TX,75201,US,1-214-555-177,finley.kang2@yahoo.com,Email,Married,Permanent Resident,Operations Manager
+APL100378,Hayden,Blair,Kobayashi,10/14/1978,8450 Cypress Lane,,Dallas,TX,75201,US,1-214-555-178,hayden.kobayashi@gmail.com,Mail,Married,Permanent Resident,Operations Manager
+APL100379,Kendall,Blair,Traore,8/19/1984,4961 Laurel Place,,Dallas,TX,75201,US,1-214-555-179,kendall.traore@yahoo.com,Mail,Separated,Permanent Resident,Project Manager
+APL100380,Alex,Blair,Sousa,5/28/1969,4943 Willow Lane,Unit 21,Dallas,TX,75201,US,1-214-555-180,alex.sousa@gmail.com,Mail,Married,US Citizen,Mechanical Engineer
+APL100381,Jordan,Lee,Petit,12/1/1975,5930 Rosewood Drive,,Dallas,TX,75201,US,1-214-555-181,jordan.petit@yahoo.com,Email,Unmarried,US Citizen,Sales Representative
+APL100382,Taylor,Robin,Moreau,5/25/1974,2105 Fox Run Road,,Dallas,TX,75201,US,1-214-555-182,taylor.moreau@gmail.com,Mail,Married,US Citizen,Project Manager
+APL100383,Morgan,Sage,Guerrero,1/18/1984,2367 Hickory Road,,Dallas,TX,75201,US,1-214-555-183,morgan.guerrero@yahoo.com,Mail,Separated,Noncitizen,Sales Representative
+APL100384,Casey,Sage,Henderson,9/2/1971,3973 Meadow Road,Unit 25,Dallas,TX,75201,US,1-214-555-184,casey.henderson@gmail.com,Mail,Separated,Noncitizen,Mechanical Engineer
+APL100385,Riley,Robin,Petrov,11/23/1972,1133 Springwood Court,,Dallas,TX,75201,US,1-214-555-185,riley.petrov@yahoo.com,Email,Unmarried,Permanent Resident,Electrician
+APL100386,Jamie,Robin,Sun,5/7/1973,3132 Walnut Avenue,,Dallas,TX,75201,US,1-214-555-186,jamie.sun@gmail.com,Email,Separated,Noncitizen,Software Developer
+APL100387,Cameron,,Hussein,6/30/1994,7625 Hawthorne Avenue,,Dallas,TX,75201,US,1-214-555-187,cameron.hussein@yahoo.com,Mail,Married,Noncitizen,Office Administrator
+APL100388,Avery,Sage,Berg,3/22/1983,3282 Summerfield Place,Unit 29,Dallas,TX,75201,US,1-214-555-188,avery.berg@gmail.com,Mail,Married,Noncitizen,Registered Nurse
+APL100389,Quinn,Blair,Qureshi,7/16/1981,2034 Riverbend Lane,,Dallas,TX,75201,US,1-214-555-189,quinn.qureshi@yahoo.com,Phone,Separated,US Citizen,Logistics Coordinator
+APL100390,Drew,Robin,Bose,8/18/1972,1591 Sycamore Drive,,Dallas,TX,75201,US,1-214-555-190,drew.bose@gmail.com,Phone,Unmarried,Permanent Resident,Office Administrator
+APL100391,Parker,,Parker,1/16/1975,1902 Sycamore Drive,,Dallas,TX,75201,US,1-214-555-191,parker.parker@yahoo.com,Phone,Married,Permanent Resident,Sales Representative
+APL100392,Reese,Lee,Mori,4/19/1975,4298 Dogwood Street,Unit 3,Dallas,TX,75201,US,1-214-555-192,reese.mori@gmail.com,Phone,Separated,Permanent Resident,Accountant
+APL100393,Skyler,,Romero,5/16/1972,6666 Glenwood Drive,,Dallas,TX,75201,US,1-214-555-193,skyler.romero@yahoo.com,Email,Unmarried,US Citizen,Accountant
+APL100394,Rowan,Robin,Pham,7/14/1977,4776 Lakeview Drive,,Dallas,TX,75201,US,1-214-555-194,rowan.pham@gmail.com,Mail,Separated,Permanent Resident,Operations Manager
+APL100395,Dakota,Robin,Costa,10/9/1974,3902 Elm Place,,Dallas,TX,75201,US,1-214-555-195,dakota.costa@yahoo.com,Phone,Unmarried,Noncitizen,Registered Nurse
+APL100396,Emerson,Sage,Carvalho,9/12/1979,6012 Rosewood Road,Unit 7,Dallas,TX,75201,US,1-214-555-196,emerson.carvalho@gmail.com,Phone,Married,Permanent Resident,Operations Manager
+APL100397,Finley,Lee,Aziz,9/8/1978,5614 Cypress Drive,,Dallas,TX,75201,US,1-214-555-197,finley.aziz@yahoo.com,Email,Unmarried,Noncitizen,Sales Representative
+APL100398,Hayden,Blair,Fang,10/16/1972,1188 Pine Court,,Dallas,TX,75201,US,1-214-555-198,hayden.fang2@gmail.com,Email,Separated,Permanent Resident,Software Developer
+APL100399,Kendall,,Santos,11/16/1980,6786 Riverbend Court,,Dallas,TX,75201,US,1-214-555-199,kendall.santos@yahoo.com,Phone,Unmarried,Permanent Resident,Office Administrator
+APL100400,Alex,,Ong,12/21/1982,3332 Oak Court,Unit 11,Dallas,TX,75201,US,1-214-555-100,alex.ong@gmail.com,Email,Married,US Citizen,Mechanical Engineer
+APL100401,Jordan,Blair,Pascual,10/17/1974,2520 Fox Run Court,,Dallas,TX,75201,US,1-214-555-101,jordan.pascual@yahoo.com,Phone,Married,Permanent Resident,Project Manager
+APL100402,Taylor,Robin,Pham,9/15/1993,1153 Sycamore Way,,Dallas,TX,75201,US,1-214-555-102,taylor.pham@gmail.com,Phone,Separated,US Citizen,Operations Manager
+APL100403,Morgan,,Douglas,7/14/1981,1205 Hawthorne Street,,Dallas,TX,75201,US,1-214-555-103,morgan.douglas@yahoo.com,Mail,Separated,US Citizen,Data Analyst
+APL100404,Casey,,Leroy,7/25/1989,5229 Dogwood Street,Unit 15,Dallas,TX,75201,US,1-214-555-104,casey.leroy@gmail.com,Phone,Separated,Permanent Resident,Project Manager
+APL100405,Riley,Robin,Graham,6/3/1983,9091 Fox Run Drive,,Dallas,TX,75201,US,1-214-555-105,riley.graham@yahoo.com,Email,Unmarried,Permanent Resident,Teacher
+APL100406,Jamie,,Chevalier,1/15/2000,1447 Fairview Lane,,Dallas,TX,75201,US,1-214-555-106,jamie.chevalier@gmail.com,Mail,Separated,US Citizen,Teacher
+APL100407,Cameron,Robin,Jung,9/20/1991,5524 Summerfield Place,,Dallas,TX,75201,US,1-214-555-107,cameron.jung@yahoo.com,Phone,Separated,Permanent Resident,Sales Representative
+APL100408,Avery,Sage,Das,1/18/1977,9020 Oak Drive,Unit 19,Dallas,TX,75201,US,1-214-555-108,avery.das@gmail.com,Mail,Separated,Permanent Resident,Teacher
+APL100409,Quinn,,Sinclair,12/12/1974,2318 Riverbend Road,,Dallas,TX,75201,US,1-214-555-109,quinn.sinclair@yahoo.com,Mail,Married,Noncitizen,Software Developer
+APL100410,Drew,Sage,Zheng,11/17/1972,175 Hickory Court,,Dallas,TX,75201,US,1-214-555-110,drew.zheng@gmail.com,Email,Separated,US Citizen,Teacher
+APL100411,Parker,Robin,Robinson,6/26/1983,5633 Cedar Avenue,,Dallas,TX,75201,US,1-214-555-111,parker.robinson@yahoo.com,Mail,Married,Noncitizen,Operations Manager
+APL100412,Reese,,Kelly,8/20/1992,762 Glenwood Drive,Unit 23,Dallas,TX,75201,US,1-214-555-112,reese.kelly@gmail.com,Mail,Unmarried,Noncitizen,Registered Nurse
+APL100413,Skyler,Blair,Vo,8/4/1994,794 Summerfield Lane,,Dallas,TX,75201,US,1-214-555-113,skyler.vo@yahoo.com,Phone,Married,Permanent Resident,Logistics Coordinator
+APL100414,Rowan,,Garcia,4/24/1973,7492 Hickory Way,,Dallas,TX,75201,US,1-214-555-114,rowan.garcia@gmail.com,Mail,Married,US Citizen,Mechanical Engineer
+APL100415,Dakota,Blair,Ferreira,9/17/1990,7628 Pine Way,,Dallas,TX,75201,US,1-214-555-115,dakota.ferreira@yahoo.com,Mail,Married,Permanent Resident,Registered Nurse
+APL100416,Emerson,Blair,Rojas,9/15/1980,9227 Fox Run Way,Unit 27,Dallas,TX,75201,US,1-214-555-116,emerson.rojas@gmail.com,Mail,Unmarried,US Citizen,Operations Manager
+APL100417,Finley,Sage,Tanaka,1/25/1991,2185 Parkview Way,,Dallas,TX,75201,US,1-214-555-117,finley.tanaka@yahoo.com,Mail,Separated,US Citizen,Software Developer
+APL100418,Hayden,,Yamamoto,6/26/1984,6503 Maple Road,,Dallas,TX,75201,US,1-214-555-118,hayden.yamamoto@gmail.com,Phone,Separated,US Citizen,Data Analyst
+APL100419,Kendall,Lee,Moretti,3/1/1986,4338 Dogwood Place,,Dallas,TX,75201,US,1-214-555-119,kendall.moretti@yahoo.com,Email,Separated,US Citizen,Operations Manager
+APL100420,Alex,Robin,Martinez,1/26/1971,1719 Willow Court,Unit 1,Dallas,TX,75201,US,1-214-555-120,alex.martinez@gmail.com,Phone,Unmarried,Permanent Resident,Mechanical Engineer
+APL100421,Jordan,Blair,Mwangi,5/17/1978,3714 Cypress Lane,,Dallas,TX,75201,US,1-214-555-121,jordan.mwangi@yahoo.com,Email,Married,Permanent Resident,Teacher
+APL100422,Taylor,Blair,Evans,9/26/1980,4632 Laurel Place,,Dallas,TX,75201,US,1-214-555-122,taylor.evans@gmail.com,Mail,Married,Permanent Resident,Sales Representative
+APL100423,Morgan,Robin,Davis,6/6/1991,5929 Willow Place,,Dallas,TX,75201,US,1-214-555-123,morgan.davis@yahoo.com,Mail,Unmarried,US Citizen,Electrician
+APL100424,Casey,Robin,Menon,11/28/1985,5850 Stonebridge Road,Unit 5,Dallas,TX,75201,US,1-214-555-124,casey.menon@gmail.com,Mail,Unmarried,Noncitizen,Data Analyst
+APL100425,Riley,Lee,Morozov,12/19/1970,2727 Ridgewood Court,,Dallas,TX,75201,US,1-214-555-125,riley.morozov@yahoo.com,Email,Separated,Permanent Resident,Data Analyst
+APL100426,Jamie,Lee,Abebe,5/8/1992,8235 Briarwood Drive,,Dallas,TX,75201,US,1-214-555-126,jamie.abebe@gmail.com,Mail,Separated,US Citizen,Teacher
+APL100427,Cameron,Blair,Byrne,7/25/1986,1155 Meadow Road,,Dallas,TX,75201,US,1-214-555-127,cameron.byrne@yahoo.com,Phone,Married,US Citizen,Operations Manager
+APL100428,Avery,Robin,Adams,4/6/1985,2994 Riverbend Court,Unit 9,Dallas,TX,75201,US,1-214-555-128,avery.adams@gmail.com,Email,Unmarried,Permanent Resident,Operations Manager
+APL100429,Quinn,,Han,11/13/1976,2449 Parkview Avenue,,Dallas,TX,75201,US,1-214-555-129,quinn.han@yahoo.com,Mail,Unmarried,US Citizen,Office Administrator
+APL100430,Drew,Sage,Liu,7/4/1976,3288 Riverbend Avenue,,Dallas,TX,75201,US,1-214-555-130,drew.liu@gmail.com,Email,Unmarried,Noncitizen,Registered Nurse
+APL100431,Parker,,Okafor,12/17/1990,4424 Maple Way,,Dallas,TX,75201,US,1-214-555-131,parker.okafor2@yahoo.com,Mail,Separated,Noncitizen,Teacher
+APL100432,Reese,Blair,Wallace,1/30/1983,1255 Autumn Place,Unit 13,Dallas,TX,75201,US,1-214-555-132,reese.wallace@gmail.com,Mail,Unmarried,Permanent Resident,Registered Nurse
+APL100433,Skyler,Robin,Hughes,5/21/1979,7074 Lakeview Street,,Dallas,TX,75201,US,1-214-555-133,skyler.hughes@yahoo.com,Mail,Unmarried,Permanent Resident,Sales Representative
+APL100434,Rowan,Robin,Malhotra,11/17/1997,9678 Woodland Road,,Dallas,TX,75201,US,1-214-555-134,rowan.malhotra@gmail.com,Phone,Unmarried,US Citizen,Teacher
+APL100435,Dakota,Lee,Hussain,2/4/1983,759 Windermere Way,,Dallas,TX,75201,US,1-214-555-135,dakota.hussain@yahoo.com,Phone,Unmarried,Noncitizen,Software Developer
+APL100436,Emerson,Robin,Mitchell,1/30/1975,961 Windermere Lane,Unit 17,Dallas,TX,75201,US,1-214-555-136,emerson.mitchell@gmail.com,Mail,Separated,US Citizen,Logistics Coordinator
+APL100437,Finley,Lee,Koh,3/12/1987,717 Woodland Court,,Dallas,TX,75201,US,1-214-555-137,finley.koh@yahoo.com,Mail,Married,US Citizen,Mechanical Engineer
+APL100438,Hayden,Robin,Xu,4/18/1975,3382 Windermere Way,,Dallas,TX,75201,US,1-214-555-138,hayden.xu@gmail.com,Mail,Married,Noncitizen,Mechanical Engineer
+APL100439,Kendall,Lee,Rivera,2/19/1989,5187 Briarwood Road,,Dallas,TX,75201,US,1-214-555-139,kendall.rivera@yahoo.com,Phone,Married,Permanent Resident,Sales Representative
+APL100440,Alex,Lee,Hassan,2/28/1986,9396 Windermere Street,Unit 21,Dallas,TX,75201,US,1-214-555-140,alex.hassan@gmail.com,Email,Married,US Citizen,Electrician
+APL100441,Jordan,Blair,Wilson,4/20/1989,2552 Oak Drive,,Dallas,TX,75201,US,1-214-555-141,jordan.wilson@yahoo.com,Email,Unmarried,Permanent Resident,Accountant
+APL100442,Taylor,Blair,Teo,10/9/1978,7933 Brookside Court,,Dallas,TX,75201,US,1-214-555-142,taylor.teo@gmail.com,Email,Separated,US Citizen,Registered Nurse
+APL100443,Morgan,Lee,Garcia,11/4/1980,7469 Ridgewood Way,,Dallas,TX,75201,US,1-214-555-143,morgan.garcia@yahoo.com,Email,Unmarried,US Citizen,Office Administrator
+APL100444,Casey,Sage,Nelson,8/19/1990,8343 Windermere Lane,Unit 25,Dallas,TX,75201,US,1-214-555-144,casey.nelson@gmail.com,Mail,Separated,US Citizen,Project Manager
+APL100445,Riley,Lee,Tran,4/12/1979,7457 Ridgewood Road,,Dallas,TX,75201,US,1-214-555-145,riley.tran@yahoo.com,Phone,Unmarried,Noncitizen,Accountant
+APL100446,Jamie,Robin,MacLeod,4/19/1986,7515 Sycamore Avenue,,Dallas,TX,75201,US,1-214-555-146,jamie.macleod@gmail.com,Mail,Separated,Permanent Resident,Electrician
+APL100447,Cameron,Sage,Kobayashi,6/30/1979,1645 Summerfield Street,,Dallas,TX,75201,US,1-214-555-147,cameron.kobayashi@yahoo.com,Phone,Separated,Noncitizen,Teacher
+APL100448,Avery,Sage,Harris,5/18/1981,2415 Stonebridge Street,Unit 29,Dallas,TX,75201,US,1-214-555-148,avery.harris@gmail.com,Email,Separated,Noncitizen,Logistics Coordinator
+APL100449,Quinn,Sage,Tse,2/24/2002,1360 Fairview Road,,Dallas,TX,75201,US,1-214-555-149,quinn.tse@yahoo.com,Mail,Unmarried,Noncitizen,Office Administrator
+APL100450,Drew,Sage,Ortiz,4/24/1975,1464 Hawthorne Place,,Dallas,TX,75201,US,1-214-555-150,drew.ortiz@gmail.com,Mail,Unmarried,Permanent Resident,Software Developer
+APL100451,Parker,Robin,Zimmermann,4/27/1983,2119 Woodland Road,,Dallas,TX,75201,US,1-214-555-151,parker.zimmermann@yahoo.com,Phone,Married,Noncitizen,Project Manager
+APL100452,Reese,,Park,10/8/1979,8448 Parkview Lane,Unit 3,Dallas,TX,75201,US,1-214-555-152,reese.park@gmail.com,Mail,Married,US Citizen,Mechanical Engineer
+APL100453,Skyler,Sage,Wu,9/18/1974,4262 Parkview Road,,Dallas,TX,75201,US,1-214-555-153,skyler.wu@yahoo.com,Email,Unmarried,US Citizen,Office Administrator
+APL100454,Rowan,Sage,Lin,7/4/1994,3829 Parkview Road,,Dallas,TX,75201,US,1-214-555-154,rowan.lin@gmail.com,Email,Married,US Citizen,Operations Manager
+APL100455,Dakota,Blair,Abbas,8/2/1970,5831 Autumn Lane,,Dallas,TX,75201,US,1-214-555-155,dakota.abbas@yahoo.com,Mail,Married,Noncitizen,Electrician
+APL100456,Emerson,Robin,Abe,8/7/1991,3642 Hickory Court,Unit 7,Dallas,TX,75201,US,1-214-555-156,emerson.abe@gmail.com,Mail,Separated,Noncitizen,Data Analyst
+APL100457,Finley,Sage,Adeyemi,4/2/1998,503 Dogwood Place,,Dallas,TX,75201,US,1-214-555-157,finley.adeyemi@yahoo.com,Mail,Unmarried,US Citizen,Software Developer
+APL100458,Hayden,,Turner,4/23/1987,6371 Brookside Road,,Dallas,TX,75201,US,1-214-555-158,hayden.turner@gmail.com,Email,Unmarried,Noncitizen,Data Analyst
+APL100459,Kendall,Lee,Jung,12/18/1974,3378 Sycamore Road,,Dallas,TX,75201,US,1-214-555-159,kendall.jung@yahoo.com,Mail,Unmarried,Permanent Resident,Project Manager
+APL100460,Alex,,Romero,3/10/1986,208 Fox Run Drive,Unit 11,Dallas,TX,75201,US,1-214-555-160,alex.romero@gmail.com,Mail,Separated,US Citizen,Teacher
+APL100461,Jordan,Lee,Scott,1/4/1975,3305 Laurel Road,,Dallas,TX,75201,US,1-214-555-161,jordan.scott@yahoo.com,Mail,Married,Permanent Resident,Software Developer
+APL100462,Taylor,Robin,Ramos,3/15/1972,4730 Elm Street,,Dallas,TX,75201,US,1-214-555-162,taylor.ramos@gmail.com,Mail,Married,Noncitizen,Registered Nurse
+APL100463,Morgan,Blair,Mirza,12/5/1990,4102 Stonebridge Avenue,,Dallas,TX,75201,US,1-214-555-163,morgan.mirza@yahoo.com,Email,Unmarried,Permanent Resident,Operations Manager
+APL100464,Casey,Blair,Kato,3/12/1998,9015 Maple Drive,Unit 15,Dallas,TX,75201,US,1-214-555-164,casey.kato@gmail.com,Mail,Married,Noncitizen,Project Manager
+APL100465,Riley,Blair,Volkov,2/20/1979,6068 Springwood Avenue,,Dallas,TX,75201,US,1-214-555-165,riley.volkov@yahoo.com,Phone,Married,Noncitizen,Operations Manager
+APL100466,Jamie,,Xu,6/20/1982,2773 Oak Road,,Dallas,TX,75201,US,1-214-555-166,jamie.xu@gmail.com,Email,Unmarried,US Citizen,Office Administrator
+APL100467,Cameron,,Karlsson,9/24/1980,2682 Parkview Drive,,Dallas,TX,75201,US,1-214-555-167,cameron.karlsson@yahoo.com,Email,Unmarried,Noncitizen,Data Analyst
+APL100468,Avery,Robin,Bui,6/21/1993,1411 Magnolia Court,Unit 19,Dallas,TX,75201,US,1-214-555-168,avery.bui@gmail.com,Email,Married,Permanent Resident,Data Analyst
+APL100469,Quinn,,Hayes,11/16/1973,4250 Ridgewood Avenue,,Dallas,TX,75201,US,1-214-555-169,quinn.hayes@yahoo.com,Email,Separated,Noncitizen,Office Administrator
+APL100470,Drew,Sage,Morgan,4/1/2000,4966 Pine Court,,Dallas,TX,75201,US,1-214-555-170,drew.morgan@gmail.com,Mail,Separated,Noncitizen,Project Manager
+APL100471,Parker,Lee,Sullivan,11/20/2001,9456 Woodland Place,,Dallas,TX,75201,US,1-214-555-171,parker.sullivan@yahoo.com,Mail,Unmarried,US Citizen,Data Analyst
+APL100472,Reese,Blair,Wu,7/8/1978,5652 Willow Street,Unit 23,Dallas,TX,75201,US,1-214-555-172,reese.wu@gmail.com,Mail,Unmarried,Noncitizen,Software Developer
+APL100473,Skyler,Sage,Huang,5/16/1995,2146 Cypress Place,,Dallas,TX,75201,US,1-214-555-173,skyler.huang@yahoo.com,Phone,Separated,US Citizen,Sales Representative
+APL100474,Rowan,Robin,Collins,6/4/1978,1794 Summerfield Drive,,Dallas,TX,75201,US,1-214-555-174,rowan.collins@gmail.com,Phone,Unmarried,US Citizen,Logistics Coordinator
+APL100475,Dakota,,Becker,6/9/1998,9248 Glenwood Drive,,Dallas,TX,75201,US,1-214-555-175,dakota.becker@yahoo.com,Email,Married,US Citizen,Data Analyst
+APL100476,Emerson,Sage,Marino,4/10/1979,7650 Willow Place,Unit 27,Dallas,TX,75201,US,1-214-555-176,emerson.marino@gmail.com,Email,Married,US Citizen,Operations Manager
+APL100477,Finley,Lee,Kim,7/17/1994,1032 Brookside Place,,Dallas,TX,75201,US,1-214-555-177,finley.kim2@yahoo.com,Phone,Unmarried,Permanent Resident,Data Analyst
+APL100478,Hayden,Lee,Han,8/7/1977,1966 Oak Street,,Dallas,TX,75201,US,1-214-555-178,hayden.han@gmail.com,Phone,Unmarried,Noncitizen,Sales Representative
+APL100479,Kendall,Robin,Kamau,6/15/1985,2245 Glenwood Lane,,Dallas,TX,75201,US,1-214-555-179,kendall.kamau@yahoo.com,Email,Unmarried,US Citizen,Teacher
