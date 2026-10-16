@@ -3,7 +3,7 @@
 **Policy ID:** RISK-TIER  
 **Version:** V1.0  
 **Status:** active  
-**Prepared:** September 10, 2026  
+**Prepared:** December 15, 2023  
 **Proposed owner:** Quality & Governance Lead  
 **Proposed approver:** Credit Risk Committee  
 **Review cycle:** Annually and following a material policy change

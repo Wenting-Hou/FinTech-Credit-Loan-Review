@@ -51,7 +51,7 @@ Supporting documents own their respective detailed rules and procedures.
 
 | Supporting document | Subject it owns | Required alignment with this policy |
 |---|---|---|
-| `risk_policy.md` | Applicant risk factors, lookback, score, T1–T5 classification and missing-data rules | Reproducibility, approved changes, input restrictions and independent review |
+| `applicant_risk_policy.md` | Applicant risk factors, lookback, score, T1–T5 classification and missing-data rules | Reproducibility, approved changes, input restrictions and independent review |
 | `product_eligibility_rules.md` | Product qualification, numerical criteria, amounts, terms and collateral requirements | Clear authoritative rules, validated sources and controlled exceptions |
 | `product_risk_policy.md` | Product risk drivers, safeguards, additional review and monitoring | Enterprise appetite, aggregate exposure and product change governance |
 | `approval_escalation_procedures.md` | Lending authority, referrals and exception decisions | Documented delegation, separation of duties and escalation beyond authority |

@@ -73,7 +73,7 @@ Defines the borrower and collateral eligibility criteria for each tier within th
 
 | Tier | Code | Min. Credit Score | Income Requirement | Credit Limit Range | Notes |
 |---|---|---|---|---|---|
-| **Secured** | `CRD-SC` | No minimum; no score accepted (building credit) | Sufficient income to make min. payments | Equal to security deposit ($200-$2,500 typical) | Deposit held as collateral; graduates to unsecured after 6-12 months of on-time payments |
+| **Secured** | `CRD-SC` | Minimum FICO 300; no score accepted (building credit) | Sufficient income to make min. payments | Equal to security deposit ($200-$2,500 typical) | Deposit held as collateral; graduates to unsecured after 6-12 months of on-time payments |
 | **Standard** | `CRD-ST` | 620 | Verifiable income, debt-to-income within issuer policy | $500-$5,000 typical | Standard APR range; may include intro APR promos |
 | **Elite (720+)** | `CRD-EL` | 720 | Higher income threshold, strong revolving utilization history | $5,000-$25,000+ | Premium rewards/travel benefits; often requires low overall utilization (<30%) across existing tradelines |
 
