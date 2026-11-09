@@ -2,7 +2,8 @@
 
 **Policy ID:** PRODUCT-RISK  
 **Version:** V1.0  
-**Status:** active  
+**Status:** Effective  
+**Effective date:** January 1, 2024  
 **Prepared:** December 15, 2023  
 **Proposed owner:** Credit Risk function  
 **Proposed approver:** Credit Risk Committee  
@@ -14,7 +15,7 @@ This policy defines how product features and lending structures affect risk and 
 
 Applicant credit risk, product eligibility, and product risk are separate assessments. A low-risk applicant does not automatically qualify for every product. Collateral or a security deposit does not automatically establish repayment capacity. Product names such as “Elite” or “Subprime” are not substitutes for an applicant's calculated T1–T5 risk tier.
 
-This document is a supporting policy under the proposed `enterprise_risk_policy.md` (ERM-001). 
+This document is a supporting policy under `enterprise_risk_policy.md` (ERM-001). 
 New controls and routing rules below are project design assumptions, not existing approved rules or real lender requirements. 
 Numerical eligibility criteria remain in the eligibility document and require the validation already identified there.
 
@@ -147,7 +148,7 @@ The applicant tier in this overlay, and the tier that `loan_product.minimum_risk
 |---|---|
 | T1–T2 | Follow the normal product route if every other requirement is met; product-specific mandatory reviews still apply |
 | T3 with established history | Follow the normal product route, checking repayment capacity and any additional product triggers |
-| T3 with NO_HISTORY | Available only on products with `allow_no_score_flag` = TRUE (MTG-FH, CRD-SC, AUT-SP). Require documented manual assessment of available repayment evidence, such as verified income, reserves or down payment, and non-traditional credit such as rent and utility history; retain the NO_HISTORY basis and null numeric score |
+| T3 with NO_HISTORY | Available only on products with `allow_no_score_flag` = TRUE (MTG-FH, CRD-SC, AUT-SP). Require documented manual assessment of available repayment evidence, such as verified income, reserves or down payment, and non-traditional credit such as rent and utility history; keep risk_tier_basis = NO_CREDIT_HISTORY and a null numeric score |
 | Any tier with LIMITED_HISTORY | Record the limited-history flag and require manual review of evidence sufficiency |
 | T4 | Require the relevant senior product reviewer: Senior Underwriter / Underwriting Manager for mortgages, Underwriting Supervisor for cards, Underwriting Manager for auto |
 | T5 | Refer to the Credit Risk Committee for assessment within its confirmed authority; no automatic approval or decline solely from this overlay |

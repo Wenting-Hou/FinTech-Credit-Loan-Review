@@ -2,7 +2,8 @@
 
 **Policy ID:** REG-001      
 **Version:** V1.0  
-**Status:** active    
+**Status:** Effective  
+**Effective date:** January 1, 2024  
 **Prepared:** December 15, 2023   
 **Proposed owner:** Head of Compliance    
 **Proposed approver:** Board    

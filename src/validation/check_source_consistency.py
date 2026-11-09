@@ -39,7 +39,7 @@ EXPECTED_COLUMNS = {
         "tier_rate_adjustment_rule", "collections_rate_adjustment_pct",
         "bankruptcy_rate_adjustment_pct", "scra_rate_cap_pct"],
     "loan_application.csv": [
-        "application_id", "annual_income_usd", "employment_duration_months", "fico_score",
+        "application_id", "applicant_id", "annual_income_usd", "employment_duration_months", "fico_score",
         "region_state", "requested_amount_usd", "product_code", "dti_pct", "military_scra_flag",
         "bankruptcy_last_7y_flag", "collections_past_12_months_flag", "preliminary_decision",
         "date", "final_decision", "final_decision_date"],
@@ -57,7 +57,7 @@ EXPECTED_COLUMNS = {
 INTERNAL_POLICIES = {
     "enterprise_risk_policy.md", "applicant_risk_policy.md", "product_risk_policy.md",
     "product_eligibility_rules.md", "approval_escalation_procedures.md",
-    "regional_state_lending_requirements.md"}
+    "regional_state_lending_requirements.md", "product_eligibility_rules_v2.md"}
 
 results: list[tuple[str, bool, str]] = []
 
@@ -234,12 +234,28 @@ def main() -> int:
           str(sorted(corpus - set(meta["file_name"]))))
     check("every metadata row points at a real file", len(set(meta["file_name"]) - corpus),
           str(sorted(set(meta["file_name"]) - corpus)))
-    check("doc_id is unique", meta["doc_id"].duplicated().sum())
-    internal = meta[meta["file_name"].isin(INTERNAL_POLICIES)]
-    effective = pd.to_datetime(internal["effective_date"], errors="coerce")
-    check("internal policies are Effective", (internal["authority_status"] != "Effective").sum())
-    check("internal policies were in force before the first application",
-          (effective.isna() | (effective > la["_date"].min())).sum())
+    check("doc_id and version together are unique", meta.duplicated(["doc_id", "version"]).sum())
+    internal = meta[meta["file_name"].isin(INTERNAL_POLICIES)].copy()
+    internal["_from"] = pd.to_datetime(internal["effective_date"], errors="coerce")
+    internal["_to"] = pd.to_datetime(internal["effective_to"], errors="coerce")
+    in_force_now = (internal["_from"] <= EXTRACT_DATE) & (internal["_to"].isna() | (internal["_to"] >= EXTRACT_DATE))
+    check("internal policies in force on the extract date are Effective",
+          (in_force_now & (internal["authority_status"] != "Effective")).sum())
+    check("internal policy versions not yet in force are Approved",
+          ((internal["_from"] > EXTRACT_DATE) & (internal["authority_status"] != "Approved")).sum())
+    first = internal.sort_values("_from").groupby("doc_id").head(1)
+    check("every internal policy was in force before the first application",
+          (first["_from"].isna() | (first["_from"] > la["_date"].min())).sum())
+    # Versions of one policy must not overlap or leave a gap, and superseded_by must name the next version.
+    bad_chain = 0
+    for _, versions in internal.sort_values("_from").groupby("doc_id"):
+        rows = versions.to_dict("records")
+        for older, newer in zip(rows, rows[1:]):
+            bad_chain += (older["superseded_by"] != newer["version"]
+                          or pd.isna(older["_to"])
+                          or older["_to"] + pd.Timedelta(days=1) != newer["_from"])
+        bad_chain += rows[-1]["superseded_by"] != "" or pd.notna(rows[-1]["_to"])
+    check("policy versions form one unbroken chain per doc_id", bad_chain)
     every = pd.to_datetime(meta["effective_date"], errors="coerce")
     check("every document has an ISO effective date", every.isna().sum())
 

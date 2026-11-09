@@ -251,16 +251,19 @@ datasets:
     dataset_role: reference
 
     description: >
-      One row per policy, underwriting guideline, compliance document,
-      procedure, regulation, or other project document.
+      One row per version of each policy, underwriting guideline, compliance
+      document, procedure, regulation, or other project document. A policy
+      that has been revised has one row per version, linked by
+      superseded_by and dated by effective_date and effective_to.
 
       This dataset provides metadata used to identify and organize
       documents supporting the loan-review domain.
 
-    grain: doc_id
+    grain: doc_id and version
 
     primary_key:
       - doc_id
+      - version
 
     privacy_classification: internal_reference
 

@@ -29,9 +29,9 @@ fields:
   - name: applicant_id
     type: string
     required: true
-    unique: true
-    pattern: "^APP[0-9]{6}$"
-    description: Unique identifier for the applicant associated with the loan application
+    unique: false
+    pattern: "^APL[0-9]{6}$"
+    description: Identifier of the applicant (foreign key to applicant.csv). An applicant can have more than one application.
   - name: employment_duration_months
     type: integer
     required: true

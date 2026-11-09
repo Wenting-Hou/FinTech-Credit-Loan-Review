@@ -2,7 +2,10 @@
 
 **Policy ID:** ELIG-001   
 **Version:** V1.0    
-**Status:** active   
+**Status:** Effective  
+**Effective date:** January 1, 2024  
+**In force until:** December 31, 2026  
+**Superseded by:** ELIG-001 V2.0 (`product_eligibility_rules_v2.md`), effective January 1, 2027  
 **Prepared:** December 15, 2023    
 **Proposed owner:** Credit Risk Function   
 **Proposed approver:** Credit Risk Committee  
@@ -12,11 +15,13 @@
 
 ## Purpose
 
-Defines the borrower and collateral eligibility criteria for each tier within the three product lines: **Mortgage**, **Credit Card**, and **Auto**. Used as a quick-reference for loan officers/underwriters to determine which tier a borrower and application qualify for.
+Defines the borrower and collateral eligibility criteria for each product level within the three product lines: **Mortgage**, **Credit Card**, and **Auto**. Used as a quick reference for loan officers and underwriters to determine which product a borrower and application qualify for.
+
+*"Product level" in this document means the product variant (for example FHA or Elite). It is not the applicant risk tier (T1 to T5), which is defined in RISK-TIER (`applicant_risk_policy.md`).*
 
 ## Product Code Reference
 
-| Product Line | Tier | Product Code (this project's data) |
+| Product Line | Product level | Product Code (this project's data) |
 |---|---|---|
 | Mortgage | FHA | `MTG-FH` |
 | Mortgage | Conventional | `MTG-CV` |
@@ -55,30 +60,30 @@ Defines the borrower and collateral eligibility criteria for each tier within th
 
 ## 1. Mortgage
 
-| Tier | Code | Min. Credit Score | Max. DTI | Down Payment | Loan Limit | Notes |
+| Product level | Code | Min. Credit Score | Max. DTI | Down Payment | Maximum loan amount | Notes |
 |---|---|---|---|---|---|---|
-| **FHA** | `MTG-FH` | 620 | ≤ 50% | 3.5% | County FHA limit | Requires upfront + annual MIP; owner-occupied primary residence only |
-| **Conventional** | `MTG-CV` | 680 | ≤ 45% | 3-20% | County conforming limit (Fannie/Freddie) | PMI required if <20% down; PMI cancels at 78% LTV |
-| **Jumbo** | `MTG-JB` | 740 | ≤ 43% | 10-20%+ | Above conforming limit | Larger cash reserve requirements (6-12 months PITI); tighter appraisal review |
+| **FHA** | `MTG-FH` | 620 | ≤ 50% | 3.5% | Up to $500,000 | Requires upfront + annual MIP; owner-occupied primary residence only |
+| **Conventional** | `MTG-CV` | 680 | ≤ 45% | 3-20% | Up to $1,000,000 | PMI required if <20% down; PMI cancels at 78% LTV |
+| **Jumbo** | `MTG-JB` | 740 | ≤ 43% | 10-20%+ | Up to $2,500,000 | Larger cash reserve requirements (6-12 months PITI); tighter appraisal review |
 
-**Common eligibility items across all mortgage tiers:**
+**Common eligibility items across all mortgage products:**
 - 2 years of employment/income history (or documented explanation of gaps)
 - Property must pass appraisal at or above purchase price/loan amount
-- No open collections/judgments that affect title (or must be resolved at closing)
-- Bankruptcy seasoning: typically 2 years post-Chapter 7 discharge, 1–2 years into a Chapter 13 plan with trustee approval
+- Collections in the past 12 months: allowed for `MTG-FH` and `MTG-CV`, not allowed for `MTG-JB` (Catalog Gates). Any collection or judgment that affects title must be resolved at closing.
+- Bankruptcy in the past 7 years: allowed only for `MTG-FH`; `MTG-CV` and `MTG-JB` do not accept it (Catalog Gates). For `MTG-FH`, the underwriter also confirms a Chapter 7 discharge at least 2 years old, or at least 1 year of on-time Chapter 13 plan payments with trustee approval.
 
 ---
 
 ## 2. Credit Card
 
-| Tier | Code | Min. Credit Score | Income Requirement | Credit Limit Range | Notes |
+| Product level | Code | Min. Credit Score | Income Requirement | Maximum credit limit | Notes |
 |---|---|---|---|---|---|
-| **Secured** | `CRD-SC` | Minimum FICO 300; no score accepted (building credit) | Sufficient income to make min. payments | Equal to security deposit ($200-$2,500 typical) | Deposit held as collateral; graduates to unsecured after 6-12 months of on-time payments |
-| **Standard** | `CRD-ST` | 620 | Verifiable income, debt-to-income within issuer policy | $500-$5,000 typical | Standard APR range; may include intro APR promos |
-| **Elite (720+)** | `CRD-EL` | 720 | Higher income threshold, strong revolving utilization history | $5,000-$25,000+ | Premium rewards/travel benefits; often requires low overall utilization (<30%) across existing tradelines |
+| **Secured** | `CRD-SC` | Minimum FICO 300; no score accepted (building credit) | Sufficient income to make min. payments | Equal to the security deposit, up to $3,000 | Deposit held as collateral; graduates to unsecured after 6-12 months of on-time payments |
+| **Standard** | `CRD-ST` | 620 | Verifiable income, debt-to-income within issuer policy | Up to $15,000 | Standard APR range; may include intro APR promos |
+| **Elite (720+)** | `CRD-EL` | 720 | Higher income threshold, strong revolving utilization history | Up to $50,000 | Premium rewards/travel benefits; often requires low overall utilization (<30%) across existing tradelines |
 
-**Common eligibility items across all credit card tiers:**
-- No recent charge-offs on similar unsecured tradelines (varies by tier tolerance)
+**Common eligibility items across all credit card products:**
+- No recent charge-offs on similar unsecured tradelines (varies by product)
 - Applicant must be 18+ (21+ if income alone doesn't support repayment, per CARD Act)
 - Existing relationship/deposit history with the institution may be weighted favorably
 
@@ -86,14 +91,14 @@ Defines the borrower and collateral eligibility criteria for each tier within th
 
 ## 3. Auto Loan
 
-| Tier | Code | Min. Credit Score | Max. DTI | Max. LTV | Term Range | Notes |
-|---|---|---|---|---|---|---|
-| **Subprime** | `AUT-SP` | No minimum; no score accepted | ≤ 60% | Up to 125% (incl. taxes/fees/GAP) | 60-75 months | Higher rate; often requires proof of income/residence stability; may require larger down payment on older/high-mileage vehicles |
-| **Traditional** | `AUT-TR` | 680 | ≤ 50% | Up to 110% | 48-72 months | Standard documentation; vehicle age/mileage caps typically apply (e.g., ≤10 years, ≤120K miles) |
-| **Top-tier credit** | `AUT-TT` | 800 | ≤ 45% | Up to 100-105% | 36-72 months | Best available rate; minimal stipulations; may qualify for manufacturer/dealer incentive rate stacking |
+| Product level | Code | Min. Credit Score | Max. DTI | Maximum loan amount | Max. LTV | Term Range | Notes |
+|---|---|---|---|---|---|---|---|
+| **Subprime** | `AUT-SP` | Minimum FICO 300; no score accepted | ≤ 60% | Up to $35,000 | Up to 125% (incl. taxes/fees/GAP) | 60-75 months | Higher rate; often requires proof of income/residence stability; may require larger down payment on older/high-mileage vehicles |
+| **Traditional** | `AUT-TR` | 680 | ≤ 50% | Up to $60,000 | Up to 110% | 48-72 months | Standard documentation; vehicle age/mileage caps typically apply (e.g., ≤10 years, ≤120K miles) |
+| **Top-tier credit** | `AUT-TT` | 800 | ≤ 45% | Up to $100,000 | Up to 100-105% | 36-72 months | Best available rate; minimal stipulations; may qualify for manufacturer/dealer incentive rate stacking |
 
-**Common eligibility items across all auto tiers:**
-- Vehicle must meet lender's age/mileage eligibility (varies by tier — subprime lenders often have looser vehicle-age limits but higher rate offset)
+**Common eligibility items across all auto products:**
+- Vehicle must meet lender's age/mileage eligibility (varies by product; subprime lenders often have looser vehicle-age limits but higher rate offset)
 - Valid proof of insurance (comprehensive/collision) required to fund
 - Lien must be perfected on title per state rules (see *Regional/State Lending Requirements*)
 
@@ -115,8 +120,8 @@ Defines the borrower and collateral eligibility criteria for each tier within th
 
 - Confirm exact DTI/LTV thresholds against current investor/agency guidelines (Fannie Mae/Freddie Mac/FHA handbooks); these are illustrative industry-standard ranges, not confirmed program guidelines.
 - Confirm current credit card issuer-specific underwriting matrix (if this doc maps to a specific institution's actual card products).
-- Confirm auto lender-specific vehicle age/mileage caps by tier.
-- Add compensating-factor list (reserves, low LTV, etc.) that allows exceptions to standard thresholds.
+- Confirm auto lender-specific vehicle age/mileage caps by product.
+- Add a compensating-factor list (reserves, low LTV, etc.) for requirements outside the Catalog Gates. Catalog gates are never waived.
 
 ---
 

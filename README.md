@@ -36,11 +36,12 @@
 - `applicant_risk_features.csv` - [the applicant’s credit-risk profile at the time of each loan application, 600, application_id]
 - `loan_product.csv` - [defines the available loan products and their associated eligibility, risk, and pricing requirements, 9, product_code]
 - `credit_pull_event.csv` - [represents the applicant’s historical credit bureau pulls over time, one score per pull, 1775, event_id & application_id]
+- `applicant.csv` - [one row per applicant; an applicant can have more than one application, 480, applicant_id]
 
 ### Knowledge Corpus (`data/documents/source/`)
 
-- Contains **14** total documents (**3** PDFs, **6** TXT/MD files, **5** YAML).
-- Includes structural challenges (tables, hierarchical headers) and version state diversity (e.g., Current vs. Superseded).
+- Contains **11** documents: **4** regulatory PDFs and **7** internal policy Markdown files.
+- Includes structural challenges (tables, hierarchical headers) and two versions of one policy: Product Eligibility Rules (ELIG-001) V1.0 is in force from 2024-01-01 to 2026-12-31 (`product_eligibility_rules.md`), and V2.0 takes over on 2027-01-01 (`product_eligibility_rules_v2.md`). `metadata/document _metadata .csv` records each version with `effective_date`, `effective_to` and `superseded_by`.
 
 ---
 
@@ -72,7 +73,7 @@
    ```bash
    pip install -r requirements.txt
    ```
-3. Check that the source data is consistent with itself and with the policies (57 checks):
+3. Check that the source data is consistent with itself and with the policies (59 checks):
    ```bash
    python src/validation/check_source_consistency.py
    ```

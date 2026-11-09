@@ -2,7 +2,8 @@
 
 **Policy ID:** ERM-001  
 **Version:** V1.0  
-**Status:** active  
+**Status:** Effective  
+**Effective date:** January 1, 2024  
 **Prepared:** December 15, 2023   
 **Proposed owner:** Head of Risk   
 **Proposed approver:** Board   
@@ -52,7 +53,7 @@ Supporting documents own their respective detailed rules and procedures.
 | Supporting document | Subject it owns | Required alignment with this policy |
 |---|---|---|
 | `applicant_risk_policy.md` | Applicant risk factors, lookback, score, T1–T5 classification and missing-data rules | Reproducibility, approved changes, input restrictions and independent review |
-| `product_eligibility_rules.md` | Product qualification, numerical criteria, amounts, terms and collateral requirements | Clear authoritative rules, validated sources and controlled exceptions |
+| `product_eligibility_rules.md` (V1.0, in force to December 31, 2026) and `product_eligibility_rules_v2.md` (V2.0, from January 1, 2027) | Product qualification, numerical criteria, amounts, terms and collateral requirements | Clear authoritative rules, validated sources and controlled exceptions |
 | `product_risk_policy.md` | Product risk drivers, safeguards, additional review and monitoring | Enterprise appetite, aggregate exposure and product change governance |
 | `approval_escalation_procedures.md` | Lending authority, referrals and exception decisions | Documented delegation, separation of duties and escalation beyond authority |
 | `regional_state_lending_requirements.md` | Geographic requirements reference | Compliance ownership, source validation and effective-date control |

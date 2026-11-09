@@ -2,7 +2,8 @@
 
 **Policy ID:** RISK-TIER  
 **Version:** V1.0  
-**Status:** active  
+**Status:** Effective  
+**Effective date:** January 1, 2024  
 **Prepared:** December 15, 2023  
 **Proposed owner:** Quality & Governance Lead  
 **Proposed approver:** Credit Risk Committee  
@@ -21,9 +22,6 @@ The risk tiers are ordered from lowest to highest observed credit risk:
 
 The methodology is designed solely for this academic microcosm. The thresholds, scoring weights, and classifications are synthetic assumptions and do not represent actual lender underwriting standards, regulatory requirements, or credit bureau methodologies.
 
-**Policy ID:** RISK-TIER
-**Policy Version:** 1.0
-**Effective Date:** January 1, 2024
 
 
 ## Policy Principle

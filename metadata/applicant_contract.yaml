@@ -42,7 +42,7 @@ fields:
   - name: birth_date
     type: date
     required: true
-    input_format: YYYY-MM-DD
+    input_format: M/D/YYYY
   - name: address_line_1
     type: string
     required: true
@@ -55,7 +55,7 @@ fields:
   - name: state
     type: string
     required: true
-    allowed_values: [NC, FL, TX]
+    allowed_values: [NC, FL, TX, CA]
   - name: zip_code
     type: string
     required: true
