@@ -1,0 +1,712 @@
+{
+  "name": "RAG Lab (guardrail v2, version aware)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "96792b0a-948e-45b3-9009-c21b8750d1de",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Files list: reads document _metadata .csv so every version of every RAG policy is loaded\n// with its own version and dates. Nothing is hard coded except which doc_ids go in the RAG.\nconst base = 'https://raw.githubusercontent.com/Wenting-Hou/FinTech-Credit-Loan-Review/main/';\nconst RAG_DOCS = ['ELIG-001', 'RISK-TIER', 'PRODUCT-RISK', 'APPR-001', 'REG-001'];\n\nfunction parseCsv(text) {\n  text = String(text).replace(/^﻿/, '');\n  const rows = []; let row = []; let cur = ''; let inQuotes = false;\n  for (let i = 0; i < text.length; i++) {\n    const c = text[i];\n    if (inQuotes) {\n      if (c === '\"') { if (text[i + 1] === '\"') { cur += '\"'; i++; } else inQuotes = false; }\n      else cur += c;\n    } else if (c === '\"') inQuotes = true;\n    else if (c === ',') { row.push(cur.trim()); cur = ''; }\n    else if (c === '\\n') { row.push(cur.trim()); rows.push(row); row = []; cur = ''; }\n    else if (c !== '\\r') cur += c;\n  }\n  if (cur !== '' || row.length) { row.push(cur.trim()); rows.push(row); }\n  const [header, ...body] = rows.filter(r => r.some(v => v !== ''));\n  return body.map(r => Object.fromEntries(header.map((h, i) => [h.trim(), r[i] ?? ''])));\n}\n\nconst meta = parseCsv(await this.helpers.httpRequest({ url: base + 'metadata/document%20_metadata%20.csv', json: false }));\n\nreturn meta\n  .filter(m => RAG_DOCS.includes(m.doc_id))\n  .map(m => ({ json: {\n    file: m.file_name,\n    doc_id: m.doc_id,\n    version: m.version,\n    effective_date: m.effective_date,\n    effective_to: m.effective_to || '',\n    url: base + 'data/documents/source/' + m.file_name,\n  }}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "581637eb-5908-4881-86eb-3183a2d11c4b",
+      "name": "Files list"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        440,
+        0
+      ],
+      "id": "b150a6a3-1cf4-476d-9a06-92828d799d24",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "fintech_policies",
+          "mode": "id"
+        },
+        "clearStore": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        680,
+        0
+      ],
+      "id": "11733964-bbc0-46cf-b8f3-f909d948c9f5",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        620,
+        200
+      ],
+      "id": "9c85762c-ba67-4836-9305-a89d5c4e90bf",
+      "name": "Embeddings Ollama"
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "textLoader",
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "doc_id",
+                "value": "={{ $('Files list').item.json.doc_id }}"
+              },
+              {
+                "name": "source_file",
+                "value": "={{ $('Files list').item.json.file }}"
+              },
+              {
+                "name": "version",
+                "value": "={{ $('Files list').item.json.version }}"
+              },
+              {
+                "name": "effective_date",
+                "value": "={{ $('Files list').item.json.effective_date }}"
+              },
+              {
+                "name": "effective_to",
+                "value": "={{ $('Files list').item.json.effective_to }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        200
+      ],
+      "id": "fb73ce2c-29e8-46b1-b4ed-cfb6679f5acd",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 2000,
+        "chunkOverlap": 200,
+        "options": {
+          "splitCode": "markdown"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        820,
+        380
+      ],
+      "id": "93d7f476-6c92-4b33-8d72-25218ca828f7",
+      "name": "Recursive Character Text Splitter",
+      "notes": "Final setup C: Markdown mode, 2,000 characters, 200 overlap. Experiment A was 1,000 / 150 and B was 500 / 75 (no Markdown mode).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Product rows: one chunk per product from loan_product.csv. The catalog holds the gates of the\n// ELIG-001 version in force today, so each row gets that version and its dates from the metadata.\nconst base = 'https://raw.githubusercontent.com/Wenting-Hou/FinTech-Credit-Loan-Review/main/';\n\nfunction parseCsv(text) {\n  text = String(text).replace(/^﻿/, '');\n  const rows = []; let row = []; let cur = ''; let inQuotes = false;\n  for (let i = 0; i < text.length; i++) {\n    const c = text[i];\n    if (inQuotes) {\n      if (c === '\"') { if (text[i + 1] === '\"') { cur += '\"'; i++; } else inQuotes = false; }\n      else cur += c;\n    } else if (c === '\"') inQuotes = true;\n    else if (c === ',') { row.push(cur.trim()); cur = ''; }\n    else if (c === '\\n') { row.push(cur.trim()); rows.push(row); row = []; cur = ''; }\n    else if (c !== '\\r') cur += c;\n  }\n  if (cur !== '' || row.length) { row.push(cur.trim()); rows.push(row); }\n  const [header, ...body] = rows.filter(r => r.some(v => v !== ''));\n  return body.map(r => Object.fromEntries(header.map((h, i) => [h.trim(), r[i] ?? ''])));\n}\nconst yesNo = v => (String(v).toUpperCase() === 'TRUE' ? 'Yes' : 'No');\n\nconst products = parseCsv(await this.helpers.httpRequest({ url: base + 'data/structured/raw/loan_product.csv', json: false }));\nconst meta = parseCsv(await this.helpers.httpRequest({ url: base + 'metadata/document%20_metadata%20.csv', json: false }));\n\nconst today = new Date().toISOString().slice(0, 10);\nconst elig = meta.find(m => m.doc_id === 'ELIG-001' && m.effective_date <= today && (!m.effective_to || today <= m.effective_to));\nif (!elig) throw new Error('No ELIG-001 version is in force today, so the catalog version is unknown.');\nconst to = elig.effective_to || 'open';\n\nreturn products.map(r => ({ json: {\n  text:\n    `[loan_product.csv | catalog for ELIG-001 ${elig.version} | in force ${elig.effective_date} to ${to}] ` +\n    `Catalog gate for ${r.product_code} (${r.product_name}, ${r.product_family}). ` +\n    `Minimum applicant risk tier: ${r.minimum_risk_tier}. Minimum FICO: ${r.minimum_fico}. ` +\n    `Accepts applicant with no credit score: ${yesNo(r.allow_no_score_flag)}. ` +\n    `Maximum payment DTI: ${r.max_dti_pct}%. Maximum amount: $${r.maximum_amount_usd}. ` +\n    `Bankruptcy allowed: ${yesNo(r.allow_bankruptcy_flag)}. Collections allowed: ${yesNo(r.allow_collections_flag)}. ` +\n    `Base rate: ${r.base_rate_pct}%. Tier rate adjustments: ${r.tier_rate_adjustment_rule}.`,\n  doc_id: 'loan_product.csv',\n  source_file: 'loan_product.csv',\n  product_code: r.product_code,\n  version: elig.version,\n  effective_date: elig.effective_date,\n  effective_to: elig.effective_to || '',\n}}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "c47192c4-628a-43ce-9984-85977b34168f",
+      "name": "Product rows"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "fintech_policies",
+          "mode": "id"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "cb7c2317-2a3e-4f5f-b928-66d311eea4cf",
+      "name": "Simple Vector Store2"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        200
+      ],
+      "id": "9abe1cb2-f1c5-4cda-b3dc-f568729c5c55",
+      "name": "Embeddings Ollama2"
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.text }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "doc_id",
+                "value": "={{ $json.doc_id }}"
+              },
+              {
+                "name": "source_file",
+                "value": "={{ $json.source_file }}"
+              },
+              {
+                "name": "product_code",
+                "value": "={{ $json.product_code }}"
+              },
+              {
+                "name": "version",
+                "value": "={{ $json.version }}"
+              },
+              {
+                "name": "effective_date",
+                "value": "={{ $json.effective_date }}"
+              },
+              {
+                "name": "effective_to",
+                "value": "={{ $json.effective_to }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        200
+      ],
+      "id": "4e793fd6-d291-4839-9c14-cd9d1f1e574d",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        700
+      ],
+      "id": "e937b00b-e60e-4e3b-91aa-d2f118f3fbfe",
+      "name": "When chat message received",
+      "webhookId": "61589617-0332-4dfa-a904-4c7e298ec207"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Guardrail: runs BEFORE retrieval. Code, not the LLM, decides:\n//   1. which product the question is about (product code or plain product name)\n//   2. which policy versions were in force on the application date (document _metadata .csv)\n//   3. the numeric gates of the ELIG-001 version in force (its Catalog Gates table)\n//   4. which applicant inputs are given, which are missing, and the gate results when all six are given\n//   5. whether the question mentions a factor the policy prohibits\n// route: 'answer' (retrieve, then LLM), 'no_policy' (retrieve for evidence, fixed reply), 'ask' (fixed reply, no retrieval)\nconst question = String($input.first().json.chatInput || '').trim();\nconst base = 'https://raw.githubusercontent.com/Wenting-Hou/FinTech-Credit-Loan-Review/main/';\nconst RAG_DOCS = ['ELIG-001', 'RISK-TIER', 'PRODUCT-RISK', 'APPR-001', 'REG-001'];   // keep in sync with \"Files list\"\n\nfunction parseCsv(text) {\n  text = String(text).replace(/^﻿/, '');\n  const rows = []; let row = []; let cur = ''; let inQuotes = false;\n  for (let i = 0; i < text.length; i++) {\n    const c = text[i];\n    if (inQuotes) {\n      if (c === '\"') { if (text[i + 1] === '\"') { cur += '\"'; i++; } else inQuotes = false; }\n      else cur += c;\n    } else if (c === '\"') inQuotes = true;\n    else if (c === ',') { row.push(cur.trim()); cur = ''; }\n    else if (c === '\\n') { row.push(cur.trim()); rows.push(row); row = []; cur = ''; }\n    else if (c !== '\\r') cur += c;\n  }\n  if (cur !== '' || row.length) { row.push(cur.trim()); rows.push(row); }\n  const [header, ...body] = rows.filter(r => r.some(v => v !== ''));\n  return body.map(r => Object.fromEntries(header.map((h, i) => [h.trim(), r[i] ?? ''])));\n}\nconst get = async path => this.helpers.httpRequest({ url: base + path, json: false });\nconst products = parseCsv(await get('data/structured/raw/loan_product.csv'));\nconst meta = parseCsv(await get('metadata/document%20_metadata%20.csv'));\nconst money = v => Number(String(v).replace(/[$,\\s]/g, ''));\nconst fmt$ = n => '$' + Math.round(n).toLocaleString('en-US');\n\n// ---------------------------------------------------------------- 1. product\n// Plain names come from the data: product_name = product_family + product level (e.g. \"Credit Card\" + \"Elite\").\nconst FAMILY_WORDS = {\n  'Mortgage': /\\b(mortgage|home loan|house loan)s?\\b/i,\n  'Credit Card': /\\b(credit card|card)s?\\b/i,\n  'Auto Loan': /\\b(auto|car|vehicle)\\b/i,\n};\nconst DISTINCT = ['fha', 'jumbo', 'elite', 'subprime'];   // safe to match without the family word\nfor (const p of products) {\n  p.level = p.product_name.slice(p.product_family.length).replace(/[0-9+]/g, '').trim();   // \"Elite\", \"Top-Tier\"\n}\nconst q = question.toLowerCase();\nconst codeHits = products.filter(p => new RegExp('\\\\b' + p.product_code.replace('-', '\\\\-') + '\\\\b', 'i').test(question));\nconst nameHits = products.filter(p => {\n  const lvl = p.level.toLowerCase();\n  const lvlRe = new RegExp('\\\\b' + lvl.replace('-', '[- ]?') + '\\\\b', 'i');\n  if (!lvlRe.test(q)) return false;\n  return DISTINCT.includes(lvl) || FAMILY_WORDS[p.product_family].test(q);\n});\nconst found = [...new Map([...codeHits, ...nameHits].map(p => [p.product_code, p])).values()];\nconst familiesMentioned = Object.keys(FAMILY_WORDS).filter(f => FAMILY_WORDS[f].test(q));\nconst outOfCatalog = (q.match(/\\b(student|personal|business|boat|rv|motorcycle|payday|home equity|heloc)\\s+(loan|line)s?\\b/i) || [])[0];\nconst isEligibilityQuestion = /\\b(qualif|eligib|approv|deny|denied|denial|declin|accept|can i get|could i get)/i.test(question);\n\n// ---------------------------------------------------------------- 2. point in time\nconst MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];\nfunction findDate(s) {\n  let m = s.match(/\\b(\\d{4})-(\\d{1,2})-(\\d{1,2})\\b/);\n  if (m) return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));\n  m = s.match(/\\b(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})\\b/);\n  if (m) return new Date(Date.UTC(+m[3], +m[1] - 1, +m[2]));\n  m = s.match(/\\b(january|february|march|april|may|june|july|august|september|october|november|december)\\s+(\\d{1,2}),?\\s+(\\d{4})\\b/i);\n  if (m) return new Date(Date.UTC(+m[3], MONTHS.indexOf(m[1].toLowerCase()), +m[2]));\n  return null;\n}\nconst stated = findDate(question);\nlet asOf = (stated || new Date()).toISOString().slice(0, 10);\n// \"under V2.0\" with no date: judge as of the day that version takes effect\nconst vMatch = question.match(/\\b(?:V|version\\s*)(\\d)(?:\\.(\\d))?\\b/i);\nconst namedVersion = vMatch ? meta.find(x => x.doc_id === 'ELIG-001' && x.version === `V${vMatch[1]}.${vMatch[2] || 0}`) : null;\nif (!stated && namedVersion) asOf = namedVersion.effective_date;\nconst inForceOn = (m, d) => m.effective_date && m.effective_date <= d && (!m.effective_to || d <= m.effective_to);\nconst ragMeta = meta.filter(m => RAG_DOCS.includes(m.doc_id));\nconst inForce = ragMeta.filter(m => inForceOn(m, asOf));\nconst eligVersions = ragMeta.filter(m => m.doc_id === 'ELIG-001').sort((a, b) => a.effective_date.localeCompare(b.effective_date));\nconst elig = inForce.find(m => m.doc_id === 'ELIG-001');\nconst policyLine = m => `${m.doc_id} ${m.version} (in force ${m.effective_date} to ${m.effective_to || 'open'})`;\n\n// ---------------------------------------------------------------- 3. gates of the ELIG-001 version in force\nlet gates = {};\nlet gateSource = '';\nlet gateSourceIds = [];\nif (elig) {\n  const md = await get('data/documents/source/' + elig.file_name);\n  const section = md.split('## Catalog Gates')[1] || '';\n  for (const line of section.split('\\n')) {\n    const c = line.trim().replace(/^\\||\\|$/g, '').split('|').map(s => s.trim().replace(/`/g, ''));\n    if (c.length === 8 && products.some(p => p.product_code === c[0])) {\n      gates[c[0]] = { tier: c[1], fico: +c[2], noScore: c[3] === 'Yes', dti: parseFloat(c[4]), amount: money(c[5]),\n                      bankruptcy: c[6] === 'Yes', collections: c[7] === 'Yes' };\n    }\n  }\n  // When the version in force is the one loan_product.csv holds, the two must agree.\n  const csvMatches = products.every(p => gates[p.product_code] &&\n    gates[p.product_code].tier === p.minimum_risk_tier && gates[p.product_code].fico === +p.minimum_fico &&\n    gates[p.product_code].dti === +p.max_dti_pct && gates[p.product_code].amount === money(p.maximum_amount_usd));\n  const ref = (md.split('## Product Code Reference')[1] || '').split('\\n## ')[0];\n  for (const line of ref.split('\\n')) {\n    const c = line.trim().replace(/^\\||\\|$/g, '').split('|').map(s => s.trim().replace(/`/g, ''));\n    const p = c.length === 3 && products.find(x => x.product_code === c[2]);\n    if (p) p.product_name = `${c[0]} ${c[1].replace(/[()]/g, '')}`;   // e.g. \"Credit Card Elite 760+\" under V2.0\n  }\n  gateSource = csvMatches\n    ? `ELIG-001 ${elig.version} Catalog Gates, same values as loan_product.csv`\n    : `ELIG-001 ${elig.version} Catalog Gates`;\n  gateSourceIds = csvMatches ? [`ELIG-001 ${elig.version}`, 'loan_product.csv'] : [`ELIG-001 ${elig.version}`];\n}\n\n// ---------------------------------------------------------------- 4. applicant inputs\nconst inputs = {};\nlet m;\nif ((m = question.match(/\\b(?:risk\\s+)?tier\\s*(?:of\\s*)?T?([1-5])\\b/i) || question.match(/\\bT([1-5])\\b/))) inputs.tier = 'T' + m[1];\nif (/\\b(no|without)\\s+(credit\\s+|fico\\s+)?(score|fico|credit history)\\b/i.test(question)) inputs.noScore = true;\nelse if ((m = question.match(/\\b(?:fico|credit score|score)\\D{0,12}(\\d{3})\\b/i) || question.match(/\\b(\\d{3})\\s*(?:fico|credit score)\\b/i))) inputs.fico = +m[1];\nif ((m = question.match(/\\b(?:payment\\s+)?(?:dti|debt[- ]to[- ]income)(?:\\s+ratio)?\\D{0,10}(\\d{1,3}(?:\\.\\d+)?)\\s*%?/i) ||\n         question.match(/\\b(\\d{1,3}(?:\\.\\d+)?)\\s*%\\s*(?:payment\\s+)?(?:dti|debt[- ]to[- ]income)/i))) inputs.dti = +m[1];\nconst dollarRe = /\\$\\s?(\\d[\\d,]*(?:\\.\\d+)?)\\s*(k|thousand)?\\b|\\b(\\d[\\d,]*(?:\\.\\d+)?)\\s*(k|thousand)\\b/gi;\nlet income = null;\nfor (const d of question.matchAll(dollarRe)) {\n  const n = money(d[1] || d[3]) * ((d[2] || d[4]) ? 1000 : 1);\n  const before = question.slice(Math.max(0, d.index - 30), d.index).toLowerCase();\n  if (/(income|salary|earn|make|making)\\W*(of|is|about|around)?\\W*$/.test(before) || /^\\s*(a|per)\\s+year|^\\s*(annual|yearly|income)/i.test(question.slice(d.index + d[0].length, d.index + d[0].length + 15))) income = n;\n  else if (inputs.amount === undefined) inputs.amount = n;\n}\nfunction flag(word) {\n  const re = new RegExp('\\\\b' + word, 'i');\n  const hit = question.match(re);\n  if (!hit) return undefined;\n  const before = question.slice(Math.max(0, hit.index - 40), hit.index);\n  const clause = before.split(/[.;]|\\bbut\\b/i).pop();\n  return !/\\b(no|not|without|never|none|zero)\\b/i.test(clause);\n}\nconst bk = flag('bankrupt'); if (bk !== undefined) inputs.bankruptcy = bk;\nconst col = flag('collection'); if (col !== undefined) inputs.collections = col;\n\nconst NEED = [\n  ['tier', 'applicant risk tier (T1 to T5, assigned under RISK-TIER from credit history)'],\n  ['fico', 'FICO score (or \"no credit score\")'],\n  ['dti', 'payment DTI %'],\n  ['amount', 'requested amount'],\n  ['bankruptcy', 'bankruptcy in the past 7 years (yes or no)'],\n  ['collections', 'collections in the past 12 months (yes or no)'],\n];\nconst has = k => (k === 'fico' ? (inputs.fico !== undefined || inputs.noScore) : inputs[k] !== undefined);\nconst missing = NEED.filter(([k]) => !has(k)).map(([, label]) => label);\n\n// gate results, computed only when one product is named and all six inputs are given\nconst tierNum = t => +String(t).replace(/\\D/g, '');\nconst amountLabel = p => (p.product_family === 'Credit Card' ? 'Maximum credit limit' : 'Maximum loan amount');\nlet gateResults = null;\nif (found.length === 1 && elig && missing.length === 0) {\n  const g = gates[found[0].product_code];\n  const res = [];\n  const tierOk = tierNum(inputs.tier) <= tierNum(g.tier);\n  res.push(['Minimum risk tier', `applicant ${inputs.tier}, minimum ${g.tier}; ${inputs.tier} is ${tierOk ? 'the same as or better than' : 'a riskier tier than'} ${g.tier} (T1 is the best tier, T5 the riskiest)`, tierOk]);\n  if (inputs.noScore) res.push(['Minimum FICO', `applicant has no credit score; product ${g.noScore ? 'accepts' : 'does not accept'} no score`, g.noScore]);\n  else res.push(['Minimum FICO', `applicant ${inputs.fico}, minimum ${g.fico}`, inputs.fico >= g.fico]);\n  res.push(['Maximum payment DTI', `applicant ${inputs.dti}%, maximum ${g.dti}%`, inputs.dti <= g.dti]);\n  res.push([amountLabel(found[0]), `requested ${fmt$(inputs.amount)}, maximum ${fmt$(g.amount)}`, inputs.amount <= g.amount]);\n  res.push(['Bankruptcy', `applicant ${inputs.bankruptcy ? 'has a' : 'has no'} bankruptcy in the past 7 years; product ${g.bankruptcy ? 'allows' : 'does not allow'} it`, !inputs.bankruptcy || g.bankruptcy]);\n  res.push(['Collections', `applicant ${inputs.collections ? 'has' : 'has no'} collections in the past 12 months; product ${g.collections ? 'allows' : 'does not allow'} them`, !inputs.collections || g.collections]);\n  const failed = res.filter(r => !r[2]).map(r => r[0]);\n  gateResults = { lines: res.map(r => `${r[0]}: ${r[1]} -> ${r[2] ? 'PASS' : 'FAIL'}`), failed,\n                  verdict: (failed.length ? `Not eligible for ${found[0].product_code}: fails ${failed.join(', ')}.` : `Meets all six catalog gates for ${found[0].product_code}.`) +\n                    (inputs.noScore && g.noScore ? ' An applicant with no credit score goes to manual underwriting (ELIG-001 section 4).' : '') };\n}\n\n// ---------------------------------------------------------------- 5. prohibited factors and notes\nconst prohibited = [];\nif (/\\bdefault(s|ed)?\\b/i.test(question)) prohibited.push('default outcome');\nif (/\\b(gender|sex|male|female)\\b/i.test(question)) prohibited.push('gender');\nif (/\\b(marital|married|divorced|single parent|family status|children|kids)\\b/i.test(question)) prohibited.push('family status');\nconst notes = [];\nif (prohibited.length) notes.push(`The question mentions ${prohibited.join(', ')}, which RISK-TIER (applicant_risk_policy.md) prohibits as a factor, so it cannot be used.`);\nif (/\\bdebt burden\\b/i.test(question)) notes.push('The debt burden ratio is a RISK-TIER input, not the payment DTI gate, so it is not used as DTI.');\nif (income !== null) notes.push(`Income (${fmt$(income)}) is not one of the six catalog gates; it matters through payment DTI and the ability-to-repay check.`);\nif (/\\bapprov/i.test(question)) notes.push('This system retrieves policy evidence; it does not make approval decisions. Final decisions go to underwriting.');\n\n// ---------------------------------------------------------------- route\nconst productList = products.map(p => `${p.product_name} (${p.product_code})`).join(', ');\nlet route = 'answer';\nlet reply = '';\nif (outOfCatalog && found.length === 0) {\n  route = 'ask';\n  reply = `There is no \"${outOfCatalog}\" product in the catalog, so no policy covers it. The catalog has: ${productList}.`;\n} else if (isEligibilityQuestion && found.length === 0) {\n  route = 'ask';\n  const fam = familiesMentioned.length === 1\n    ? products.filter(p => p.product_family === familiesMentioned[0]).map(p => `${p.product_name} (${p.product_code})`).join(', ')\n    : productList;\n  reply = `Which product should I check? Options: ${fam}.` +\n    (missing.length ? ` I will also need: ${missing.join('; ')}.` : '');\n} else if (found.length > 1 && isEligibilityQuestion) {\n  route = 'ask';\n  reply = `The question names more than one product (${found.map(p => p.product_code).join(', ')}). Please ask about one product at a time.`;\n} else if (!elig && (isEligibilityQuestion || found.length)) {\n  route = 'no_policy';\n  const first = eligVersions[0];\n  reply = `No eligibility policy was in force on ${asOf}. According to document _metadata .csv, the earliest version of the eligibility rules (ELIG-001 ${first ? first.version : ''}) takes effect on ${first ? first.effective_date : 'an unknown date'}, ` +\n    `so it cannot be applied to this application. Eligibility cannot be determined from the current corpus, and the case should be routed to manual review.`;\n} else if (isEligibilityQuestion && missing.length) {\n  route = 'ask';\n  reply = `To check ${found[0].product_name} (${found[0].product_code}) under ELIG-001 ${elig.version}, I still need: ${missing.join('; ')}. ` +\n    `Ask again with those values. The risk tier is never estimated from the FICO score.`;\n}\nif (route !== 'answer') {\n  if (notes.length) reply += ' ' + notes.join(' ');\n  reply += `\\n\\nSources: ${route === 'no_policy' ? 'document _metadata .csv' : 'loan_product.csv' + (elig && route === 'ask' && found.length ? `, ELIG-001 ${elig.version}` : '')}`;\n}\n\n// ---------------------------------------------------------------- facts for the LLM\nconst lines = [\n  `Question: ${question}`,\n  `Product named in the question: ${found.length ? found.map(p => `${p.product_code} (${p.product_name})`).join(', ') : 'none'}`,\n  `Application date: ${asOf}${stated ? ' (stated in the question)' : namedVersion ? ` (not stated; the question names ELIG-001 ${namedVersion.version}, so its effective date is used)` : ' (not stated in the question; policies in force today are used)'}`,\n  `Policies in force on that date (from document _metadata .csv): ${inForce.map(policyLine).join('; ') || 'none'}`,\n];\nfor (const p of found) {\n  const g = gates[p.product_code];\n  if (g) lines.push(`Catalog gate in force for ${p.product_code} (source: ${gateSource}): minimum risk tier ${g.tier}; minimum FICO ${g.fico}; accepts no credit score ${g.noScore ? 'Yes' : 'No'}; maximum payment DTI ${g.dti}%; ${amountLabel(p).toLowerCase()} ${fmt$(g.amount)}; bankruptcy in the past 7 years allowed ${g.bankruptcy ? 'Yes' : 'No'}; collections in the past 12 months allowed ${g.collections ? 'Yes' : 'No'}.`);\n}\nconst given = NEED.filter(([k]) => has(k)).map(([k]) =>\n  k === 'fico' ? (inputs.noScore ? 'FICO: no credit score' : `FICO ${inputs.fico}`)\n  : k === 'amount' ? `requested amount ${fmt$(inputs.amount)}`\n  : k === 'dti' ? `payment DTI ${inputs.dti}%`\n  : k === 'tier' ? `risk tier ${inputs.tier}`\n  : `${k} ${inputs[k] ? 'yes' : 'no'}`);\nif (given.length && isEligibilityQuestion) lines.push(`Applicant inputs read from the question: ${given.join('; ')}`);\nif (gateResults) {\n  lines.push('Gate results (computed by code from the catalog gate in force; use them exactly, do not recompute):');\n  lines.push(...gateResults.lines.map(l => '- ' + l));\n  lines.push(`Gate verdict: ${gateResults.verdict}`);\n}\nif (prohibited.length) lines.push(`Prohibited factors mentioned in the question (must not be used): ${prohibited.join(', ')}`);\nif (notes.length) lines.push(`Notes: ${notes.join(' ')}`);\n\nreturn [{ json: {\n  route,\n  reply,\n  facts: lines.join('\\n'),\n  search_query: [question, ...found.map(p => `${p.product_code} ${p.product_name}`)].join(' '),\n  question,\n  product_codes: found.map(p => p.product_code),\n  application_date: asOf,\n  date_stated: !!stated,\n  policies_in_force: inForce.map(m => `${m.doc_id} ${m.version}`),\n  inputs,\n  missing,\n  gate_results: gateResults,\n  gate_source_ids: found.length ? gateSourceIds : [],\n  prohibited_factors: prohibited,\n}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        700
+      ],
+      "id": "3e317e28-4002-4e79-888c-c5a6c7ab6a42",
+      "name": "Guardrail"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ee4aec27-a3f2-4b15-a1de-841681315c6d",
+              "leftValue": "={{ $json.route }}",
+              "rightValue": "ask",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        700
+      ],
+      "id": "bf8bbd2a-3355-4163-92ed-1f6d93fb221e",
+      "name": "Needs retrieval?"
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "memoryKey": {
+          "__rl": true,
+          "value": "fintech_policies",
+          "mode": "id"
+        },
+        "prompt": "={{ $json.search_query }}",
+        "topK": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        680,
+        620
+      ],
+      "id": "1f9a76c5-f66b-47b5-8ff2-7959b5e00724",
+      "name": "Retrieve chunks",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        700,
+        820
+      ],
+      "id": "e6c41ddc-2acb-458f-af7b-e761c0d69297",
+      "name": "Embeddings Ollama1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build context: takes the chunks returned by \"Retrieve chunks\" (Simple Vector Store, Get Many),\n// labels each one with its metadata, keeps only chunks in force on the application date,\n// and builds the prompt. The full retrieved list is returned as \"evidence\" for the A3 write-up.\nconst SHOW_EVIDENCE = true;        // append the retrieved top-K list to the chat reply\nconst FILTER_BY_METADATA = true;   // false = A3 section 4D 'before' run: pass the top chunks by similarity only, ignoring version, dates and product\nconst CONTEXT_K = 6;          // chunks passed to the LLM after filtering\n\nconst g = $('Guardrail').first().json;\nconst asOf = g.application_date;\nconst named = g.product_codes || [];\nconst clean = s => String(s ?? '').replace(/[{}]/g, m => (m === '{' ? '(' : ')'));   // the LLM chain treats braces as template variables\n\nconst retrieved = $input.all().map((it, i) => {\n  const doc = it.json.document || it.json || {};   // Get Many returns { document: { pageContent, metadata }, score }\n  const md = doc.metadata || {};\n  const from = md.effective_date || '';\n  const to = md.effective_to || '';\n  let keep = true, reason = 'in force';\n  if (!from) { keep = false; reason = 'no effective date in metadata'; }\n  else if (from > asOf) { keep = false; reason = `not yet in force on ${asOf}`; }\n  else if (to && to < asOf) { keep = false; reason = `superseded before ${asOf}`; }\n  else if (md.product_code && named.length && !named.includes(md.product_code)) { keep = false; reason = 'catalog row for another product'; }\n  let filterOff = '';\n  if (!FILTER_BY_METADATA && !keep) { filterOff = reason; keep = true; reason = 'in force'; }\n  return {\n    rank: i + 1,\n    score: typeof it.json.score === 'number' ? +it.json.score.toFixed(3) : null,\n    doc_id: md.doc_id || '?', version: md.version || '', source: md.source_file || md.doc_id || '',\n    product_code: md.product_code || '', effective_date: from, effective_to: to,\n    keep, reason, filterOff, text: String(doc.pageContent || ''),\n  };\n});\nconst kept = retrieved.filter(r => r.keep).slice(0, CONTEXT_K);\nfor (const r of retrieved) if (r.keep && !kept.includes(r)) { r.keep = false; r.reason = `in force, but over the ${CONTEXT_K}-chunk limit`; r.over = true; }\n// The only sources the answer may cite: the chunks actually passed to the LLM, plus where the gates came from\nconst sourceId = r => (r.doc_id === 'loan_product.csv' ? 'loan_product.csv' : `${r.doc_id} ${r.version}`.trim());\nconst allowedSources = [...new Set([...(g.gate_source_ids || []), ...kept.map(sourceId)])];\n\nconst context = kept.map((r, i) =>\n  `[Chunk ${i + 1} | ${r.doc_id} ${r.version} | in force ${r.effective_date} to ${r.effective_to || 'open'} | ${r.source}]\\n${r.text}`\n).join('\\n\\n');\n\nconst system = `You are an assistant for loan eligibility review. Answer using ONLY the facts and context in the user message, in clear professional prose for a credit analyst.\n\nHow to write:\n- One or two short paragraphs. No bullet points, no lists, no headings, no PASS/FAIL labels.\n- State the conclusion in the first sentence, then explain it.\n- End with a separate final line that starts with \"Sources:\" and lists only the sources you relied on, chosen from this list: ${allowedSources.join(', ') || 'none'}. Never cite anything that is not on that list.\n\nRules:\n1. Use only the facts and the context. If something is not there, say it is not in the corpus. Never name a document that is not in \"Policies in force\" or in a chunk label.\n2. Every chunk is labelled with its document, version and the dates it is in force.${FILTER_BY_METADATA ? ' All chunks shown are in force on the application date.' : ''} Never use numbers from a version that is not in force on the application date.\n3. Numeric gates come only from the \"Catalog gate in force\" line.\n4. If \"Gate results (computed by code)\" are given, use them exactly as written and do not recompute any comparison. Name every failed gate with both numbers, then say in one sentence which gates pass.\n5. If the application date was not stated, say the answer uses the policies in force today.\n6. Escalation procedures may describe exceptions, but an exception never overrides a failed catalog gate and never means an applicant is approved.\n7. Never assume a value the question does not give, and never estimate the risk tier from the FICO score. T1 is the best tier and T5 the worst.\n8. If prohibited factors are listed, say clearly that they cannot be used, and do not use them.\n9. Never answer \"should I approve.\" This system retrieves policy evidence; underwriting makes the decision.`;\n\nconst user = `${g.facts}\\n\\nContext (${kept.length} chunks${FILTER_BY_METADATA ? ` in force on ${asOf}` : ', top by similarity, not filtered'}):\\n${context || '(no chunks in force)'}\\n\\nAnswer the question: ${g.question}`;\n\nconst evidence = SHOW_EVIDENCE\n  ? `\\n\\nRetrieved evidence (top ${retrieved.length} by similarity, judged as of ${asOf}${FILTER_BY_METADATA ? '' : '; METADATA FILTER OFF'}):\\n` +\n    retrieved.map(r => `${r.rank}. ${r.keep ? 'USED' : r.over ? 'NOT USED' : 'DROPPED'} ${r.doc_id} ${r.version}${r.product_code ? ' ' + r.product_code : ''}` +\n      `${r.score !== null ? ', score ' + r.score : ''}${r.keep ? (r.filterOff ? ' (filter off; would be dropped: ' + r.filterOff + ')' : '') : ' (' + r.reason + ')'}: \"${r.text.replace(/\\s+/g, ' ').slice(0, 70)}...\"`).join('\\n')\n  : '';\n\nreturn [{ json: {\n  use_llm: g.route === 'answer',\n  reply: g.reply,\n  system_prompt: clean(system),\n  user_prompt: clean(user),\n  evidence,\n  application_date: asOf,\n  retrieved: retrieved.map(({ text, ...r }) => r),\n  context_chunks: kept.length,\n  filter_by_metadata: FILTER_BY_METADATA,\n  allowed_sources: allowedSources,\n}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        920,
+        620
+      ],
+      "id": "10ebd166-4362-4526-8ad3-4ab259215540",
+      "name": "Build context",
+      "notes": "FILTER_BY_METADATA at the top: true = drop chunks not in force on the application date. false = A3 4D before run.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ef8814c5-ea96-4f82-9c57-609296e01610",
+              "leftValue": "={{ $json.use_llm }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        620
+      ],
+      "id": "c172853e-35f1-4897-adf4-03c073602321",
+      "name": "Use LLM?"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.user_prompt }}",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "SystemMessagePromptTemplate",
+              "message": "={{ $json.system_prompt }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1360,
+        540
+      ],
+      "id": "398fb341-245c-4c57-a853-594fefd0ad6a",
+      "name": "Answer"
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:14b",
+        "options": {
+          "numCtx": 8192
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        740
+      ],
+      "id": "64d9daf7-4830-4add-b4c3-6511c6ef9471",
+      "name": "Ollama Chat Model"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75d42256-8d8c-484f-9e71-371d0c374309",
+              "name": "output",
+              "value": "={{ $json.text }}{{ $('Build context').first().json.evidence }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1640,
+        540
+      ],
+      "id": "1b93efcf-9dbb-44bf-8d88-9f9161aface1",
+      "name": "Final answer"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "81294133-4afb-4a5c-a93e-332802aeb78f",
+              "name": "output",
+              "value": "={{ $json.reply }}{{ $json.evidence }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        900
+      ],
+      "id": "b6426174-e5d9-46e8-87fe-66a81ea7ec45",
+      "name": "Fixed reply"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "42b87c28-4eb5-42e0-a670-8504b156c39f",
+              "name": "output",
+              "value": "={{ $json.reply }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        1000
+      ],
+      "id": "9bb6f171-3c56-4e1b-b691-91c529cbe184",
+      "name": "Ask for inputs"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Files list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Files list": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Product rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product rows": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store2",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Guardrail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardrail": {
+      "main": [
+        [
+          {
+            "node": "Needs retrieval?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs retrieval?": {
+      "main": [
+        [
+          {
+            "node": "Retrieve chunks",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ask for inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Retrieve chunks",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve chunks": {
+      "main": [
+        [
+          {
+            "node": "Build context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build context": {
+      "main": [
+        [
+          {
+            "node": "Use LLM?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Use LLM?": {
+      "main": [
+        [
+          {
+            "node": "Answer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fixed reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer": {
+      "main": [
+        [
+          {
+            "node": "Final answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "meta": {},
+  "tags": []
+}
