@@ -73,11 +73,16 @@
    ```bash
    pip install -r requirements.txt
    ```
-3. Check that the source data is consistent with itself and with the policies (64 checks):
+3. Check that the source data is consistent with itself and with the policies (68 checks):
    ```bash
    python src/validation/check_source_consistency.py
    ```
-4. Only if the synthetic source data needs rebuilding (see `src/synthetic/README.md`):
+4. Build the DuckDB relational model and the quality reports (or run `notebooks/04_relational_model.ipynb`):
+   ```bash
+   python src/database/build_relational_model.py
+   python src/database/generate_quality_reports.py
+   ```
+5. Only if the synthetic source data needs rebuilding (see `src/synthetic/README.md`):
    ```bash
    python src/synthetic/regenerate_source_data.py
    ```

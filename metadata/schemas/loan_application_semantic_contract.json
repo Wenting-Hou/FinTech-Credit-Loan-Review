@@ -54,7 +54,7 @@
       "unit": "USD",
       "scale": "whole dollars",
       "period": "point-in-time request",
-      "notes": "Amount the applicant asked for, not an approved or funded amount. May legitimately exceed the product maximum in loan_product.csv (25 rows do)."
+      "notes": "Amount the applicant asked for, not an approved or funded amount. May legitimately exceed the product maximum in loan_product.csv (13 rows do)."
     },
     "employment_duration_months": {
       "unit": "months",
@@ -69,7 +69,7 @@
     "dti_pct": {
       "unit": "percent",
       "scale": "0-100, one decimal place",
-      "notes": "CRITICAL: this is a percent, not a 0-1 ratio. It is also NOT the same measure as applicant_risk_features.debt_burden_ratio, which is an unbounded stock-of-debt-to-income ratio (0.0804-2.376). The two do not convert into one another and must never be substituted for each other."
+      "notes": "CRITICAL: this is a percent, not a 0-1 ratio. It is also NOT the same measure as applicant_risk_features.debt_burden_ratio, which is an unbounded stock-of-debt-to-income ratio (0.0804-2.5377). The two do not convert into one another and must never be substituted for each other."
     },
     "boolean_flags": {
       "unit": "boolean",
@@ -165,9 +165,9 @@
     "max_acceptable_staleness": "24 hours in the production analogue; snapshot-stable for the duration of a project milestone",
     "freshness_signal": "MAX(date) within the file, compared against the expected coverage window",
     "current_coverage_window": {"start": "2024-01-01", "end": "2026-12-31"},
-    "profiled_at": "2026-10-01",
+    "profiled_at": "2026-11-12",
     "staleness_alerting": "Raise a data-quality event if a new load reduces MAX(date), if row count moves by more than 10%, or if any new categorical value appears in region_state, product_code, preliminary_decision or final_decision.",
-    "late_arriving_data": "Not expected for intake fields. final_decision and final_decision_date are filled after intake, so the 6 applications still open at the 2026-09-14 extract date can gain a decision in a later snapshot. Because this snapshot already contains future-dated rows, absence of recent rows is NOT a reliable staleness signal on its own; check row count and coverage window together.",
+    "late_arriving_data": "Not expected for intake fields. final_decision and final_decision_date are filled after intake, so the 8 applications still open at the 2026-09-14 extract date can gain a decision in a later snapshot. Because this snapshot already contains future-dated rows, absence of recent rows is NOT a reliable staleness signal on its own; check row count and coverage window together.",
     "backfill_policy": "Full replacement. There is no incremental merge key other than application_id; intake fields are immutable once written, and only final_decision and final_decision_date can change between snapshots."
   },
 
@@ -175,7 +175,7 @@
     {
       "id": "BI-01",
       "rule": "preliminary_decision is PRELIMINARY, not final.",
-      "detail": "Review (53 of 600, 8.8%) means 'routed to a human underwriter', not 'pending approval' and not a negative outcome. Any approval-rate metric must state its denominator, treat Review as a distinct third state, and say whether it is built on preliminary_decision or final_decision. Reporting approvals as 274/(274+273) and calling it a 50% approval rate is a misstatement: it silently discards the 53 Review cases, which resolve in final_decision to Approved 17, Declined 27, Withdrawn 4 and open 5.",
+      "detail": "Review (98 of 600, 16.3%) means 'routed to a human underwriter', not 'pending approval' and not a negative outcome. Any approval-rate metric must state its denominator, treat Review as a distinct third state, and say whether it is built on preliminary_decision or final_decision. Reporting approvals as 370/(370+132) and calling it a 74% approval rate is a misstatement: it silently discards the 98 Review cases, which resolve in final_decision to Approved 34, Declined 45, Withdrawn 5 and open 14.",
       "severity": "critical"
     },
     {
@@ -187,13 +187,13 @@
     {
       "id": "BI-03",
       "rule": "preliminary_decision follows the product rules, then the applicant-tier overlay.",
-      "detail": "The rule reproduces all 600 rows. Declined if any loan_product.csv gate fails: requested amount above maximum_amount_usd, dti_pct above max_dti_pct, a bankruptcy or collections flag on a product that does not allow it, risk_tier worse than minimum_risk_tier, fico_score below minimum_fico, or no score on a product whose allow_no_score_flag is FALSE. Otherwise Review if credit_history_status is NO_HISTORY or LIMITED_HISTORY or risk_tier is T4 or T5 (product_risk_policy.md section 3); otherwise Approved. Counts: Approved 274, Declined 273, Review 53. Consequences: the bankruptcy and collections flags matter only on products that disallow them (5 approvals carry a bankruptcy flag and 14 a collections flag, all on products that allow it); employment tenure, state and SCRA status play no part at this stage, and income enters only indirectly through risk_tier. A model trained to predict preliminary_decision is therefore learning a published deterministic rule, not credit risk; it will appear near-perfect and add nothing the rule does not already state.",
+      "detail": "The rule reproduces all 600 rows. Declined if any loan_product.csv gate fails: requested amount above maximum_amount_usd, dti_pct above max_dti_pct, a bankruptcy or collections flag on a product that does not allow it, risk_tier worse than minimum_risk_tier, fico_score below minimum_fico, or no score on a product whose allow_no_score_flag is FALSE. Otherwise Review if credit_history_status is NO_HISTORY or LIMITED_HISTORY or risk_tier is T4 or T5 (product_risk_policy.md section 3); otherwise Approved. Counts: Approved 370, Declined 132, Review 98. Consequences: the bankruptcy and collections flags matter only on products that disallow them (11 approvals carry a bankruptcy flag and 22 a collections flag, all on products that allow it); employment tenure, state and SCRA status play no part at this stage, and income enters only indirectly through risk_tier. A model trained to predict preliminary_decision is therefore learning a published deterministic rule, not credit risk; it will appear near-perfect and add nothing the rule does not already state.",
       "severity": "critical"
     },
     {
       "id": "BI-04",
       "rule": "requested_amount_usd is a request, never an approval.",
-      "detail": "Do not aggregate it as originated volume, exposure or balance. 25 rows exceed the product maximum in loan_product.csv; 215 scored applications fall below the product minimum FICO, 11 unscored applications are on products that do not accept no score, 40 exceed the product DTI cap and 160 carry a risk_tier worse than the product minimum (a row can fail several gates). These are valid applications that failed eligibility and were preliminarily Declined, not corrupt records; that is precisely what an intake file is supposed to contain.",
+      "detail": "Do not aggregate it as originated volume, exposure or balance. 13 rows exceed the product maximum in loan_product.csv; 63 scored applications fall below the product minimum FICO, 1 unscored application is on a product that does not accept no score, 22 exceed the product DTI cap and 87 carry a risk_tier worse than the product minimum (a row can fail several gates). These are valid applications that failed eligibility and were preliminarily Declined, not corrupt records; that is precisely what an intake file is supposed to contain.",
       "severity": "high"
     },
     {
@@ -205,7 +205,7 @@
     {
       "id": "BI-06",
       "rule": "dti_pct is a percent and is not interchangeable with debt_burden_ratio.",
-      "detail": "Bounded 8.2-59.8 here; the risk-features measure, applicant_risk_features.debt_burden_ratio, is an unbounded 0.0804-2.376 debt-stock ratio. Multiplying one by 100 does not yield the other in any of the 580 rows where both are present (debt_burden_ratio is empty for the 20 NO_HISTORY applicants). Always qualify which measure is being reported; only dti_pct is tested against the product max_dti_pct.",
+      "detail": "Bounded 8.2-59.8 here; the risk-features measure, applicant_risk_features.debt_burden_ratio, is an unbounded 0.0804-2.5377 debt-stock ratio. Multiplying one by 100 does not yield the other in any of the 580 rows where both are present (debt_burden_ratio is empty for the 20 NO_HISTORY applicants). Always qualify which measure is being reported; only dti_pct is tested against the product max_dti_pct.",
       "severity": "high"
     },
     {
@@ -249,7 +249,7 @@
     "collections_past_12_months_flag": "TRUE where a collections event was recorded in the twelve months prior to application. Disqualifying in the preliminary screen only on products whose allow_collections_flag is FALSE. See BI-03.",
     "preliminary_decision": "Intake screening outcome: Approved, Review (routed to human underwriting), or Declined. Preliminary only; the underwriting outcome is final_decision. See BI-01 and BI-03.",
     "date": "Application submission date and the as-of anchor for every intake field in the row.",
-    "final_decision": "Underwriting outcome: Approved, Declined or Withdrawn; empty while the application is open. Counts: Approved 242, Declined 266, Withdrawn 15, open 77 (the 71 applications dated after the 2026-09-14 extract date, which never carry a final decision, and 6 still open at that date). A preliminary Declined is never later Approved, and a preliminary Approved is never later Declined, though it can be Withdrawn. Postdates the application; see BI-05.",
+    "final_decision": "Underwriting outcome: Approved, Declined or Withdrawn; empty while the application is open. Counts: Approved 338, Declined 163, Withdrawn 20, open 79 (the 71 applications dated after the 2026-09-14 extract date, which never carry a final decision, and 8 still open at that date). A preliminary Declined is never later Approved, and a preliminary Approved is never later Declined, though it can be Withdrawn. Postdates the application; see BI-05.",
     "final_decision_date": "Date the final decision was made, M/D/YYYY like date. Filled exactly when final_decision is filled; on or after the application date and on or before the 2026-09-14 extract date."
   },
 
@@ -288,6 +288,13 @@
       "date": "2026-11-12",
       "author_role": "Team Lead / Liaison",
       "summary": "Added applicant_id (foreign key to applicant.csv), clarified that region_state is the state the application was submitted from, and rewrote the grain note for repeat applicants."
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-11-12",
+      "author_role": "Team Lead / Liaison",
+      "summary": "Re-profiled counts after repeat applicants were made consistent (same person across both applications).",
+      "note": "Updated the preliminary and final decision counts, the Review outcomes, the gate failure counts, the open count at the extract date (8) and the debt_burden_ratio range (0.0804-2.5377). Rechecked after the later regenerations that sized debt for a new credit file against the aligned income, carried delinquency between applications, copied pre-dated FICO pulls and fixed jumbo amounts. The decision and gate counts were already stale before this change."
     }
   ]
 }

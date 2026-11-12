@@ -6,7 +6,7 @@ The structured CSVs in `data/structured/raw/` are synthetic. `regenerate_source_
 
 ```bash
 python src/synthetic/regenerate_source_data.py      # rebuild the derived fields
-python src/validation/check_source_consistency.py   # prove the result (64 checks)
+python src/validation/check_source_consistency.py   # prove the result (68 checks)
 ```
 
 The script uses a fixed seed, so running it twice gives identical files. Run the checker after any manual edit to the raw data or to `loan_product.csv`.
@@ -25,9 +25,10 @@ The script uses a fixed seed, so running it twice gives identical files. Run the
 
 **Gates tested by `preliminary_decision`:** requested amount above `maximum_amount_usd`, `dti_pct` above `max_dti_pct`, bankruptcy or collections on a product that does not allow it, `risk_tier` worse than `minimum_risk_tier`, `fico_score` below `minimum_fico`, or no score on a product with `allow_no_score_flag` = FALSE.
 
-Everything else (income, debts, days overdue, flags, dates, bureaus, reasons, product terms) is generator-owned and is left as it is, apart from two plausibility rules:
+Everything else (income, debts, days overdue, flags, dates, bureaus, reasons, product terms) is generator-owned and is left as it is, apart from three plausibility rules:
 
 - **Product fits the applicant.** People mostly apply for a product their credit score can reach. An applicant below the product's minimum FICO, or with no score on a product that needs one, moves to the best product in the same family they fit. 20% of them stay where they are as realistic outliers and are declined; these are the cases a later counteroffer feature (smaller loan or higher rate) would pick up. An applicant whose score is at least 40 points above a better product's minimum leaves the entry product (FHA, secured card, subprime auto) 60% of the time. Nobody moves up into Jumbo, because Jumbo is chosen by loan size. If the new product's maximum is lower, the requested amount is redrawn under it.
+- **Repeat applicants are the same person.** When an applicant has two applications, the later one is derived from the earlier one, allowing for the time between them: income grows about 3% a year, within 3% for someone who kept their job and from -10% to +20% after a job change; a job change gets more likely the longer the gap (10% plus 20% a year, at most 60%) and restarts employment months at no more than the gap, otherwise employment months grow by the gap; a bankruptcy ages out with probability years/7 and a new one appears at 2% a year; SCRA status ends with probability 15% a year (at most 50%); collections carry forward inside six months; payment DTI stays within 15% for the same product family; outstanding debt stays within 25% (or 5% to 60% of income for a credit file opened between the two applications, and never below the overdue amount); a delinquency from the earlier lookback stays visible with probability (24 - gap months) / 24, and a new one is no longer than the gap; later FICO pulls dated after the earlier application follow one trend of at most 30 points a year from the earlier score, plus or minus 8 points of bureau noise, and pulls dated before it copy the earlier application's closest pull (a later application always has at least one scored pull after the earlier one). A later application whose credit history contradicts the earlier one is swapped with a single applicant's application from the same state, and a later jumbo request the aligned income cannot support moves to the conforming mortgage.
 - **Amount fits income.** Requested amounts above 5x income (mortgage), 0.5x (card) or 1.5x (auto) are redrawn, and a jumbo applicant who cannot support the smallest jumbo loan gets a higher income.
 
 ## Do not "fix" these

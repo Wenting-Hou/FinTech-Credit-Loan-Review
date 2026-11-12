@@ -1,6 +1,7 @@
 duckdb
 pandas
 jsonschema
+pyyaml
 chromadb
 sentence-transformers
 jupyter

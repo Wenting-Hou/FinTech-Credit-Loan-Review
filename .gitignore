@@ -217,3 +217,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 .DS_Store
+
+# DuckDB database (rebuild with src/database/build_relational_model.py)
+fintech.duckdb
+fintech.duckdb.wal

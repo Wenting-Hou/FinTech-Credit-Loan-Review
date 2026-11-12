@@ -114,6 +114,32 @@ def main() -> int:
     home = latest["applicant_id"].map(dict(zip(ap["applicant_id"], ap["state"])))
     check("each applicant's latest application is from their current state (XREF_010)",
           (latest["region_state"] != home).sum())
+
+    # Repeat applicants: the later application is the same person, allowing for the time between them
+    order = la.sort_values(["_date", "application_id"], kind="stable")
+    first = order.groupby("applicant_id").head(1).set_index("applicant_id")
+    second = order[order.duplicated("applicant_id")].set_index("applicant_id")
+    first = first.loc[second.index]
+    years = (second["_date"] - first["_date"]).dt.days / 365.25
+    gap_months = ((second["_date"] - first["_date"]).dt.days / 30.4375).astype(int)
+    band = second["_income"] / (first["_income"] * 1.03 ** years)
+    check("repeat applicants: later income is within -10% to +20% of the earlier grown 3% a year",
+          ((band < 0.895) | (band > 1.205)).sum())
+    check("repeat applicants: later employment months are at most earlier months plus the gap",
+          (second["employment_duration_months"].astype(int)
+           > first["employment_duration_months"].astype(int) + gap_months).sum())
+    anchor = first["fico_score"].replace("", None).dropna().astype(int)
+    pulls = ev[(ev["fico_score"] != "") & ev["application_id"].isin(second.loc[anchor.index, "application_id"])].copy()
+    owner = dict(zip(second["application_id"], second.index))
+    pulls["_applicant"] = pulls["application_id"].map(owner)
+    pulls["_start"] = pulls["_applicant"].map(first["_date"])
+    after = pulls[pulls["_date"] > pulls["_start"]]
+    drift = (after["fico_score"].astype(int) - after["_applicant"].map(anchor)).abs()
+    allowed = 30 * (after["_date"] - after["_start"]).dt.days / 365.25 + 8 + 0.5
+    check("repeat applicants: later pulls stay within 30 points a year (plus 8) of the earlier score",
+          (drift > allowed).sum())
+    check("repeat applicants: a scored later application has a pull dated after the earlier one",
+          len(set(pulls["_applicant"]) - set(after["_applicant"])))
     no_history = set(rf.loc[rf["credit_history_status"] == "NO_HISTORY", "application_id"])
 
     # ------------------------------------------------ products

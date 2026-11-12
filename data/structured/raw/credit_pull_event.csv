@@ -6,11 +6,11 @@ E0000004,APP100000,2026-01-27,673,Experian,Completed,Manual Review
 E0000005,APP100000,2026-05-11,667,TransUnion,Completed,Fraud Verification
 E0000006,APP100001,2024-01-11,780,TransUnion,Completed,Re-Pull After Correction
 E0000007,APP100001,2024-09-02,812,Equifax,Completed,Initial Application
-E0000008,APP100002,2025-02-26,438,Experian,Completed,Manual Review
-E0000009,APP100002,2025-03-25,419,Experian,Completed,Manual Review
-E0000010,APP100002,2025-07-01,421,Equifax,Completed,Manual Review
-E0000011,APP100002,2025-09-17,416,Experian,Completed,Re-Pull After Correction
-E0000012,APP100002,2025-10-29,416,TransUnion,Completed,Fraud Verification
+E0000008,APP100002,2025-02-26,637,Experian,Completed,Manual Review
+E0000009,APP100002,2025-03-25,626,Experian,Completed,Manual Review
+E0000010,APP100002,2025-07-01,623,Equifax,Completed,Manual Review
+E0000011,APP100002,2025-09-17,622,Experian,Completed,Re-Pull After Correction
+E0000012,APP100002,2025-10-29,633,TransUnion,Completed,Fraud Verification
 E0000013,APP100003,2024-04-30,715,Equifax,Completed,Initial Application
 E0000014,APP100003,2024-03-31,728,Equifax,Completed,Re-Pull After Correction
 E0000015,APP100003,2024-06-16,696,Equifax,Completed,Re-Pull After Correction
@@ -26,22 +26,22 @@ E0000024,APP100006,2023-03-04,734,Experian,Completed,Initial Application
 E0000025,APP100006,2023-05-15,734,Equifax,Completed,Initial Application
 E0000026,APP100006,2024-02-03,697,Equifax,Completed,Manual Review
 E0000027,APP100007,2026-06-02,758,TransUnion,Completed,Fraud Verification
-E0000028,APP100008,2024-08-25,671,TransUnion,Completed,Fraud Verification
-E0000029,APP100008,2024-11-24,626,TransUnion,Completed,Manual Review
-E0000030,APP100008,2025-03-05,659,TransUnion,Completed,Credit Refresh
-E0000031,APP100008,2025-10-17,667,TransUnion,Completed,Re-Pull After Correction
-E0000032,APP100008,2025-11-05,660,Experian,Completed,Re-Pull After Correction
+E0000028,APP100008,2024-08-25,804,TransUnion,Completed,Fraud Verification
+E0000029,APP100008,2024-11-24,817,TransUnion,Completed,Manual Review
+E0000030,APP100008,2025-03-05,805,TransUnion,Completed,Credit Refresh
+E0000031,APP100008,2025-10-17,807,TransUnion,Completed,Re-Pull After Correction
+E0000032,APP100008,2025-11-05,804,Experian,Completed,Re-Pull After Correction
 E0000033,APP100009,2022-10-20,658,TransUnion,Completed,Initial Application
 E0000034,APP100009,2023-05-20,685,TransUnion,Completed,Initial Application
 E0000035,APP100009,2024-02-12,639,TransUnion,Completed,Re-Pull After Correction
 E0000036,APP100010,2025-07-02,663,Experian,Completed,Manual Review
 E0000037,APP100010,2026-02-09,673,Equifax,Completed,Credit Refresh
 E0000038,APP100011,2026-03-16,,TransUnion,Error,Manual Review
-E0000039,APP100011,2026-10-07,756,Experian,Completed,Fraud Verification
+E0000039,APP100011,2026-11-17,727,Experian,Completed,Fraud Verification
 E0000040,APP100012,2024-10-21,747,Equifax,Completed,Fraud Verification
 E0000041,APP100012,2024-08-22,768,Equifax,Completed,Manual Review
-E0000042,APP100013,2024-06-10,776,Experian,Completed,Re-Pull After Correction
-E0000043,APP100013,2025-01-29,802,Experian,Completed,Initial Application
+E0000042,APP100013,2024-06-10,781,Experian,Completed,Re-Pull After Correction
+E0000043,APP100013,2025-07-25,815,Experian,Completed,Initial Application
 E0000044,APP100014,2023-12-02,636,TransUnion,Completed,Credit Refresh
 E0000045,APP100014,2023-12-08,689,Equifax,Completed,Re-Pull After Correction
 E0000046,APP100014,2024-07-25,682,TransUnion,Completed,Re-Pull After Correction
@@ -50,13 +50,13 @@ E0000048,APP100014,2024-11-25,682,Equifax,Completed,Credit Refresh
 E0000049,APP100015,2025-05-01,850,Equifax,Completed,Fraud Verification
 E0000050,APP100015,2025-11-08,,Experian,Error,Credit Refresh
 E0000051,APP100015,2026-06-17,848,Experian,Completed,Initial Application
-E0000052,APP100016,2024-04-19,728,Equifax,Completed,Credit Refresh
-E0000053,APP100016,2025-01-04,717,TransUnion,Completed,Re-Pull After Correction
+E0000052,APP100016,2024-04-19,633,Equifax,Completed,Credit Refresh
+E0000053,APP100016,2025-01-04,622,TransUnion,Completed,Re-Pull After Correction
 E0000054,APP100016,2024-10-26,,Experian,Error,Credit Refresh
-E0000055,APP100016,2024-07-18,758,TransUnion,Completed,Manual Review
+E0000055,APP100016,2024-07-18,630,TransUnion,Completed,Manual Review
 E0000056,APP100017,2023-03-04,783,TransUnion,Completed,Manual Review
 E0000057,APP100017,2024-01-19,778,Experian,Completed,Manual Review
-E0000058,APP100018,2025-07-09,768,TransUnion,Completed,Re-Pull After Correction
+E0000058,APP100018,2025-07-09,818,TransUnion,Completed,Re-Pull After Correction
 E0000059,APP100019,2025-05-06,626,Experian,Completed,Credit Refresh
 E0000060,APP100019,2025-07-28,664,TransUnion,Completed,Initial Application
 E0000061,APP100019,2025-06-20,657,TransUnion,Completed,Manual Review
@@ -78,8 +78,8 @@ E0000076,APP100023,2025-06-25,593,Experian,Completed,Manual Review
 E0000077,APP100024,2023-04-06,820,Experian,Completed,Fraud Verification
 E0000078,APP100024,2024-03-21,803,Equifax,Completed,Initial Application
 E0000079,APP100024,2024-01-23,,Experian,Error,Re-Pull After Correction
-E0000080,APP100025,2025-11-18,682,Experian,Completed,Credit Refresh
-E0000081,APP100025,2025-08-21,677,Equifax,Completed,Fraud Verification
+E0000080,APP100025,2025-11-18,708,Experian,Completed,Credit Refresh
+E0000081,APP100025,2025-08-21,709,Equifax,Completed,Fraud Verification
 E0000082,APP100026,2025-02-21,833,Equifax,Completed,Initial Application
 E0000083,APP100027,2024-03-01,640,TransUnion,Completed,Initial Application
 E0000084,APP100027,2025-03-12,621,Equifax,Completed,Fraud Verification
@@ -137,17 +137,17 @@ E0000141,APP100047,2025-05-24,662,Equifax,Completed,Re-Pull After Correction
 E0000142,APP100047,2025-07-07,690,Experian,Completed,Fraud Verification
 E0000143,APP100047,2026-05-26,718,Experian,Completed,Manual Review
 E0000144,APP100047,2026-01-03,678,Equifax,Completed,Initial Application
-E0000145,APP100048,2024-11-10,741,TransUnion,Completed,Re-Pull After Correction
-E0000146,APP100048,2025-02-22,697,Equifax,Completed,Initial Application
-E0000147,APP100048,2025-08-28,717,Experian,Completed,Manual Review
-E0000148,APP100048,2025-09-26,728,TransUnion,Completed,Initial Application
+E0000145,APP100048,2024-11-10,767,TransUnion,Completed,Re-Pull After Correction
+E0000146,APP100048,2025-02-22,767,Equifax,Completed,Initial Application
+E0000147,APP100048,2025-08-28,762,Experian,Completed,Manual Review
+E0000148,APP100048,2025-09-26,762,TransUnion,Completed,Initial Application
 E0000149,APP100049,2024-01-27,598,Experian,Completed,Re-Pull After Correction
 E0000150,APP100049,2024-09-16,617,TransUnion,Completed,Initial Application
 E0000151,APP100049,2025-03-12,624,TransUnion,Completed,Credit Refresh
 E0000152,APP100049,2024-10-15,602,TransUnion,Completed,Initial Application
 E0000153,APP100049,2025-01-14,617,TransUnion,Completed,Credit Refresh
 E0000154,APP100050,2025-04-30,,TransUnion,Error,Credit Refresh
-E0000155,APP100050,2025-04-18,417,Equifax,Completed,Manual Review
+E0000155,APP100050,2025-12-06,762,Equifax,Completed,Manual Review
 E0000156,APP100051,2024-01-20,799,Equifax,Completed,Fraud Verification
 E0000157,APP100051,2024-03-19,815,Equifax,Completed,Fraud Verification
 E0000158,APP100051,2024-07-27,778,TransUnion,Completed,Credit Refresh
@@ -165,9 +165,9 @@ E0000169,APP100054,2026-01-28,739,Experian,Completed,Re-Pull After Correction
 E0000170,APP100054,2026-01-18,698,TransUnion,Completed,Fraud Verification
 E0000171,APP100054,2025-12-29,744,Equifax,Completed,Manual Review
 E0000172,APP100054,2026-01-20,720,Experian,Completed,Fraud Verification
-E0000173,APP100055,2024-01-13,829,Equifax,Completed,Manual Review
-E0000174,APP100055,2024-07-11,825,TransUnion,Completed,Initial Application
-E0000175,APP100055,2025-03-09,813,Equifax,Resubmitted,Manual Review
+E0000173,APP100055,2024-01-13,625,Equifax,Completed,Manual Review
+E0000174,APP100055,2024-07-11,617,TransUnion,Completed,Initial Application
+E0000175,APP100055,2025-03-09,598,Equifax,Resubmitted,Manual Review
 E0000176,APP100056,2025-02-22,767,TransUnion,Completed,Fraud Verification
 E0000177,APP100057,2024-08-26,769,Experian,Completed,Credit Refresh
 E0000178,APP100057,2024-06-30,760,Equifax,Completed,Manual Review
@@ -188,15 +188,15 @@ E0000192,APP100063,2025-05-23,686,Experian,Completed,Re-Pull After Correction
 E0000193,APP100063,2025-10-14,719,Equifax,Completed,Re-Pull After Correction
 E0000194,APP100063,2026-01-24,703,Experian,Completed,Re-Pull After Correction
 E0000195,APP100063,2026-03-15,724,Equifax,Completed,Credit Refresh
-E0000196,APP100064,2024-09-28,835,Experian,Completed,Manual Review
-E0000197,APP100064,2024-08-12,850,TransUnion,Completed,Fraud Verification
-E0000198,APP100064,2024-11-19,814,TransUnion,Completed,Fraud Verification
-E0000199,APP100064,2025-06-01,831,TransUnion,Completed,Fraud Verification
-E0000200,APP100064,2025-07-04,850,TransUnion,Completed,Fraud Verification
-E0000201,APP100065,2025-02-03,479,TransUnion,Completed,Fraud Verification
-E0000202,APP100065,2025-06-10,441,Experian,Completed,Initial Application
-E0000203,APP100065,2026-01-03,472,Experian,Completed,Fraud Verification
-E0000204,APP100065,2026-05-19,485,Experian,Completed,Fraud Verification
+E0000196,APP100064,2024-09-28,729,Experian,Completed,Manual Review
+E0000197,APP100064,2024-08-12,729,TransUnion,Completed,Fraud Verification
+E0000198,APP100064,2024-11-19,729,TransUnion,Completed,Fraud Verification
+E0000199,APP100064,2025-06-01,700,TransUnion,Completed,Fraud Verification
+E0000200,APP100064,2025-07-29,698,TransUnion,Completed,Fraud Verification
+E0000201,APP100065,2025-02-03,678,TransUnion,Completed,Fraud Verification
+E0000202,APP100065,2025-06-10,675,Experian,Completed,Initial Application
+E0000203,APP100065,2026-01-03,662,Experian,Completed,Fraud Verification
+E0000204,APP100065,2026-05-19,662,Experian,Completed,Fraud Verification
 E0000205,APP100066,2023-01-04,746,Equifax,Completed,Re-Pull After Correction
 E0000206,APP100067,2024-05-26,768,TransUnion,Completed,Initial Application
 E0000207,APP100067,2025-05-28,767,Experian,Completed,Credit Refresh
@@ -204,12 +204,12 @@ E0000208,APP100067,2025-09-08,749,TransUnion,Completed,Credit Refresh
 E0000209,APP100068,2024-10-21,649,Experian,Completed,Credit Refresh
 E0000210,APP100069,2025-01-21,738,Equifax,Completed,Credit Refresh
 E0000211,APP100069,2025-06-21,736,TransUnion,Completed,Credit Refresh
-E0000212,APP100070,2023-10-03,670,Equifax,Completed,Re-Pull After Correction
-E0000213,APP100070,2023-08-17,681,Experian,Completed,Manual Review
-E0000214,APP100070,2024-05-22,637,Experian,Completed,Re-Pull After Correction
-E0000215,APP100070,2024-06-12,656,TransUnion,Completed,Manual Review
-E0000216,APP100071,2025-05-11,654,Experian,Completed,Manual Review
-E0000217,APP100071,2026-04-09,660,Experian,Completed,Re-Pull After Correction
+E0000212,APP100070,2023-10-03,306,Equifax,Completed,Re-Pull After Correction
+E0000213,APP100070,2023-08-17,332,Experian,Completed,Manual Review
+E0000214,APP100070,2024-05-22,312,Experian,Completed,Re-Pull After Correction
+E0000215,APP100070,2024-06-12,300,TransUnion,Completed,Manual Review
+E0000216,APP100071,2025-05-11,636,Experian,Completed,Manual Review
+E0000217,APP100071,2026-04-09,648,Experian,Completed,Re-Pull After Correction
 E0000218,APP100072,2025-01-06,763,Experian,Completed,Fraud Verification
 E0000219,APP100072,2024-11-17,740,Experian,Completed,Manual Review
 E0000220,APP100072,2025-01-15,761,TransUnion,Completed,Credit Refresh
@@ -217,23 +217,23 @@ E0000221,APP100072,2025-06-25,773,TransUnion,Resubmitted,Fraud Verification
 E0000222,APP100072,2025-12-22,771,Equifax,Completed,Manual Review
 E0000223,APP100073,2024-02-05,819,TransUnion,Completed,Manual Review
 E0000224,APP100074,2025-04-03,657,TransUnion,Completed,Initial Application
-E0000225,APP100075,2024-04-15,850,Equifax,Completed,Initial Application
-E0000226,APP100075,2025-01-14,843,Equifax,Completed,Fraud Verification
-E0000227,APP100075,2025-01-24,850,Equifax,Completed,Initial Application
-E0000228,APP100075,2024-10-14,850,Equifax,Completed,Manual Review
-E0000229,APP100075,2024-12-22,850,Equifax,Completed,Re-Pull After Correction
-E0000230,APP100076,2025-03-16,736,TransUnion,Completed,Initial Application
-E0000231,APP100076,2025-10-18,723,Equifax,Completed,Manual Review
-E0000232,APP100076,2026-03-18,746,Equifax,Completed,Initial Application
-E0000233,APP100076,2026-03-08,733,Equifax,Completed,Fraud Verification
+E0000225,APP100075,2024-04-15,748,Equifax,Completed,Initial Application
+E0000226,APP100075,2025-01-14,746,Equifax,Completed,Fraud Verification
+E0000227,APP100075,2025-01-24,739,Equifax,Completed,Initial Application
+E0000228,APP100075,2024-10-14,747,Equifax,Completed,Manual Review
+E0000229,APP100075,2024-12-22,751,Equifax,Completed,Re-Pull After Correction
+E0000230,APP100076,2025-03-16,647,TransUnion,Completed,Initial Application
+E0000231,APP100076,2025-10-18,660,Equifax,Completed,Manual Review
+E0000232,APP100076,2026-03-18,658,Equifax,Completed,Initial Application
+E0000233,APP100076,2026-03-08,669,Equifax,Completed,Fraud Verification
 E0000234,APP100077,2024-02-06,655,Experian,Completed,Credit Refresh
 E0000235,APP100077,2024-03-17,655,Experian,Completed,Re-Pull After Correction
 E0000236,APP100077,2024-10-21,663,TransUnion,Completed,Credit Refresh
-E0000237,APP100078,2024-10-04,710,Experian,Completed,Fraud Verification
-E0000238,APP100078,2025-02-23,704,Experian,Completed,Initial Application
-E0000239,APP100078,2025-07-22,683,Equifax,Completed,Fraud Verification
+E0000237,APP100078,2024-10-04,747,Experian,Completed,Fraud Verification
+E0000238,APP100078,2025-02-23,747,Experian,Completed,Initial Application
+E0000239,APP100078,2025-12-12,757,Equifax,Completed,Fraud Verification
 E0000240,APP100079,2024-01-16,732,Equifax,Completed,Re-Pull After Correction
-E0000241,APP100080,2025-08-30,838,TransUnion,Completed,Credit Refresh
+E0000241,APP100080,2026-09-01,674,TransUnion,Completed,Credit Refresh
 E0000242,APP100081,2024-05-09,803,Equifax,Completed,Manual Review
 E0000243,APP100081,2024-07-30,788,Equifax,Completed,Fraud Verification
 E0000244,APP100081,2024-06-19,812,TransUnion,Completed,Fraud Verification
@@ -261,9 +261,9 @@ E0000265,APP100087,2024-07-20,675,TransUnion,Completed,Manual Review
 E0000266,APP100087,2025-04-03,670,Equifax,Completed,Re-Pull After Correction
 E0000267,APP100087,2025-02-11,661,Experian,Completed,Re-Pull After Correction
 E0000268,APP100087,2025-07-23,661,Experian,Completed,Manual Review
-E0000269,APP100088,2024-05-31,767,Experian,Completed,Initial Application
-E0000270,APP100088,2025-03-25,774,Experian,Completed,Initial Application
-E0000271,APP100088,2024-10-31,785,Equifax,Completed,Re-Pull After Correction
+E0000269,APP100088,2024-05-31,401,Experian,Completed,Initial Application
+E0000270,APP100088,2025-03-25,398,Experian,Completed,Initial Application
+E0000271,APP100088,2024-10-31,396,Equifax,Completed,Re-Pull After Correction
 E0000272,APP100089,2023-01-23,715,Equifax,Completed,Credit Refresh
 E0000273,APP100089,2023-06-23,728,Equifax,Completed,Initial Application
 E0000274,APP100089,2024-05-02,713,TransUnion,Completed,Credit Refresh
@@ -281,11 +281,11 @@ E0000289,APP100094,2024-07-15,685,Experian,Resubmitted,Initial Application
 E0000290,APP100094,2025-01-03,673,Experian,Completed,Fraud Verification
 E0000291,APP100095,2024-02-19,639,TransUnion,Completed,Re-Pull After Correction
 E0000292,APP100095,2023-08-07,635,Experian,Completed,Re-Pull After Correction
-E0000293,APP100096,2022-11-30,841,Equifax,Completed,Re-Pull After Correction
-E0000294,APP100096,2023-04-13,822,TransUnion,Completed,Re-Pull After Correction
-E0000295,APP100096,2023-11-15,850,TransUnion,Resubmitted,Credit Refresh
-E0000296,APP100096,2023-12-13,845,Experian,Completed,Manual Review
-E0000297,APP100096,2023-12-14,832,TransUnion,Completed,Re-Pull After Correction
+E0000293,APP100096,2022-11-30,642,Equifax,Completed,Re-Pull After Correction
+E0000294,APP100096,2023-04-13,642,TransUnion,Completed,Re-Pull After Correction
+E0000295,APP100096,2023-11-15,660,TransUnion,Resubmitted,Credit Refresh
+E0000296,APP100096,2023-12-13,660,Experian,Completed,Manual Review
+E0000297,APP100096,2024-05-11,656,TransUnion,Completed,Re-Pull After Correction
 E0000298,APP100097,2024-09-03,619,Equifax,Completed,Fraud Verification
 E0000299,APP100097,2024-12-03,616,Experian,Completed,Manual Review
 E0000300,APP100097,2024-11-18,629,Experian,Completed,Credit Refresh
@@ -317,9 +317,9 @@ E0000325,APP100104,2023-04-21,811,Equifax,Completed,Credit Refresh
 E0000326,APP100104,2022-12-06,791,Experian,Completed,Fraud Verification
 E0000327,APP100104,2023-11-07,820,TransUnion,Completed,Fraud Verification
 E0000328,APP100104,2023-12-25,832,Experian,Completed,Re-Pull After Correction
-E0000329,APP100105,2023-05-10,446,Equifax,Completed,Manual Review
-E0000330,APP100105,2024-08-17,496,Experian,Completed,Manual Review
-E0000331,APP100105,2024-08-13,488,Experian,Completed,Fraud Verification
+E0000329,APP100105,2023-05-10,783,Equifax,Completed,Manual Review
+E0000330,APP100105,2024-08-17,764,Experian,Completed,Manual Review
+E0000331,APP100105,2024-08-13,773,Experian,Completed,Fraud Verification
 E0000332,APP100106,2024-05-01,408,Experian,Completed,Fraud Verification
 E0000333,APP100106,2023-09-03,396,TransUnion,Completed,Credit Refresh
 E0000334,APP100107,2023-12-21,,TransUnion,Error,Credit Refresh
@@ -329,39 +329,39 @@ E0000337,APP100107,2025-01-24,734,Experian,Completed,Credit Refresh
 E0000338,APP100107,2024-06-21,745,Experian,Completed,Fraud Verification
 E0000339,APP100108,2022-12-18,742,TransUnion,Completed,Manual Review
 E0000340,APP100108,2024-02-09,753,TransUnion,Completed,Re-Pull After Correction
-E0000341,APP100109,2025-07-22,684,Equifax,Completed,Manual Review
-E0000342,APP100109,2025-09-01,674,Equifax,Completed,Re-Pull After Correction
-E0000343,APP100109,2026-06-19,605,Equifax,Completed,Manual Review
+E0000341,APP100109,2025-07-22,774,Equifax,Completed,Manual Review
+E0000342,APP100109,2025-09-01,774,Equifax,Completed,Re-Pull After Correction
+E0000343,APP100109,2026-07-04,761,Equifax,Completed,Manual Review
 E0000344,APP100110,2024-11-11,710,Experian,Completed,Re-Pull After Correction
 E0000345,APP100111,2023-03-05,655,Experian,Completed,Initial Application
 E0000346,APP100111,2023-04-22,688,Equifax,Completed,Credit Refresh
 E0000347,APP100111,2023-10-19,638,Experian,Completed,Re-Pull After Correction
-E0000348,APP100112,2025-05-26,750,Equifax,Completed,Credit Refresh
-E0000349,APP100112,2025-08-19,704,TransUnion,Completed,Initial Application
-E0000350,APP100112,2026-02-20,721,Experian,Completed,Initial Application
-E0000351,APP100112,2026-02-08,757,Equifax,Completed,Initial Application
-E0000352,APP100112,2025-12-01,701,TransUnion,Completed,Initial Application
+E0000348,APP100112,2025-05-26,819,Equifax,Completed,Credit Refresh
+E0000349,APP100112,2025-08-19,822,TransUnion,Completed,Initial Application
+E0000350,APP100112,2026-02-20,821,Experian,Completed,Initial Application
+E0000351,APP100112,2026-02-08,822,Equifax,Completed,Initial Application
+E0000352,APP100112,2025-12-01,818,TransUnion,Completed,Initial Application
 E0000353,APP100113,2024-11-22,809,Equifax,Completed,Initial Application
 E0000354,APP100113,2026-01-11,767,TransUnion,Completed,Fraud Verification
-E0000355,APP100114,2024-11-02,719,Experian,Completed,Credit Refresh
-E0000356,APP100114,2025-10-13,701,Equifax,Completed,Fraud Verification
-E0000357,APP100114,2025-11-29,696,Experian,Completed,Initial Application
-E0000358,APP100115,2025-04-05,534,Experian,Completed,Fraud Verification
-E0000359,APP100115,2025-09-25,520,TransUnion,Completed,Re-Pull After Correction
-E0000360,APP100115,2026-04-10,498,Experian,Completed,Manual Review
-E0000361,APP100115,2026-03-07,519,Experian,Completed,Credit Refresh
-E0000362,APP100115,2026-09-15,527,TransUnion,Completed,Credit Refresh
+E0000355,APP100114,2024-11-02,627,Experian,Completed,Credit Refresh
+E0000356,APP100114,2025-10-13,622,Equifax,Completed,Fraud Verification
+E0000357,APP100114,2025-11-29,621,Experian,Completed,Initial Application
+E0000358,APP100115,2025-04-05,746,Experian,Completed,Fraud Verification
+E0000359,APP100115,2025-09-25,742,TransUnion,Completed,Re-Pull After Correction
+E0000360,APP100115,2026-04-10,726,Experian,Completed,Manual Review
+E0000361,APP100115,2026-03-07,741,Experian,Completed,Credit Refresh
+E0000362,APP100115,2026-09-15,721,TransUnion,Completed,Credit Refresh
 E0000363,APP100116,2023-06-05,830,Equifax,Completed,Re-Pull After Correction
 E0000364,APP100116,2024-01-28,823,Experian,Completed,Initial Application
 E0000365,APP100117,2023-08-07,717,Equifax,Completed,Credit Refresh
 E0000366,APP100117,2024-03-20,714,TransUnion,Completed,Manual Review
 E0000367,APP100118,2024-04-12,688,Experian,Completed,Fraud Verification
 E0000368,APP100118,2024-08-20,618,TransUnion,Completed,Initial Application
-E0000369,APP100119,2023-10-06,643,TransUnion,Completed,Initial Application
-E0000372,APP100121,2025-11-07,644,Experian,Completed,Credit Refresh
-E0000373,APP100121,2026-01-12,671,Equifax,Completed,Credit Refresh
-E0000374,APP100121,2026-02-20,634,Equifax,Completed,Fraud Verification
-E0000375,APP100121,2026-04-09,631,Experian,Completed,Re-Pull After Correction
+E0000369,APP100119,2024-06-09,673,TransUnion,Completed,Initial Application
+E0000372,APP100121,2025-11-07,698,Experian,Completed,Credit Refresh
+E0000373,APP100121,2026-01-12,698,Equifax,Completed,Credit Refresh
+E0000374,APP100121,2026-02-20,700,Equifax,Completed,Fraud Verification
+E0000375,APP100121,2026-04-09,690,Experian,Completed,Re-Pull After Correction
 E0000376,APP100122,2023-12-13,445,TransUnion,Completed,Fraud Verification
 E0000377,APP100123,2025-06-30,701,Experian,Completed,Re-Pull After Correction
 E0000378,APP100123,2025-02-11,699,Experian,Completed,Fraud Verification
@@ -423,11 +423,11 @@ E0000433,APP100140,2025-01-20,649,Equifax,Completed,Fraud Verification
 E0000437,APP100142,2023-01-27,,Experian,Error,Initial Application
 E0000438,APP100142,2024-03-27,400,Experian,Completed,Manual Review
 E0000439,APP100142,2024-05-02,371,Experian,Completed,Re-Pull After Correction
-E0000440,APP100143,2023-08-23,729,Experian,Completed,Credit Refresh
-E0000441,APP100143,2024-03-27,698,TransUnion,Completed,Credit Refresh
-E0000442,APP100143,2024-01-02,727,TransUnion,Completed,Initial Application
-E0000443,APP100143,2024-12-03,687,Equifax,Completed,Fraud Verification
-E0000444,APP100143,2024-10-15,709,Experian,Completed,Re-Pull After Correction
+E0000440,APP100143,2023-08-23,635,Experian,Completed,Credit Refresh
+E0000441,APP100143,2024-03-27,639,TransUnion,Completed,Credit Refresh
+E0000442,APP100143,2024-01-02,639,TransUnion,Completed,Initial Application
+E0000443,APP100143,2024-12-03,638,Equifax,Completed,Fraud Verification
+E0000444,APP100143,2024-10-15,639,Experian,Completed,Re-Pull After Correction
 E0000445,APP100144,2025-02-19,759,TransUnion,Completed,Fraud Verification
 E0000446,APP100144,2025-03-05,789,TransUnion,Completed,Initial Application
 E0000447,APP100144,2024-11-14,,Experian,Error,Manual Review
@@ -447,8 +447,8 @@ E0000460,APP100148,2024-11-20,689,Equifax,Completed,Re-Pull After Correction
 E0000461,APP100148,2024-08-16,,Equifax,Error,Credit Refresh
 E0000462,APP100148,2024-12-18,625,TransUnion,Completed,Re-Pull After Correction
 E0000463,APP100148,2025-07-01,623,Experian,Completed,Re-Pull After Correction
-E0000464,APP100149,2024-02-10,824,Experian,Completed,Manual Review
-E0000465,APP100149,2024-07-26,819,Experian,Completed,Initial Application
+E0000464,APP100149,2024-02-10,808,Experian,Completed,Manual Review
+E0000465,APP100149,2024-07-26,814,Experian,Completed,Initial Application
 E0000466,APP100150,2023-04-17,681,Experian,Completed,Re-Pull After Correction
 E0000467,APP100151,2025-07-30,341,Experian,Completed,Initial Application
 E0000468,APP100152,2023-12-08,709,Equifax,Completed,Fraud Verification
@@ -462,10 +462,10 @@ E0000475,APP100154,2024-02-06,736,Equifax,Completed,Re-Pull After Correction
 E0000476,APP100154,2023-08-19,756,Experian,Completed,Initial Application
 E0000477,APP100154,2023-12-24,769,Equifax,Completed,Fraud Verification
 E0000478,APP100154,2024-07-22,765,Experian,Completed,Initial Application
-E0000479,APP100155,2024-05-27,611,Equifax,Completed,Re-Pull After Correction
-E0000480,APP100155,2024-06-19,646,Equifax,Completed,Re-Pull After Correction
-E0000481,APP100155,2024-06-22,629,TransUnion,Resubmitted,Manual Review
-E0000482,APP100155,2024-07-25,636,Experian,Completed,Fraud Verification
+E0000479,APP100155,2024-05-27,737,Equifax,Completed,Re-Pull After Correction
+E0000480,APP100155,2024-06-19,737,Equifax,Completed,Re-Pull After Correction
+E0000481,APP100155,2024-06-22,737,TransUnion,Resubmitted,Manual Review
+E0000482,APP100155,2024-07-25,740,Experian,Completed,Fraud Verification
 E0000483,APP100156,2024-07-04,727,TransUnion,Completed,Fraud Verification
 E0000484,APP100156,2025-01-11,758,Experian,Completed,Re-Pull After Correction
 E0000485,APP100156,2025-07-13,,Equifax,Error,Credit Refresh
@@ -485,11 +485,11 @@ E0000498,APP100159,2025-03-25,568,TransUnion,Completed,Fraud Verification
 E0000499,APP100159,2025-10-13,565,TransUnion,Completed,Credit Refresh
 E0000500,APP100159,2025-11-13,572,Experian,Completed,Credit Refresh
 E0000501,APP100159,2025-09-08,562,TransUnion,Completed,Fraud Verification
-E0000502,APP100160,2024-06-03,759,Experian,Resubmitted,Initial Application
-E0000503,APP100160,2024-04-27,776,Experian,Completed,Initial Application
-E0000504,APP100160,2024-08-27,774,Equifax,Completed,Fraud Verification
-E0000505,APP100160,2024-09-18,724,TransUnion,Completed,Manual Review
-E0000506,APP100160,2024-11-14,719,Experian,Completed,Re-Pull After Correction
+E0000502,APP100160,2024-06-03,719,Experian,Resubmitted,Initial Application
+E0000503,APP100160,2024-04-27,707,Experian,Completed,Initial Application
+E0000504,APP100160,2024-08-27,716,Equifax,Completed,Fraud Verification
+E0000505,APP100160,2024-09-18,723,TransUnion,Completed,Manual Review
+E0000506,APP100160,2024-11-14,718,Experian,Completed,Re-Pull After Correction
 E0000507,APP100161,2023-11-14,697,Experian,Completed,Credit Refresh
 E0000508,APP100162,2025-10-23,697,TransUnion,Completed,Manual Review
 E0000509,APP100162,2026-06-15,700,Equifax,Completed,Re-Pull After Correction
@@ -503,7 +503,7 @@ E0000516,APP100164,2023-06-20,687,Equifax,Completed,Re-Pull After Correction
 E0000517,APP100164,2023-09-24,,TransUnion,Error,Re-Pull After Correction
 E0000518,APP100164,2024-06-06,638,Experian,Completed,Initial Application
 E0000519,APP100165,2025-07-11,640,Experian,Completed,Credit Refresh
-E0000520,APP100166,2024-03-04,833,Equifax,Completed,Manual Review
+E0000520,APP100166,2025-02-07,530,Equifax,Completed,Manual Review
 E0000521,APP100167,2024-06-26,779,Equifax,Resubmitted,Fraud Verification
 E0000522,APP100167,2024-10-10,792,Experian,Resubmitted,Credit Refresh
 E0000523,APP100167,2025-04-08,816,Experian,Completed,Re-Pull After Correction
@@ -522,7 +522,7 @@ E0000535,APP100171,2025-06-17,846,Equifax,Completed,Re-Pull After Correction
 E0000536,APP100171,2025-06-24,830,Experian,Completed,Re-Pull After Correction
 E0000537,APP100171,2026-03-05,837,Equifax,Completed,Manual Review
 E0000538,APP100172,2022-12-11,841,Experian,Completed,Re-Pull After Correction
-E0000539,APP100173,2025-11-16,364,Experian,Completed,Re-Pull After Correction
+E0000539,APP100173,2025-11-16,624,Experian,Completed,Re-Pull After Correction
 E0000540,APP100174,2024-07-19,760,Experian,Completed,Fraud Verification
 E0000541,APP100175,2024-04-13,800,Equifax,Resubmitted,Manual Review
 E0000542,APP100175,2023-12-22,741,TransUnion,Completed,Credit Refresh
@@ -571,9 +571,9 @@ E0000584,APP100188,2023-05-06,706,Experian,Completed,Re-Pull After Correction
 E0000585,APP100188,2023-05-21,687,TransUnion,Completed,Credit Refresh
 E0000586,APP100188,2023-12-23,677,TransUnion,Completed,Initial Application
 E0000587,APP100188,2024-01-16,655,Experian,Completed,Fraud Verification
-E0000588,APP100189,2025-04-11,500,Equifax,Completed,Manual Review
-E0000589,APP100189,2025-11-18,503,Equifax,Completed,Credit Refresh
-E0000590,APP100189,2026-07-03,522,TransUnion,Completed,Initial Application
+E0000588,APP100189,2025-04-11,765,Equifax,Completed,Manual Review
+E0000589,APP100189,2025-11-18,787,Equifax,Completed,Credit Refresh
+E0000590,APP100189,2026-07-03,815,TransUnion,Completed,Initial Application
 E0000591,APP100190,2026-03-29,681,Experian,Completed,Credit Refresh
 E0000592,APP100190,2025-09-07,637,Equifax,Completed,Manual Review
 E0000593,APP100190,2025-12-20,673,Equifax,Completed,Re-Pull After Correction
@@ -596,11 +596,11 @@ E0000609,APP100194,2025-02-09,764,Equifax,Completed,Manual Review
 E0000610,APP100194,2025-04-26,781,Experian,Completed,Re-Pull After Correction
 E0000611,APP100194,2025-10-05,747,Experian,Completed,Fraud Verification
 E0000612,APP100195,2023-08-04,423,Experian,Completed,Re-Pull After Correction
-E0000613,APP100196,2025-01-19,755,TransUnion,Completed,Manual Review
-E0000614,APP100196,2025-05-08,801,Experian,Completed,Re-Pull After Correction
-E0000615,APP100197,2025-08-02,331,Experian,Completed,Manual Review
-E0000616,APP100197,2025-12-06,318,Equifax,Completed,Credit Refresh
-E0000617,APP100197,2026-07-10,321,Equifax,Completed,Manual Review
+E0000613,APP100196,2025-01-19,745,TransUnion,Completed,Manual Review
+E0000614,APP100196,2025-11-20,747,Experian,Completed,Re-Pull After Correction
+E0000615,APP100197,2025-08-02,643,Experian,Completed,Manual Review
+E0000616,APP100197,2025-12-06,643,Equifax,Completed,Credit Refresh
+E0000617,APP100197,2026-07-10,654,Equifax,Completed,Manual Review
 E0000618,APP100198,2025-01-15,689,TransUnion,Completed,Initial Application
 E0000619,APP100198,2025-03-26,699,TransUnion,Completed,Initial Application
 E0000620,APP100199,2026-01-12,701,Equifax,Completed,Fraud Verification
@@ -612,8 +612,8 @@ E0000627,APP100203,2023-06-29,632,Equifax,Resubmitted,Fraud Verification
 E0000628,APP100203,2023-07-20,639,TransUnion,Completed,Re-Pull After Correction
 E0000629,APP100203,2023-07-04,643,Experian,Completed,Credit Refresh
 E0000630,APP100204,2026-03-15,677,Experian,Completed,Credit Refresh
-E0000631,APP100205,2024-04-21,753,Experian,Completed,Manual Review
-E0000632,APP100205,2024-05-18,732,Equifax,Completed,Manual Review
+E0000631,APP100205,2024-04-21,670,Experian,Completed,Manual Review
+E0000632,APP100205,2024-05-18,678,Equifax,Completed,Manual Review
 E0000633,APP100206,2025-01-15,721,Experian,Completed,Initial Application
 E0000634,APP100206,2025-11-24,728,Experian,Completed,Credit Refresh
 E0000635,APP100206,2025-08-24,746,Experian,Completed,Re-Pull After Correction
@@ -627,13 +627,13 @@ E0000642,APP100208,2024-12-03,715,Experian,Completed,Credit Refresh
 E0000643,APP100208,2025-07-17,682,Experian,Completed,Re-Pull After Correction
 E0000644,APP100208,2025-06-22,705,Experian,Completed,Fraud Verification
 E0000645,APP100208,2025-09-09,663,TransUnion,Completed,Initial Application
-E0000646,APP100209,2024-06-11,688,Equifax,Completed,Re-Pull After Correction
-E0000647,APP100209,2024-05-24,686,Experian,Completed,Fraud Verification
+E0000646,APP100209,2025-03-04,620,Equifax,Completed,Re-Pull After Correction
+E0000647,APP100209,2024-05-24,616,Experian,Completed,Fraud Verification
 E0000648,APP100210,2024-07-05,729,Experian,Completed,Manual Review
 E0000649,APP100210,2024-06-03,697,TransUnion,Completed,Credit Refresh
 E0000650,APP100210,2025-06-19,700,TransUnion,Completed,Re-Pull After Correction
-E0000651,APP100211,2025-05-28,714,Equifax,Completed,Initial Application
-E0000652,APP100211,2025-06-23,673,Experian,Completed,Fraud Verification
+E0000651,APP100211,2025-05-28,492,Equifax,Completed,Initial Application
+E0000652,APP100211,2026-08-24,487,Experian,Completed,Fraud Verification
 E0000653,APP100212,2023-09-05,692,Experian,Completed,Fraud Verification
 E0000654,APP100212,2023-06-22,725,Equifax,Completed,Re-Pull After Correction
 E0000655,APP100212,2023-10-08,728,TransUnion,Completed,Credit Refresh
@@ -648,10 +648,10 @@ E0000663,APP100216,2023-09-27,642,Experian,Completed,Manual Review
 E0000664,APP100216,2024-03-14,674,Experian,Completed,Manual Review
 E0000665,APP100217,2024-01-11,535,TransUnion,Completed,Re-Pull After Correction
 E0000666,APP100217,2024-12-30,531,Equifax,Resubmitted,Initial Application
-E0000667,APP100218,2024-11-05,801,TransUnion,Completed,Fraud Verification
-E0000668,APP100218,2025-03-08,823,Equifax,Completed,Re-Pull After Correction
-E0000669,APP100218,2026-01-19,806,TransUnion,Completed,Credit Refresh
-E0000670,APP100218,2025-10-18,815,Experian,Completed,Initial Application
+E0000667,APP100218,2024-11-05,676,TransUnion,Completed,Fraud Verification
+E0000668,APP100218,2025-03-08,676,Equifax,Completed,Re-Pull After Correction
+E0000669,APP100218,2026-01-19,676,TransUnion,Completed,Credit Refresh
+E0000670,APP100218,2025-10-18,679,Experian,Completed,Initial Application
 E0000671,APP100219,2022-09-26,737,Equifax,Completed,Manual Review
 E0000672,APP100219,2023-10-20,726,TransUnion,Completed,Re-Pull After Correction
 E0000673,APP100220,2026-03-14,702,TransUnion,Completed,Manual Review
@@ -671,26 +671,26 @@ E0000686,APP100225,2025-10-18,715,TransUnion,Completed,Fraud Verification
 E0000687,APP100226,2025-07-06,599,Equifax,Completed,Credit Refresh
 E0000688,APP100226,2026-01-02,580,Equifax,Completed,Credit Refresh
 E0000689,APP100226,2026-03-16,611,Equifax,Completed,Credit Refresh
-E0000690,APP100227,2025-03-23,689,Equifax,Completed,Fraud Verification
-E0000691,APP100227,2025-06-05,641,Equifax,Completed,Manual Review
-E0000692,APP100227,2025-11-05,667,Experian,Resubmitted,Re-Pull After Correction
-E0000693,APP100227,2026-02-04,652,Experian,Completed,Initial Application
-E0000694,APP100228,2023-12-29,441,Experian,Completed,Fraud Verification
-E0000695,APP100228,2023-10-02,421,Experian,Completed,Credit Refresh
-E0000696,APP100228,2024-02-16,416,Equifax,Completed,Manual Review
-E0000697,APP100228,2024-01-19,397,TransUnion,Completed,Initial Application
-E0000698,APP100228,2024-09-29,387,Equifax,Completed,Fraud Verification
+E0000690,APP100227,2025-03-23,821,Equifax,Completed,Fraud Verification
+E0000691,APP100227,2025-06-05,824,Equifax,Completed,Manual Review
+E0000692,APP100227,2025-11-05,831,Experian,Resubmitted,Re-Pull After Correction
+E0000693,APP100227,2026-02-04,824,Experian,Completed,Initial Application
+E0000694,APP100228,2023-12-29,828,Experian,Completed,Fraud Verification
+E0000695,APP100228,2023-10-02,828,Experian,Completed,Credit Refresh
+E0000696,APP100228,2024-02-16,843,Equifax,Completed,Manual Review
+E0000697,APP100228,2024-01-19,828,TransUnion,Completed,Initial Application
+E0000698,APP100228,2024-09-29,850,Equifax,Completed,Fraud Verification
 E0000699,APP100229,2024-01-16,763,Experian,Completed,Re-Pull After Correction
-E0000700,APP100230,2025-01-18,671,TransUnion,Completed,Credit Refresh
-E0000701,APP100230,2025-05-16,633,TransUnion,Resubmitted,Fraud Verification
-E0000702,APP100230,2025-10-24,689,TransUnion,Completed,Re-Pull After Correction
+E0000700,APP100230,2025-01-18,711,TransUnion,Completed,Credit Refresh
+E0000701,APP100230,2025-05-16,709,TransUnion,Resubmitted,Fraud Verification
+E0000702,APP100230,2025-10-24,703,TransUnion,Completed,Re-Pull After Correction
 E0000703,APP100231,2025-06-18,405,TransUnion,Completed,Fraud Verification
 E0000704,APP100231,2026-06-02,369,Equifax,Completed,Credit Refresh
 E0000705,APP100231,2026-04-29,351,Equifax,Completed,Manual Review
 E0000706,APP100231,2026-03-13,371,Equifax,Completed,Manual Review
 E0000707,APP100232,2025-01-04,520,TransUnion,Completed,Fraud Verification
 E0000708,APP100232,2025-07-06,526,TransUnion,Completed,Initial Application
-E0000709,APP100233,2025-07-04,846,Experian,Completed,Fraud Verification
+E0000709,APP100233,2025-07-04,621,Experian,Completed,Fraud Verification
 E0000710,APP100234,2023-02-27,809,TransUnion,Completed,Fraud Verification
 E0000711,APP100234,2023-02-01,773,TransUnion,Completed,Fraud Verification
 E0000712,APP100234,2023-04-13,798,Equifax,Completed,Re-Pull After Correction
@@ -698,15 +698,15 @@ E0000713,APP100234,2023-12-29,793,Equifax,Completed,Credit Refresh
 E0000714,APP100235,2025-04-15,716,Equifax,Completed,Manual Review
 E0000715,APP100235,2025-07-26,714,Equifax,Completed,Credit Refresh
 E0000716,APP100235,2025-07-29,775,Equifax,Completed,Credit Refresh
-E0000717,APP100236,2024-10-15,472,TransUnion,Completed,Re-Pull After Correction
-E0000718,APP100236,2025-03-11,475,Experian,Completed,Re-Pull After Correction
-E0000719,APP100236,2025-03-20,469,TransUnion,Completed,Fraud Verification
-E0000720,APP100236,2025-07-11,496,TransUnion,Completed,Manual Review
-E0000721,APP100236,2025-12-29,475,Equifax,Completed,Fraud Verification
-E0000722,APP100237,2025-02-21,710,Experian,Completed,Initial Application
-E0000723,APP100237,2024-10-15,681,Experian,Completed,Initial Application
-E0000724,APP100237,2025-05-25,723,TransUnion,Completed,Credit Refresh
-E0000725,APP100237,2025-12-23,691,TransUnion,Completed,Manual Review
+E0000717,APP100236,2024-10-15,710,TransUnion,Completed,Re-Pull After Correction
+E0000718,APP100236,2025-03-11,710,Experian,Completed,Re-Pull After Correction
+E0000719,APP100236,2025-03-20,710,TransUnion,Completed,Fraud Verification
+E0000720,APP100236,2025-07-11,710,TransUnion,Completed,Manual Review
+E0000721,APP100236,2026-02-05,718,Equifax,Completed,Fraud Verification
+E0000722,APP100237,2025-02-21,814,Experian,Completed,Initial Application
+E0000723,APP100237,2024-10-15,822,Experian,Completed,Initial Application
+E0000724,APP100237,2025-05-25,816,TransUnion,Completed,Credit Refresh
+E0000725,APP100237,2025-12-23,809,TransUnion,Completed,Manual Review
 E0000726,APP100238,2025-08-31,601,TransUnion,Completed,Credit Refresh
 E0000727,APP100238,2024-11-28,591,Experian,Completed,Initial Application
 E0000728,APP100238,2025-10-10,605,Experian,Completed,Credit Refresh
@@ -804,11 +804,11 @@ E0000822,APP100267,2024-10-06,322,Equifax,Completed,Fraud Verification
 E0000823,APP100267,2024-08-17,311,TransUnion,Completed,Manual Review
 E0000824,APP100267,2025-04-17,307,Equifax,Completed,Re-Pull After Correction
 E0000825,APP100267,2025-04-18,325,Equifax,Completed,Initial Application
-E0000826,APP100268,2025-06-16,850,Experian,Completed,Fraud Verification
-E0000827,APP100268,2025-07-01,829,TransUnion,Completed,Re-Pull After Correction
-E0000828,APP100268,2026-02-16,850,TransUnion,Completed,Fraud Verification
-E0000829,APP100268,2026-06-26,850,Equifax,Completed,Credit Refresh
-E0000830,APP100268,2026-08-30,837,Equifax,Completed,Credit Refresh
+E0000826,APP100268,2025-06-16,601,Experian,Completed,Fraud Verification
+E0000827,APP100268,2025-07-01,601,TransUnion,Completed,Re-Pull After Correction
+E0000828,APP100268,2026-02-16,599,TransUnion,Completed,Fraud Verification
+E0000829,APP100268,2026-06-26,602,Equifax,Completed,Credit Refresh
+E0000830,APP100268,2026-08-30,609,Equifax,Completed,Credit Refresh
 E0000831,APP100269,2023-04-13,609,TransUnion,Completed,Credit Refresh
 E0000832,APP100269,2024-01-28,631,TransUnion,Completed,Initial Application
 E0000833,APP100270,2025-04-17,578,TransUnion,Completed,Initial Application
@@ -817,7 +817,7 @@ E0000835,APP100270,2025-10-11,608,TransUnion,Completed,Initial Application
 E0000836,APP100270,2026-06-03,608,Experian,Completed,Manual Review
 E0000837,APP100271,2023-09-15,564,TransUnion,Completed,Manual Review
 E0000840,APP100273,2023-08-16,771,Experian,Completed,Re-Pull After Correction
-E0000841,APP100274,2024-06-27,735,Equifax,Completed,Initial Application
+E0000841,APP100274,2024-06-27,720,Equifax,Completed,Initial Application
 E0000842,APP100275,2026-03-05,723,Experian,Completed,Fraud Verification
 E0000843,APP100275,2026-07-23,731,Experian,Completed,Manual Review
 E0000844,APP100275,2026-10-04,708,Experian,Completed,Fraud Verification
@@ -830,21 +830,21 @@ E0000851,APP100278,2025-04-14,557,TransUnion,Completed,Re-Pull After Correction
 E0000852,APP100278,2025-05-29,614,TransUnion,Completed,Initial Application
 E0000853,APP100278,2025-08-31,567,TransUnion,Completed,Manual Review
 E0000854,APP100278,2025-12-13,565,TransUnion,Completed,Initial Application
-E0000855,APP100279,2024-08-05,721,Equifax,Completed,Re-Pull After Correction
-E0000856,APP100279,2024-02-09,735,Experian,Completed,Fraud Verification
-E0000857,APP100279,2024-08-22,768,Equifax,Completed,Manual Review
+E0000855,APP100279,2024-08-05,652,Equifax,Completed,Re-Pull After Correction
+E0000856,APP100279,2024-02-09,649,Experian,Completed,Fraud Verification
+E0000857,APP100279,2024-08-22,658,Equifax,Completed,Manual Review
 E0000861,APP100281,2025-05-24,788,Equifax,Completed,Manual Review
 E0000862,APP100281,2026-01-19,806,TransUnion,Completed,Re-Pull After Correction
 E0000863,APP100281,2025-11-17,839,Experian,Completed,Initial Application
 E0000864,APP100281,2026-03-22,811,TransUnion,Completed,Fraud Verification
 E0000865,APP100281,2026-08-15,823,Experian,Completed,Initial Application
-E0000866,APP100282,2026-05-02,738,Experian,Completed,Credit Refresh
+E0000866,APP100282,2026-05-02,838,Experian,Completed,Credit Refresh
 E0000867,APP100283,2023-12-03,695,TransUnion,Completed,Re-Pull After Correction
 E0000868,APP100283,2024-05-27,717,Experian,Completed,Fraud Verification
 E0000869,APP100284,2024-01-12,665,Experian,Completed,Re-Pull After Correction
 E0000870,APP100284,2024-09-01,647,TransUnion,Completed,Manual Review
-E0000871,APP100285,2025-02-20,805,Equifax,Completed,Manual Review
-E0000872,APP100285,2024-12-27,834,TransUnion,Completed,Initial Application
+E0000871,APP100285,2025-09-10,790,Equifax,Completed,Manual Review
+E0000872,APP100285,2024-12-27,792,TransUnion,Completed,Initial Application
 E0000873,APP100286,2025-11-10,729,Equifax,Completed,Re-Pull After Correction
 E0000874,APP100286,2025-06-23,685,Equifax,Completed,Fraud Verification
 E0000875,APP100286,2026-06-14,726,Experian,Completed,Re-Pull After Correction
@@ -879,11 +879,11 @@ E0000903,APP100297,2023-12-17,811,Equifax,Completed,Initial Application
 E0000904,APP100297,2024-04-04,815,TransUnion,Completed,Credit Refresh
 E0000905,APP100297,2024-05-26,790,Experian,Completed,Fraud Verification
 E0000906,APP100297,2024-12-14,813,TransUnion,Completed,Manual Review
-E0000907,APP100298,2025-04-01,669,Experian,Completed,Re-Pull After Correction
-E0000908,APP100298,2025-12-23,645,Experian,Resubmitted,Initial Application
-E0000909,APP100298,2026-04-11,658,TransUnion,Completed,Re-Pull After Correction
-E0000910,APP100299,2024-10-03,631,Experian,Completed,Manual Review
-E0000911,APP100300,2025-01-14,786,Equifax,Completed,Fraud Verification
+E0000907,APP100298,2025-04-01,598,Experian,Completed,Re-Pull After Correction
+E0000908,APP100298,2025-12-23,587,Experian,Resubmitted,Initial Application
+E0000909,APP100298,2026-04-11,580,TransUnion,Completed,Re-Pull After Correction
+E0000910,APP100299,2024-10-03,830,Experian,Completed,Manual Review
+E0000911,APP100300,2026-03-06,667,Equifax,Completed,Fraud Verification
 E0000912,APP100301,2023-06-21,612,Equifax,Completed,Credit Refresh
 E0000913,APP100301,2023-11-24,638,TransUnion,Completed,Re-Pull After Correction
 E0000914,APP100301,2023-08-29,610,Experian,Completed,Fraud Verification
@@ -910,10 +910,10 @@ E0000934,APP100309,2023-12-15,690,Equifax,Completed,Manual Review
 E0000935,APP100309,2023-08-26,674,Experian,Resubmitted,Manual Review
 E0000936,APP100309,2024-04-26,659,TransUnion,Completed,Re-Pull After Correction
 E0000937,APP100309,2024-07-10,681,TransUnion,Completed,Initial Application
-E0000938,APP100310,2024-03-10,666,TransUnion,Completed,Initial Application
-E0000939,APP100310,2024-08-09,684,TransUnion,Completed,Re-Pull After Correction
-E0000940,APP100310,2025-01-30,684,Experian,Completed,Manual Review
-E0000941,APP100310,2025-07-12,662,Experian,Resubmitted,Fraud Verification
+E0000938,APP100310,2024-03-10,842,TransUnion,Completed,Initial Application
+E0000939,APP100310,2024-08-09,807,TransUnion,Completed,Re-Pull After Correction
+E0000940,APP100310,2025-01-30,830,Experian,Completed,Manual Review
+E0000941,APP100310,2025-07-12,836,Experian,Resubmitted,Fraud Verification
 E0000942,APP100311,2023-02-27,,Experian,Error,Fraud Verification
 E0000943,APP100311,2023-06-08,630,Equifax,Completed,Initial Application
 E0000944,APP100311,2023-12-02,643,Experian,Completed,Manual Review
@@ -940,11 +940,11 @@ E0000964,APP100319,2025-09-16,746,Equifax,Completed,Manual Review
 E0000965,APP100319,2026-01-11,757,Equifax,Completed,Re-Pull After Correction
 E0000966,APP100319,2026-02-02,734,Equifax,Completed,Manual Review
 E0000967,APP100319,2026-05-15,785,Equifax,Completed,Re-Pull After Correction
-E0000968,APP100320,2023-11-06,717,Equifax,Completed,Manual Review
-E0000969,APP100320,2024-08-01,742,TransUnion,Completed,Re-Pull After Correction
-E0000970,APP100320,2024-07-04,700,Equifax,Completed,Manual Review
-E0000971,APP100321,2024-07-04,655,TransUnion,Completed,Re-Pull After Correction
-E0000972,APP100321,2025-01-23,687,Experian,Completed,Fraud Verification
+E0000968,APP100320,2023-11-06,658,Equifax,Completed,Manual Review
+E0000969,APP100320,2024-08-01,671,TransUnion,Completed,Re-Pull After Correction
+E0000970,APP100320,2024-07-04,666,Equifax,Completed,Manual Review
+E0000971,APP100321,2024-07-04,764,TransUnion,Completed,Re-Pull After Correction
+E0000972,APP100321,2025-01-23,789,Experian,Completed,Fraud Verification
 E0000973,APP100322,2022-08-20,680,TransUnion,Completed,Initial Application
 E0000974,APP100322,2022-12-01,653,TransUnion,Completed,Credit Refresh
 E0000975,APP100322,2023-04-22,678,Experian,Completed,Fraud Verification
@@ -962,28 +962,28 @@ E0000986,APP100324,2025-08-31,624,Equifax,Completed,Re-Pull After Correction
 E0000987,APP100325,2024-08-19,754,TransUnion,Completed,Initial Application
 E0000988,APP100325,2025-03-25,750,TransUnion,Completed,Manual Review
 E0000989,APP100325,2025-03-31,772,Experian,Completed,Credit Refresh
-E0000990,APP100326,2025-01-04,744,TransUnion,Completed,Initial Application
+E0000990,APP100326,2026-01-01,734,TransUnion,Completed,Initial Application
 E0000991,APP100327,2023-11-22,448,TransUnion,Completed,Initial Application
 E0000992,APP100327,2024-08-28,460,Equifax,Completed,Re-Pull After Correction
 E0000993,APP100327,2025-01-20,459,TransUnion,Completed,Manual Review
-E0000994,APP100328,2024-11-07,732,TransUnion,Completed,Re-Pull After Correction
-E0000995,APP100328,2025-10-06,685,Experian,Completed,Re-Pull After Correction
-E0000996,APP100328,2024-12-04,693,Experian,Completed,Fraud Verification
-E0000997,APP100329,2023-11-10,458,TransUnion,Completed,Initial Application
-E0000998,APP100329,2024-06-14,474,Equifax,Completed,Manual Review
-E0000999,APP100329,2024-08-21,497,TransUnion,Completed,Fraud Verification
-E0001000,APP100329,2024-12-04,446,Experian,Completed,Initial Application
-E0001001,APP100329,2025-01-09,474,Equifax,Completed,Manual Review
+E0000994,APP100328,2024-11-07,481,TransUnion,Completed,Re-Pull After Correction
+E0000995,APP100328,2025-12-23,477,Experian,Completed,Re-Pull After Correction
+E0000996,APP100328,2024-12-04,481,Experian,Completed,Fraud Verification
+E0000997,APP100329,2023-11-10,763,TransUnion,Completed,Initial Application
+E0000998,APP100329,2024-06-14,763,Equifax,Completed,Manual Review
+E0000999,APP100329,2024-08-21,763,TransUnion,Completed,Fraud Verification
+E0001000,APP100329,2024-12-04,764,Experian,Completed,Initial Application
+E0001001,APP100329,2025-01-09,758,Equifax,Completed,Manual Review
 E0001002,APP100330,2022-11-30,810,Experian,Completed,Credit Refresh
 E0001003,APP100330,2023-04-07,788,Equifax,Completed,Fraud Verification
 E0001004,APP100330,2023-07-13,786,Equifax,Completed,Re-Pull After Correction
 E0001005,APP100330,2023-10-17,785,Experian,Completed,Credit Refresh
 E0001006,APP100330,2023-12-31,,Equifax,Error,Manual Review
-E0001007,APP100331,2025-12-31,694,Experian,Completed,Manual Review
-E0001008,APP100331,2026-03-01,671,Equifax,Completed,Fraud Verification
-E0001009,APP100331,2026-09-02,687,Equifax,Completed,Re-Pull After Correction
-E0001010,APP100331,2026-08-06,682,TransUnion,Completed,Fraud Verification
-E0001011,APP100331,2026-07-11,692,Experian,Completed,Credit Refresh
+E0001007,APP100331,2025-12-31,646,Experian,Completed,Manual Review
+E0001008,APP100331,2026-03-01,643,Equifax,Completed,Fraud Verification
+E0001009,APP100331,2026-09-02,639,Equifax,Completed,Re-Pull After Correction
+E0001010,APP100331,2026-08-06,639,TransUnion,Completed,Fraud Verification
+E0001011,APP100331,2026-07-11,640,Experian,Completed,Credit Refresh
 E0001012,APP100332,2022-12-09,760,TransUnion,Completed,Re-Pull After Correction
 E0001013,APP100332,2022-12-16,744,Experian,Completed,Manual Review
 E0001014,APP100332,2023-06-22,756,Equifax,Completed,Credit Refresh
@@ -997,8 +997,8 @@ E0001021,APP100334,2025-08-06,850,TransUnion,Completed,Manual Review
 E0001022,APP100334,2025-12-13,850,Equifax,Completed,Initial Application
 E0001023,APP100335,2023-07-20,811,TransUnion,Completed,Re-Pull After Correction
 E0001024,APP100335,2023-05-09,806,Equifax,Completed,Initial Application
-E0001025,APP100336,2024-07-28,625,Equifax,Completed,Fraud Verification
-E0001026,APP100336,2026-01-01,646,Experian,Completed,Manual Review
+E0001025,APP100336,2024-07-28,834,Equifax,Completed,Fraud Verification
+E0001026,APP100336,2026-01-01,835,Experian,Completed,Manual Review
 E0001027,APP100337,2024-08-23,706,Experian,Completed,Re-Pull After Correction
 E0001028,APP100337,2024-09-16,730,TransUnion,Completed,Initial Application
 E0001029,APP100337,2024-11-15,693,Experian,Completed,Manual Review
@@ -1007,11 +1007,11 @@ E0001031,APP100337,2025-07-08,686,Equifax,Completed,Fraud Verification
 E0001032,APP100338,2026-10-26,666,Equifax,Completed,Credit Refresh
 E0001033,APP100339,2026-09-09,672,Equifax,Completed,Initial Application
 E0001034,APP100339,2026-11-12,673,Experian,Completed,Credit Refresh
-E0001035,APP100340,2025-10-18,641,TransUnion,Completed,Fraud Verification
-E0001036,APP100340,2025-09-14,645,Equifax,Completed,Re-Pull After Correction
-E0001037,APP100340,2026-06-02,668,Experian,Completed,Re-Pull After Correction
-E0001038,APP100340,2026-07-22,666,TransUnion,Completed,Fraud Verification
-E0001039,APP100340,2026-11-09,647,TransUnion,Completed,Initial Application
+E0001035,APP100340,2025-10-18,680,TransUnion,Completed,Fraud Verification
+E0001036,APP100340,2025-09-14,680,Equifax,Completed,Re-Pull After Correction
+E0001037,APP100340,2026-06-02,680,Experian,Completed,Re-Pull After Correction
+E0001038,APP100340,2026-07-22,680,TransUnion,Completed,Fraud Verification
+E0001039,APP100340,2026-11-09,680,TransUnion,Completed,Initial Application
 E0001040,APP100341,2023-02-03,742,Experian,Completed,Fraud Verification
 E0001041,APP100342,2024-04-27,764,Experian,Completed,Initial Application
 E0001042,APP100343,2023-02-21,646,Experian,Completed,Fraud Verification
@@ -1022,10 +1022,10 @@ E0001046,APP100343,2024-07-20,632,Equifax,Completed,Fraud Verification
 E0001047,APP100344,2026-01-05,809,Experian,Completed,Initial Application
 E0001048,APP100344,2026-09-10,850,TransUnion,Completed,Manual Review
 E0001049,APP100345,2025-03-01,552,Experian,Completed,Initial Application
-E0001050,APP100346,2025-08-10,841,Equifax,Completed,Re-Pull After Correction
-E0001051,APP100346,2025-04-11,850,Equifax,Completed,Re-Pull After Correction
-E0001052,APP100346,2025-10-07,850,Experian,Completed,Re-Pull After Correction
-E0001053,APP100346,2026-06-17,850,Experian,Completed,Fraud Verification
+E0001050,APP100346,2025-08-10,667,Equifax,Completed,Re-Pull After Correction
+E0001051,APP100346,2025-04-11,666,Equifax,Completed,Re-Pull After Correction
+E0001052,APP100346,2025-10-07,675,Experian,Completed,Re-Pull After Correction
+E0001053,APP100346,2026-06-17,698,Experian,Completed,Fraud Verification
 E0001054,APP100347,2022-09-29,616,Equifax,Completed,Credit Refresh
 E0001055,APP100347,2023-07-16,641,Experian,Completed,Fraud Verification
 E0001056,APP100347,2023-08-18,673,Equifax,Completed,Initial Application
@@ -1057,8 +1057,8 @@ E0001085,APP100357,2025-05-13,466,TransUnion,Completed,Manual Review
 E0001086,APP100357,2025-11-13,441,Experian,Completed,Credit Refresh
 E0001087,APP100357,2025-07-24,469,Experian,Completed,Manual Review
 E0001088,APP100357,2025-09-13,446,Experian,Completed,Re-Pull After Correction
-E0001089,APP100358,2025-08-23,730,TransUnion,Completed,Initial Application
-E0001090,APP100358,2025-09-06,738,TransUnion,Completed,Initial Application
+E0001089,APP100358,2025-08-23,830,TransUnion,Completed,Initial Application
+E0001090,APP100358,2026-07-04,837,TransUnion,Completed,Initial Application
 E0001091,APP100359,2024-03-31,795,Equifax,Completed,Credit Refresh
 E0001092,APP100360,2023-05-11,801,Equifax,Completed,Re-Pull After Correction
 E0001093,APP100360,2023-05-13,814,TransUnion,Completed,Re-Pull After Correction
@@ -1078,14 +1078,14 @@ E0001107,APP100366,2023-06-26,778,Equifax,Completed,Manual Review
 E0001108,APP100366,2024-02-03,732,TransUnion,Completed,Credit Refresh
 E0001109,APP100366,2024-03-11,725,Experian,Completed,Credit Refresh
 E0001110,APP100366,2024-03-09,744,Equifax,Completed,Re-Pull After Correction
-E0001111,APP100367,2022-09-05,699,Equifax,Completed,Manual Review
-E0001112,APP100367,2023-07-05,727,Equifax,Completed,Manual Review
-E0001113,APP100367,2024-01-11,721,TransUnion,Completed,Manual Review
-E0001114,APP100368,2023-10-21,779,Equifax,Completed,Manual Review
-E0001115,APP100368,2024-10-31,762,Equifax,Completed,Re-Pull After Correction
-E0001116,APP100368,2024-08-01,774,Equifax,Completed,Initial Application
-E0001117,APP100368,2025-01-27,772,TransUnion,Completed,Initial Application
-E0001118,APP100368,2024-12-07,756,Experian,Completed,Credit Refresh
+E0001111,APP100367,2022-09-05,611,Equifax,Completed,Manual Review
+E0001112,APP100367,2023-07-05,641,Equifax,Completed,Manual Review
+E0001113,APP100367,2024-01-17,638,TransUnion,Completed,Manual Review
+E0001114,APP100368,2023-10-21,687,Equifax,Completed,Manual Review
+E0001115,APP100368,2024-10-31,698,Equifax,Completed,Re-Pull After Correction
+E0001116,APP100368,2024-08-01,695,Equifax,Completed,Initial Application
+E0001117,APP100368,2025-01-27,704,TransUnion,Completed,Initial Application
+E0001118,APP100368,2024-12-07,692,Experian,Completed,Credit Refresh
 E0001119,APP100369,2025-06-01,648,TransUnion,Completed,Initial Application
 E0001120,APP100369,2026-01-16,676,TransUnion,Completed,Manual Review
 E0001121,APP100369,2026-03-08,622,TransUnion,Completed,Initial Application
@@ -1128,9 +1128,9 @@ E0001161,APP100382,2023-03-24,766,TransUnion,Completed,Credit Refresh
 E0001162,APP100382,2023-06-28,739,Experian,Completed,Initial Application
 E0001163,APP100383,2025-01-04,755,Equifax,Completed,Re-Pull After Correction
 E0001164,APP100384,2025-08-08,728,TransUnion,Completed,Fraud Verification
-E0001165,APP100385,2026-01-10,654,Equifax,Completed,Credit Refresh
-E0001166,APP100385,2026-07-04,641,Equifax,Completed,Initial Application
-E0001167,APP100386,2026-01-22,538,Experian,Completed,Initial Application
+E0001165,APP100385,2026-01-10,647,Equifax,Completed,Credit Refresh
+E0001166,APP100385,2026-07-04,657,Equifax,Completed,Initial Application
+E0001167,APP100386,2026-01-22,585,Experian,Completed,Initial Application
 E0001168,APP100387,2024-07-18,698,TransUnion,Completed,Fraud Verification
 E0001169,APP100387,2024-06-05,751,Experian,Completed,Fraud Verification
 E0001170,APP100387,2024-12-21,700,Experian,Completed,Manual Review
@@ -1138,8 +1138,8 @@ E0001171,APP100387,2025-03-08,679,Experian,Completed,Initial Application
 E0001172,APP100387,2025-03-30,768,Experian,Resubmitted,Credit Refresh
 E0001173,APP100388,2026-03-14,775,Experian,Completed,Manual Review
 E0001174,APP100388,2025-11-23,729,TransUnion,Completed,Initial Application
-E0001180,APP100390,2025-09-25,628,Equifax,Completed,Credit Refresh
-E0001181,APP100390,2026-01-17,637,Experian,Completed,Initial Application
+E0001180,APP100390,2025-09-25,850,Equifax,Completed,Credit Refresh
+E0001181,APP100390,2026-01-17,850,Experian,Completed,Initial Application
 E0001182,APP100391,2023-08-17,822,Experian,Completed,Re-Pull After Correction
 E0001183,APP100391,2023-05-17,804,TransUnion,Completed,Credit Refresh
 E0001184,APP100391,2024-05-02,778,Equifax,Completed,Re-Pull After Correction
@@ -1171,10 +1171,10 @@ E0001209,APP100400,2025-06-19,618,Experian,Completed,Credit Refresh
 E0001210,APP100400,2025-12-24,611,TransUnion,Completed,Credit Refresh
 E0001211,APP100400,2026-10-01,624,Equifax,Resubmitted,Initial Application
 E0001212,APP100400,2026-07-09,654,Experian,Completed,Fraud Verification
-E0001213,APP100401,2024-01-24,715,TransUnion,Completed,Credit Refresh
-E0001214,APP100401,2024-06-23,705,Equifax,Completed,Initial Application
-E0001215,APP100401,2024-09-10,687,Experian,Completed,Fraud Verification
-E0001216,APP100401,2025-05-02,688,Equifax,Completed,Fraud Verification
+E0001213,APP100401,2024-01-24,762,TransUnion,Completed,Credit Refresh
+E0001214,APP100401,2024-06-23,722,Equifax,Completed,Initial Application
+E0001215,APP100401,2024-09-10,736,Experian,Completed,Fraud Verification
+E0001216,APP100401,2025-05-02,742,Equifax,Completed,Fraud Verification
 E0001217,APP100402,2024-09-02,796,Equifax,Completed,Fraud Verification
 E0001218,APP100402,2025-12-13,829,Experian,Completed,Fraud Verification
 E0001219,APP100402,2025-08-08,796,TransUnion,Completed,Credit Refresh
@@ -1187,7 +1187,7 @@ E0001225,APP100404,2024-12-09,725,TransUnion,Completed,Credit Refresh
 E0001226,APP100404,2025-03-02,682,Experian,Completed,Manual Review
 E0001227,APP100404,2025-08-05,727,Experian,Completed,Manual Review
 E0001228,APP100404,2025-12-11,712,TransUnion,Completed,Initial Application
-E0001229,APP100405,2025-03-23,520,Experian,Completed,Re-Pull After Correction
+E0001229,APP100405,2025-03-23,647,Experian,Completed,Re-Pull After Correction
 E0001230,APP100406,2023-01-03,791,Experian,Completed,Re-Pull After Correction
 E0001231,APP100406,2023-06-13,831,TransUnion,Completed,Fraud Verification
 E0001232,APP100406,2023-09-09,815,Equifax,Completed,Credit Refresh
@@ -1195,11 +1195,11 @@ E0001233,APP100406,2023-12-23,770,Equifax,Completed,Credit Refresh
 E0001234,APP100407,2024-04-06,400,Experian,Completed,Initial Application
 E0001235,APP100407,2024-07-17,394,Equifax,Completed,Credit Refresh
 E0001236,APP100407,2025-05-03,360,TransUnion,Completed,Initial Application
-E0001237,APP100408,2023-11-03,708,Experian,Completed,Fraud Verification
-E0001238,APP100408,2024-07-20,685,TransUnion,Completed,Re-Pull After Correction
-E0001239,APP100408,2024-10-01,727,Equifax,Completed,Credit Refresh
-E0001240,APP100408,2024-10-24,689,TransUnion,Completed,Initial Application
-E0001241,APP100408,2024-11-18,655,TransUnion,Completed,Manual Review
+E0001237,APP100408,2023-11-03,707,Experian,Completed,Fraud Verification
+E0001238,APP100408,2024-07-20,727,TransUnion,Completed,Re-Pull After Correction
+E0001239,APP100408,2024-10-01,721,Equifax,Completed,Credit Refresh
+E0001240,APP100408,2024-10-24,722,TransUnion,Completed,Initial Application
+E0001241,APP100408,2024-11-18,724,TransUnion,Completed,Manual Review
 E0001242,APP100409,2024-05-18,797,Experian,Completed,Manual Review
 E0001243,APP100409,2025-03-05,792,Equifax,Completed,Fraud Verification
 E0001244,APP100410,2023-05-22,749,Experian,Completed,Fraud Verification
@@ -1212,8 +1212,8 @@ E0001250,APP100412,2024-07-07,,TransUnion,Error,Initial Application
 E0001251,APP100412,2024-08-27,840,Experian,Completed,Re-Pull After Correction
 E0001252,APP100412,2025-04-18,850,TransUnion,Completed,Credit Refresh
 E0001253,APP100412,2025-05-27,819,TransUnion,Completed,Re-Pull After Correction
-E0001254,APP100413,2023-12-11,630,Equifax,Completed,Credit Refresh
-E0001255,APP100413,2024-07-09,621,Experian,Completed,Fraud Verification
+E0001254,APP100413,2023-12-11,690,Equifax,Completed,Credit Refresh
+E0001255,APP100413,2025-01-20,676,Experian,Completed,Fraud Verification
 E0001256,APP100414,2023-03-08,710,Experian,Completed,Manual Review
 E0001257,APP100414,2023-01-03,772,Experian,Completed,Credit Refresh
 E0001258,APP100414,2023-08-03,753,TransUnion,Completed,Initial Application
@@ -1221,10 +1221,10 @@ E0001259,APP100414,2024-01-18,748,TransUnion,Completed,Manual Review
 E0001261,APP100416,2024-07-16,752,Experian,Completed,Manual Review
 E0001262,APP100416,2024-07-31,745,Experian,Completed,Fraud Verification
 E0001263,APP100416,2024-10-10,725,Equifax,Completed,Re-Pull After Correction
-E0001264,APP100417,2023-09-24,680,Experian,Completed,Re-Pull After Correction
-E0001265,APP100417,2023-10-02,678,Experian,Completed,Credit Refresh
-E0001266,APP100417,2024-06-20,670,TransUnion,Completed,Credit Refresh
-E0001267,APP100417,2024-10-03,672,Equifax,Completed,Credit Refresh
+E0001264,APP100417,2023-09-24,766,Experian,Completed,Re-Pull After Correction
+E0001265,APP100417,2023-10-02,766,Experian,Completed,Credit Refresh
+E0001266,APP100417,2024-06-20,788,TransUnion,Completed,Credit Refresh
+E0001267,APP100417,2024-10-03,805,Equifax,Completed,Credit Refresh
 E0001275,APP100420,2025-09-01,809,Experian,Completed,Initial Application
 E0001276,APP100420,2026-01-10,850,TransUnion,Completed,Initial Application
 E0001277,APP100421,2023-11-07,760,Equifax,Completed,Credit Refresh
@@ -1254,10 +1254,10 @@ E0001300,APP100431,2023-07-29,673,TransUnion,Completed,Fraud Verification
 E0001301,APP100431,2024-01-23,652,Experian,Completed,Manual Review
 E0001302,APP100431,2024-05-23,670,Equifax,Completed,Initial Application
 E0001303,APP100432,2024-01-24,708,Equifax,Completed,Manual Review
-E0001304,APP100433,2025-06-02,737,TransUnion,Completed,Credit Refresh
-E0001305,APP100433,2024-12-12,734,TransUnion,Completed,Fraud Verification
-E0001306,APP100433,2025-09-22,738,Experian,Completed,Credit Refresh
-E0001307,APP100433,2025-12-02,744,Equifax,Completed,Manual Review
+E0001304,APP100433,2025-06-02,831,TransUnion,Completed,Credit Refresh
+E0001305,APP100433,2024-12-12,831,TransUnion,Completed,Fraud Verification
+E0001306,APP100433,2025-09-22,838,Experian,Completed,Credit Refresh
+E0001307,APP100433,2025-12-02,831,Equifax,Completed,Manual Review
 E0001308,APP100434,2022-09-30,791,TransUnion,Completed,Fraud Verification
 E0001309,APP100434,2023-02-19,780,Equifax,Completed,Manual Review
 E0001310,APP100434,2023-02-26,840,Equifax,Completed,Re-Pull After Correction
@@ -1266,7 +1266,7 @@ E0001312,APP100434,2023-12-12,826,TransUnion,Resubmitted,Fraud Verification
 E0001313,APP100435,2023-09-29,782,Equifax,Completed,Manual Review
 E0001314,APP100435,2024-06-13,788,Experian,Completed,Credit Refresh
 E0001315,APP100436,2024-03-07,783,TransUnion,Completed,Credit Refresh
-E0001316,APP100437,2024-08-10,776,Equifax,Completed,Re-Pull After Correction
+E0001316,APP100437,2024-08-10,370,Equifax,Completed,Re-Pull After Correction
 E0001317,APP100438,2024-03-13,664,Experian,Completed,Manual Review
 E0001318,APP100438,2024-11-15,658,Equifax,Completed,Re-Pull After Correction
 E0001319,APP100438,2024-09-19,653,Experian,Completed,Re-Pull After Correction
@@ -1297,11 +1297,11 @@ E0001343,APP100446,2024-02-07,776,Experian,Completed,Credit Refresh
 E0001344,APP100446,2024-10-12,790,Experian,Completed,Fraud Verification
 E0001345,APP100446,2024-07-09,793,TransUnion,Completed,Re-Pull After Correction
 E0001346,APP100446,2024-05-31,774,Equifax,Completed,Manual Review
-E0001347,APP100447,2025-07-12,649,TransUnion,Completed,Initial Application
-E0001348,APP100447,2025-07-10,669,Equifax,Completed,Fraud Verification
-E0001349,APP100447,2025-10-01,679,Experian,Completed,Credit Refresh
-E0001350,APP100447,2025-09-24,673,TransUnion,Completed,Re-Pull After Correction
-E0001351,APP100447,2026-02-25,663,Equifax,Completed,Fraud Verification
+E0001347,APP100447,2025-07-12,658,TransUnion,Completed,Initial Application
+E0001348,APP100447,2025-07-10,660,Equifax,Completed,Fraud Verification
+E0001349,APP100447,2025-10-01,663,Experian,Completed,Credit Refresh
+E0001350,APP100447,2025-09-24,663,TransUnion,Completed,Re-Pull After Correction
+E0001351,APP100447,2026-02-25,668,Equifax,Completed,Fraud Verification
 E0001352,APP100448,2023-06-20,645,TransUnion,Completed,Manual Review
 E0001353,APP100448,2023-05-30,639,Experian,Resubmitted,Initial Application
 E0001354,APP100448,2023-12-16,612,Experian,Completed,Fraud Verification
@@ -1311,15 +1311,15 @@ E0001357,APP100449,2024-10-29,744,TransUnion,Completed,Manual Review
 E0001358,APP100449,2024-07-05,713,TransUnion,Completed,Re-Pull After Correction
 E0001359,APP100449,2024-08-28,767,TransUnion,Completed,Manual Review
 E0001360,APP100449,2025-06-17,729,Experian,Completed,Initial Application
-E0001361,APP100450,2025-03-02,772,Equifax,Completed,Initial Application
+E0001361,APP100450,2025-03-02,626,Equifax,Completed,Initial Application
 E0001362,APP100451,2025-03-29,671,TransUnion,Completed,Credit Refresh
-E0001363,APP100452,2024-11-25,685,Equifax,Completed,Manual Review
-E0001364,APP100452,2024-11-05,664,Equifax,Completed,Initial Application
-E0001365,APP100452,2025-08-25,672,TransUnion,Completed,Fraud Verification
-E0001366,APP100452,2025-04-08,715,TransUnion,Completed,Initial Application
-E0001367,APP100452,2025-10-12,687,Experian,Resubmitted,Fraud Verification
-E0001368,APP100453,2025-07-24,509,Experian,Completed,Re-Pull After Correction
-E0001369,APP100453,2025-11-27,512,Experian,Completed,Manual Review
+E0001363,APP100452,2024-11-25,709,Equifax,Completed,Manual Review
+E0001364,APP100452,2024-11-05,718,Equifax,Completed,Initial Application
+E0001365,APP100452,2025-08-25,721,TransUnion,Completed,Fraud Verification
+E0001366,APP100452,2025-04-08,720,TransUnion,Completed,Initial Application
+E0001367,APP100452,2025-10-12,710,Experian,Resubmitted,Fraud Verification
+E0001368,APP100453,2025-07-24,759,Experian,Completed,Re-Pull After Correction
+E0001369,APP100453,2025-11-27,756,Experian,Completed,Manual Review
 E0001370,APP100454,2023-07-30,741,Experian,Completed,Re-Pull After Correction
 E0001371,APP100454,2023-10-01,707,Equifax,Completed,Manual Review
 E0001372,APP100454,2024-08-13,694,TransUnion,Completed,Fraud Verification
@@ -1333,36 +1333,36 @@ E0001379,APP100456,2024-09-28,762,Experian,Completed,Initial Application
 E0001380,APP100456,2025-01-23,740,TransUnion,Resubmitted,Manual Review
 E0001381,APP100456,2025-09-15,781,Equifax,Completed,Fraud Verification
 E0001382,APP100456,2025-07-20,765,TransUnion,Completed,Manual Review
-E0001383,APP100457,2025-08-15,766,Equifax,Completed,Manual Review
-E0001384,APP100457,2025-05-28,809,TransUnion,Completed,Fraud Verification
-E0001385,APP100457,2026-01-26,768,Equifax,Completed,Manual Review
-E0001386,APP100458,2025-09-04,827,Equifax,Completed,Credit Refresh
-E0001387,APP100458,2025-10-28,843,Experian,Completed,Re-Pull After Correction
-E0001388,APP100458,2026-02-27,836,TransUnion,Completed,Credit Refresh
-E0001389,APP100458,2026-07-27,795,Experian,Completed,Initial Application
+E0001383,APP100457,2025-08-15,673,Equifax,Completed,Manual Review
+E0001384,APP100457,2025-05-28,673,TransUnion,Completed,Fraud Verification
+E0001385,APP100457,2026-01-26,672,Equifax,Completed,Manual Review
+E0001386,APP100458,2025-09-04,661,Equifax,Completed,Credit Refresh
+E0001387,APP100458,2025-10-28,661,Experian,Completed,Re-Pull After Correction
+E0001388,APP100458,2026-02-27,652,TransUnion,Completed,Credit Refresh
+E0001389,APP100458,2026-07-27,644,Experian,Completed,Initial Application
 E0001390,APP100459,2025-06-26,746,Equifax,Completed,Fraud Verification
 E0001391,APP100459,2025-10-10,763,Experian,Completed,Manual Review
 E0001392,APP100459,2026-04-21,771,Experian,Completed,Initial Application
 E0001393,APP100460,2024-07-25,684,Equifax,Completed,Manual Review
 E0001394,APP100460,2025-02-24,679,TransUnion,Completed,Manual Review
 E0001395,APP100460,2025-04-05,664,TransUnion,Completed,Re-Pull After Correction
-E0001396,APP100461,2025-01-04,661,Equifax,Completed,Manual Review
-E0001397,APP100461,2025-06-26,661,Experian,Completed,Manual Review
-E0001398,APP100461,2025-03-26,717,Equifax,Completed,Credit Refresh
-E0001399,APP100461,2025-11-30,710,Equifax,Completed,Initial Application
-E0001400,APP100461,2025-08-28,679,TransUnion,Completed,Initial Application
+E0001396,APP100461,2025-01-04,794,Equifax,Completed,Manual Review
+E0001397,APP100461,2025-06-26,778,Experian,Completed,Manual Review
+E0001398,APP100461,2025-03-26,784,Equifax,Completed,Credit Refresh
+E0001399,APP100461,2025-11-30,776,Equifax,Completed,Initial Application
+E0001400,APP100461,2025-08-28,780,TransUnion,Completed,Initial Application
 E0001401,APP100462,2024-02-17,704,Experian,Completed,Re-Pull After Correction
 E0001402,APP100462,2024-11-09,728,TransUnion,Completed,Credit Refresh
 E0001403,APP100462,2025-04-05,718,Equifax,Completed,Re-Pull After Correction
-E0001404,APP100463,2025-04-10,362,Equifax,Completed,Initial Application
-E0001405,APP100463,2025-10-09,425,TransUnion,Completed,Credit Refresh
-E0001406,APP100463,2025-12-02,406,Experian,Completed,Fraud Verification
-E0001407,APP100463,2026-01-23,363,Experian,Completed,Fraud Verification
-E0001408,APP100463,2026-03-24,371,Equifax,Completed,Fraud Verification
-E0001409,APP100464,2025-08-19,621,TransUnion,Completed,Fraud Verification
-E0001410,APP100464,2025-12-28,675,TransUnion,Completed,Initial Application
-E0001411,APP100464,2026-02-09,639,Experian,Completed,Re-Pull After Correction
-E0001412,APP100464,2026-06-19,656,Equifax,Completed,Manual Review
+E0001404,APP100463,2025-04-10,833,Equifax,Completed,Initial Application
+E0001405,APP100463,2025-10-09,833,TransUnion,Completed,Credit Refresh
+E0001406,APP100463,2025-12-02,833,Experian,Completed,Fraud Verification
+E0001407,APP100463,2026-01-23,833,Experian,Completed,Fraud Verification
+E0001408,APP100463,2026-08-27,835,Equifax,Completed,Fraud Verification
+E0001409,APP100464,2025-08-19,671,TransUnion,Completed,Fraud Verification
+E0001410,APP100464,2025-12-28,671,TransUnion,Completed,Initial Application
+E0001411,APP100464,2026-02-09,671,Experian,Completed,Re-Pull After Correction
+E0001412,APP100464,2026-06-19,669,Equifax,Completed,Manual Review
 E0001413,APP100465,2024-06-10,797,Experian,Completed,Credit Refresh
 E0001414,APP100465,2025-01-04,810,Experian,Completed,Initial Application
 E0001415,APP100465,2025-05-10,805,Equifax,Completed,Initial Application
@@ -1371,21 +1371,21 @@ E0001417,APP100465,2025-09-23,767,TransUnion,Completed,Initial Application
 E0001418,APP100466,2024-03-18,721,Equifax,Completed,Credit Refresh
 E0001419,APP100466,2024-10-03,679,Equifax,Completed,Initial Application
 E0001420,APP100466,2025-06-08,706,Equifax,Completed,Credit Refresh
-E0001421,APP100467,2025-08-30,703,TransUnion,Completed,Credit Refresh
-E0001422,APP100467,2026-03-24,736,Equifax,Completed,Fraud Verification
-E0001423,APP100467,2026-06-22,713,Experian,Completed,Re-Pull After Correction
+E0001421,APP100467,2025-08-30,684,TransUnion,Completed,Credit Refresh
+E0001422,APP100467,2026-03-24,663,Equifax,Completed,Fraud Verification
+E0001423,APP100467,2026-06-22,667,Experian,Completed,Re-Pull After Correction
 E0001424,APP100468,2024-03-15,636,Experian,Completed,Fraud Verification
 E0001425,APP100468,2024-04-11,670,Experian,Completed,Credit Refresh
 E0001426,APP100468,2024-08-23,662,Equifax,Completed,Manual Review
-E0001427,APP100469,2025-01-03,767,Experian,Completed,Credit Refresh
-E0001428,APP100469,2025-05-21,739,TransUnion,Completed,Manual Review
+E0001427,APP100469,2025-01-03,845,Experian,Completed,Credit Refresh
+E0001428,APP100469,2025-05-21,850,TransUnion,Completed,Manual Review
 E0001429,APP100470,2024-06-04,666,TransUnion,Completed,Manual Review
 E0001430,APP100470,2024-12-19,652,Experian,Completed,Re-Pull After Correction
 E0001431,APP100470,2025-01-07,651,Experian,Completed,Re-Pull After Correction
 E0001432,APP100470,2025-09-11,680,Experian,Completed,Initial Application
 E0001433,APP100471,2023-10-26,737,TransUnion,Completed,Manual Review
-E0001434,APP100472,2024-04-07,779,Equifax,Completed,Manual Review
-E0001435,APP100472,2024-07-04,816,Experian,Completed,Fraud Verification
+E0001434,APP100472,2024-04-07,743,Equifax,Completed,Manual Review
+E0001435,APP100472,2024-07-04,746,Experian,Completed,Fraud Verification
 E0001436,APP100473,2024-08-03,756,Experian,Completed,Fraud Verification
 E0001437,APP100473,2024-11-13,819,Experian,Completed,Initial Application
 E0001438,APP100473,2024-12-20,772,Experian,Completed,Re-Pull After Correction
@@ -1413,12 +1413,12 @@ E0001459,APP100479,2022-12-10,786,TransUnion,Completed,Fraud Verification
 E0001460,APP100479,2023-08-07,790,TransUnion,Completed,Credit Refresh
 E0001461,APP100479,2023-11-29,748,Equifax,Completed,Initial Application
 E0001462,APP100479,2024-01-05,782,Equifax,Completed,Initial Application
-E0001463,APP100480,2024-10-11,668,Equifax,Completed,Fraud Verification
+E0001463,APP100480,2025-02-17,702,Equifax,Completed,Fraud Verification
 E0001464,APP100481,2023-01-18,684,Equifax,Completed,Initial Application
 E0001465,APP100481,2023-07-09,728,Equifax,Completed,Initial Application
 E0001466,APP100481,2024-01-06,667,Experian,Completed,Fraud Verification
 E0001467,APP100481,2024-05-08,698,TransUnion,Completed,Re-Pull After Correction
-E0001468,APP100482,2026-05-27,680,TransUnion,Completed,Credit Refresh
+E0001468,APP100482,2026-05-27,664,TransUnion,Completed,Credit Refresh
 E0001469,APP100483,2024-10-24,792,TransUnion,Completed,Initial Application
 E0001470,APP100483,2025-01-18,792,TransUnion,Completed,Initial Application
 E0001471,APP100484,2025-03-13,779,Equifax,Completed,Re-Pull After Correction
@@ -1441,9 +1441,9 @@ E0001487,APP100489,2026-02-15,627,TransUnion,Completed,Initial Application
 E0001488,APP100490,2023-07-09,846,Equifax,Completed,Credit Refresh
 E0001489,APP100490,2024-07-16,821,Equifax,Completed,Credit Refresh
 E0001490,APP100491,2023-08-26,748,Equifax,Completed,Credit Refresh
-E0001491,APP100492,2025-11-10,810,Experian,Completed,Fraud Verification
-E0001492,APP100492,2025-09-29,749,TransUnion,Completed,Re-Pull After Correction
-E0001493,APP100492,2026-02-23,782,TransUnion,Resubmitted,Fraud Verification
+E0001491,APP100492,2025-11-10,572,Experian,Completed,Fraud Verification
+E0001492,APP100492,2025-09-29,565,TransUnion,Completed,Re-Pull After Correction
+E0001493,APP100492,2026-02-23,569,TransUnion,Resubmitted,Fraud Verification
 E0001494,APP100493,2024-03-15,659,TransUnion,Completed,Re-Pull After Correction
 E0001495,APP100493,2024-08-15,657,Experian,Completed,Manual Review
 E0001496,APP100494,2025-07-10,586,Equifax,Completed,Initial Application
@@ -1455,64 +1455,64 @@ E0001501,APP100495,2023-02-27,408,Equifax,Completed,Manual Review
 E0001502,APP100495,2023-08-10,392,TransUnion,Resubmitted,Manual Review
 E0001503,APP100495,2023-12-17,444,TransUnion,Completed,Re-Pull After Correction
 E0001504,APP100496,2025-11-29,,Experian,Error,Initial Application
-E0001505,APP100496,2025-07-09,658,Experian,Completed,Fraud Verification
-E0001506,APP100496,2026-06-14,708,TransUnion,Completed,Fraud Verification
-E0001507,APP100496,2026-08-06,693,Experian,Completed,Re-Pull After Correction
-E0001508,APP100496,2026-09-15,671,Experian,Completed,Re-Pull After Correction
+E0001505,APP100496,2025-07-09,729,Experian,Completed,Fraud Verification
+E0001506,APP100496,2026-06-14,751,TransUnion,Completed,Fraud Verification
+E0001507,APP100496,2026-08-06,755,Experian,Completed,Re-Pull After Correction
+E0001508,APP100496,2026-09-15,766,Experian,Completed,Re-Pull After Correction
 E0001509,APP100497,2024-06-07,835,TransUnion,Completed,Re-Pull After Correction
 E0001510,APP100497,2024-10-15,821,Equifax,Completed,Fraud Verification
 E0001511,APP100497,2025-07-02,794,Equifax,Completed,Re-Pull After Correction
 E0001512,APP100497,2025-05-18,820,TransUnion,Completed,Manual Review
 E0001513,APP100498,2023-01-17,826,Equifax,Completed,Credit Refresh
-E0001514,APP100499,2025-07-01,717,Equifax,Completed,Fraud Verification
-E0001515,APP100499,2025-07-09,696,Experian,Completed,Manual Review
-E0001516,APP100499,2026-06-29,690,Equifax,Completed,Initial Application
-E0001517,APP100499,2026-05-15,720,TransUnion,Completed,Re-Pull After Correction
-E0001518,APP100500,2025-01-09,812,Equifax,Completed,Initial Application
-E0001519,APP100500,2025-06-29,829,TransUnion,Completed,Credit Refresh
+E0001514,APP100499,2025-07-01,644,Equifax,Completed,Fraud Verification
+E0001515,APP100499,2025-07-09,653,Experian,Completed,Manual Review
+E0001516,APP100499,2026-06-29,640,Equifax,Completed,Initial Application
+E0001517,APP100499,2026-05-15,640,TransUnion,Completed,Re-Pull After Correction
+E0001518,APP100500,2025-01-09,803,Equifax,Completed,Initial Application
+E0001519,APP100500,2025-06-29,801,TransUnion,Completed,Credit Refresh
 E0001520,APP100501,2023-07-04,732,Experian,Completed,Credit Refresh
 E0001521,APP100501,2024-01-28,745,Experian,Completed,Re-Pull After Correction
 E0001522,APP100501,2024-03-03,727,Equifax,Completed,Re-Pull After Correction
 E0001523,APP100501,2023-12-18,725,Equifax,Completed,Fraud Verification
-E0001524,APP100502,2024-09-19,680,TransUnion,Completed,Initial Application
-E0001525,APP100502,2025-05-07,709,Equifax,Completed,Manual Review
-E0001526,APP100502,2025-04-23,666,TransUnion,Completed,Re-Pull After Correction
-E0001527,APP100502,2025-12-20,690,TransUnion,Completed,Manual Review
-E0001528,APP100502,2025-06-03,639,TransUnion,Completed,Re-Pull After Correction
+E0001524,APP100502,2024-09-19,760,TransUnion,Completed,Initial Application
+E0001525,APP100502,2025-05-07,760,Equifax,Completed,Manual Review
+E0001526,APP100502,2025-04-23,760,TransUnion,Completed,Re-Pull After Correction
+E0001527,APP100502,2025-12-20,767,TransUnion,Completed,Manual Review
+E0001528,APP100502,2025-06-03,760,TransUnion,Completed,Re-Pull After Correction
 E0001529,APP100503,2023-09-02,829,TransUnion,Completed,Initial Application
 E0001530,APP100503,2024-07-31,821,Experian,Completed,Fraud Verification
 E0001531,APP100503,2024-07-11,845,Equifax,Completed,Credit Refresh
-E0001532,APP100504,2025-03-09,768,TransUnion,Completed,Re-Pull After Correction
-E0001533,APP100504,2026-03-21,769,Equifax,Resubmitted,Fraud Verification
-E0001534,APP100504,2025-10-05,751,Experian,Completed,Initial Application
-E0001535,APP100504,2026-05-26,750,TransUnion,Completed,Fraud Verification
+E0001532,APP100504,2025-03-09,812,TransUnion,Completed,Re-Pull After Correction
+E0001533,APP100504,2026-03-21,792,Equifax,Resubmitted,Fraud Verification
+E0001534,APP100504,2025-10-05,807,Experian,Completed,Initial Application
+E0001535,APP100504,2026-05-26,806,TransUnion,Completed,Fraud Verification
 E0001536,APP100505,2023-07-24,799,Equifax,Completed,Initial Application
 E0001537,APP100505,2023-08-01,782,Experian,Completed,Credit Refresh
 E0001538,APP100505,2023-12-01,785,Experian,Completed,Re-Pull After Correction
 E0001539,APP100505,2024-10-02,,Experian,Error,Manual Review
 E0001540,APP100505,2024-11-01,794,Experian,Completed,Re-Pull After Correction
-E0001541,APP100506,2025-04-22,345,Experian,Completed,Manual Review
-E0001542,APP100506,2025-07-14,349,Experian,Completed,Credit Refresh
-E0001543,APP100506,2025-09-17,334,Experian,Completed,Manual Review
-E0001544,APP100506,2025-04-13,352,Equifax,Completed,Manual Review
-E0001545,APP100506,2025-11-07,360,Experian,Completed,Re-Pull After Correction
-E0001546,APP100507,2023-08-01,760,Experian,Completed,Credit Refresh
-E0001547,APP100507,2024-11-27,766,Equifax,Completed,Credit Refresh
-E0001548,APP100508,2025-02-11,638,TransUnion,Completed,Fraud Verification
-E0001549,APP100508,2024-12-21,629,TransUnion,Completed,Fraud Verification
-E0001550,APP100508,2025-07-25,663,TransUnion,Completed,Re-Pull After Correction
+E0001541,APP100506,2025-04-22,791,Experian,Completed,Manual Review
+E0001542,APP100506,2025-07-14,780,Experian,Completed,Credit Refresh
+E0001543,APP100506,2025-09-17,769,Experian,Completed,Manual Review
+E0001544,APP100506,2025-04-13,792,Equifax,Completed,Manual Review
+E0001545,APP100506,2025-11-07,777,Experian,Completed,Re-Pull After Correction
+E0001546,APP100507,2023-08-01,818,Experian,Completed,Credit Refresh
+E0001547,APP100507,2025-01-09,790,Equifax,Completed,Credit Refresh
+E0001548,APP100508,2025-02-11,710,TransUnion,Completed,Fraud Verification
+E0001549,APP100508,2024-12-21,710,TransUnion,Completed,Fraud Verification
+E0001550,APP100508,2025-10-19,712,TransUnion,Completed,Re-Pull After Correction
 E0001551,APP100509,2024-08-20,684,Experian,Completed,Fraud Verification
 E0001552,APP100509,2024-09-09,711,TransUnion,Completed,Manual Review
 E0001553,APP100510,2023-01-17,754,Experian,Completed,Credit Refresh
 E0001554,APP100510,2023-09-29,719,Experian,Completed,Initial Application
 E0001555,APP100510,2023-05-08,741,Experian,Completed,Credit Refresh
 E0001556,APP100510,2024-02-07,739,Equifax,Resubmitted,Manual Review
-E0001557,APP100511,2024-07-04,802,TransUnion,Completed,Fraud Verification
+E0001557,APP100511,2025-10-31,751,TransUnion,Completed,Fraud Verification
 E0001558,APP100512,2025-01-17,815,TransUnion,Completed,Fraud Verification
 E0001559,APP100512,2025-10-15,803,Equifax,Resubmitted,Fraud Verification
-E0001560,APP100513,2025-06-25,531,Equifax,Completed,Fraud Verification
-E0001561,APP100513,2025-11-19,553,TransUnion,Completed,Fraud Verification
-E0001562,APP100513,2026-04-08,546,Equifax,Completed,Re-Pull After Correction
+E0001560,APP100513,2025-06-25,796,Equifax,Completed,Fraud Verification
+E0001561,APP100513,2025-11-19,804,TransUnion,Completed,Fraud Verification
+E0001562,APP100513,2026-04-08,805,Equifax,Completed,Re-Pull After Correction
 E0001563,APP100514,2026-01-18,704,TransUnion,Completed,Credit Refresh
 E0001564,APP100514,2025-02-21,672,Experian,Completed,Manual Review
 E0001565,APP100514,2026-04-03,672,Equifax,Completed,Credit Refresh
@@ -1525,10 +1525,10 @@ E0001571,APP100516,2025-05-22,748,Equifax,Completed,Credit Refresh
 E0001572,APP100516,2025-04-26,762,Equifax,Completed,Credit Refresh
 E0001573,APP100516,2025-12-21,753,Experian,Completed,Fraud Verification
 E0001574,APP100516,2026-01-04,756,Experian,Completed,Manual Review
-E0001575,APP100517,2024-11-28,395,Equifax,Completed,Initial Application
-E0001576,APP100517,2024-03-15,414,Experian,Completed,Initial Application
-E0001577,APP100517,2024-12-07,391,Experian,Completed,Initial Application
-E0001578,APP100517,2024-10-28,361,Equifax,Completed,Manual Review
+E0001575,APP100517,2024-11-28,789,Equifax,Completed,Initial Application
+E0001576,APP100517,2024-03-15,794,Experian,Completed,Initial Application
+E0001577,APP100517,2024-12-07,799,Experian,Completed,Initial Application
+E0001578,APP100517,2024-10-28,786,Equifax,Completed,Manual Review
 E0001579,APP100518,2023-06-28,736,Experian,Completed,Credit Refresh
 E0001580,APP100518,2023-03-12,769,Equifax,Completed,Manual Review
 E0001581,APP100518,2023-11-04,739,Experian,Completed,Initial Application
@@ -1540,11 +1540,11 @@ E0001586,APP100521,2024-07-29,672,Experian,Completed,Re-Pull After Correction
 E0001587,APP100521,2025-01-16,673,Equifax,Completed,Initial Application
 E0001588,APP100521,2025-02-15,649,Equifax,Completed,Credit Refresh
 E0001589,APP100521,2025-07-07,655,Equifax,Completed,Fraud Verification
-E0001590,APP100522,2025-02-27,774,Equifax,Completed,Credit Refresh
-E0001591,APP100522,2025-02-10,764,Equifax,Completed,Re-Pull After Correction
-E0001592,APP100522,2025-10-20,755,Equifax,Completed,Credit Refresh
-E0001593,APP100522,2025-10-06,777,TransUnion,Completed,Fraud Verification
-E0001594,APP100522,2026-01-09,752,Equifax,Completed,Credit Refresh
+E0001590,APP100522,2025-02-27,713,Equifax,Completed,Credit Refresh
+E0001591,APP100522,2025-02-10,713,Equifax,Completed,Re-Pull After Correction
+E0001592,APP100522,2025-10-20,713,Equifax,Completed,Credit Refresh
+E0001593,APP100522,2025-10-06,719,TransUnion,Completed,Fraud Verification
+E0001594,APP100522,2026-01-09,716,Equifax,Completed,Credit Refresh
 E0001595,APP100523,2024-09-30,671,Experian,Completed,Credit Refresh
 E0001596,APP100523,2024-10-26,630,Equifax,Completed,Re-Pull After Correction
 E0001597,APP100523,2025-01-23,637,Equifax,Completed,Credit Refresh
@@ -1553,7 +1553,7 @@ E0001599,APP100524,2025-08-02,617,Experian,Completed,Initial Application
 E0001600,APP100524,2025-11-15,601,Equifax,Completed,Re-Pull After Correction
 E0001601,APP100524,2026-06-03,614,Experian,Completed,Fraud Verification
 E0001602,APP100524,2026-09-22,,TransUnion,Pending,Initial Application
-E0001603,APP100525,2024-04-23,712,TransUnion,Completed,Initial Application
+E0001603,APP100525,2024-04-23,834,TransUnion,Completed,Initial Application
 E0001604,APP100526,2025-02-21,643,Equifax,Completed,Re-Pull After Correction
 E0001605,APP100527,2025-01-27,655,TransUnion,Completed,Fraud Verification
 E0001606,APP100527,2025-01-08,644,Equifax,Completed,Re-Pull After Correction
@@ -1576,11 +1576,11 @@ E0001622,APP100531,2023-11-06,707,TransUnion,Completed,Manual Review
 E0001623,APP100531,2023-10-15,683,Experian,Completed,Manual Review
 E0001624,APP100531,2024-03-08,727,Equifax,Resubmitted,Initial Application
 E0001625,APP100531,2024-02-08,713,Equifax,Completed,Credit Refresh
-E0001626,APP100532,2025-05-10,340,Experian,Completed,Fraud Verification
-E0001627,APP100532,2026-01-09,360,Equifax,Completed,Initial Application
-E0001628,APP100532,2025-09-17,365,TransUnion,Completed,Manual Review
-E0001629,APP100532,2026-06-08,400,TransUnion,Completed,Credit Refresh
-E0001630,APP100532,2026-05-22,365,Experian,Completed,Manual Review
+E0001626,APP100532,2025-05-10,728,Experian,Completed,Fraud Verification
+E0001627,APP100532,2026-01-09,734,Equifax,Completed,Initial Application
+E0001628,APP100532,2025-09-17,734,TransUnion,Completed,Manual Review
+E0001629,APP100532,2026-06-08,730,TransUnion,Completed,Credit Refresh
+E0001630,APP100532,2026-05-22,734,Experian,Completed,Manual Review
 E0001631,APP100533,2022-09-30,624,Experian,Completed,Re-Pull After Correction
 E0001632,APP100533,2022-12-07,647,Experian,Completed,Credit Refresh
 E0001633,APP100533,2023-06-04,634,Equifax,Completed,Fraud Verification
@@ -1593,7 +1593,7 @@ E0001639,APP100536,2023-10-28,682,Experian,Resubmitted,Fraud Verification
 E0001640,APP100536,2024-10-05,676,TransUnion,Completed,Re-Pull After Correction
 E0001641,APP100537,2024-07-01,,Experian,Error,Initial Application
 E0001642,APP100537,2024-03-25,,Experian,Error,Initial Application
-E0001643,APP100537,2024-06-12,691,Experian,Completed,Fraud Verification
+E0001643,APP100537,2024-06-12,539,Experian,Completed,Fraud Verification
 E0001644,APP100538,2022-12-24,680,Equifax,Completed,Fraud Verification
 E0001645,APP100538,2022-12-17,642,Experian,Completed,Manual Review
 E0001646,APP100538,2023-03-29,636,TransUnion,Completed,Fraud Verification
@@ -1629,11 +1629,11 @@ E0001675,APP100546,2023-12-23,664,Experian,Completed,Initial Application
 E0001676,APP100546,2024-04-13,664,Equifax,Completed,Initial Application
 E0001677,APP100546,2025-01-27,684,Equifax,Completed,Manual Review
 E0001678,APP100547,2025-08-17,300,TransUnion,Completed,Fraud Verification
-E0001679,APP100548,2023-06-30,654,Equifax,Completed,Manual Review
-E0001680,APP100548,2023-04-04,668,Equifax,Completed,Re-Pull After Correction
-E0001681,APP100548,2023-11-14,675,Equifax,Completed,Re-Pull After Correction
-E0001682,APP100548,2024-07-14,646,Experian,Completed,Credit Refresh
-E0001683,APP100548,2024-05-29,619,TransUnion,Completed,Initial Application
+E0001679,APP100548,2023-06-30,725,Equifax,Completed,Manual Review
+E0001680,APP100548,2023-04-04,725,Equifax,Completed,Re-Pull After Correction
+E0001681,APP100548,2023-11-14,728,Equifax,Completed,Re-Pull After Correction
+E0001682,APP100548,2024-08-25,718,Experian,Completed,Credit Refresh
+E0001683,APP100548,2024-05-29,715,TransUnion,Completed,Initial Application
 E0001684,APP100549,2024-01-22,707,TransUnion,Completed,Manual Review
 E0001685,APP100549,2024-08-18,736,Equifax,Completed,Credit Refresh
 E0001686,APP100550,2024-03-19,684,TransUnion,Completed,Credit Refresh
@@ -1641,7 +1641,7 @@ E0001687,APP100550,2024-07-16,701,Equifax,Completed,Fraud Verification
 E0001688,APP100550,2024-04-24,694,Equifax,Completed,Manual Review
 E0001689,APP100550,2025-04-06,681,TransUnion,Completed,Credit Refresh
 E0001690,APP100551,2025-03-09,741,TransUnion,Completed,Fraud Verification
-E0001691,APP100552,2026-07-29,706,TransUnion,Completed,Initial Application
+E0001691,APP100552,2026-07-29,605,TransUnion,Completed,Initial Application
 E0001692,APP100553,2024-01-25,662,Experian,Completed,Initial Application
 E0001693,APP100554,2024-04-21,850,Equifax,Completed,Credit Refresh
 E0001694,APP100554,2024-12-19,838,Equifax,Completed,Re-Pull After Correction
@@ -1670,27 +1670,27 @@ E0001716,APP100562,2024-05-23,850,Equifax,Completed,Initial Application
 E0001717,APP100562,2025-03-14,842,Experian,Completed,Initial Application
 E0001718,APP100562,2025-01-27,810,Experian,Completed,Credit Refresh
 E0001719,APP100562,2025-04-09,850,Experian,Completed,Credit Refresh
-E0001720,APP100563,2024-09-20,766,TransUnion,Completed,Initial Application
-E0001721,APP100564,2023-06-22,681,Experian,Completed,Re-Pull After Correction
-E0001722,APP100564,2023-11-08,672,Equifax,Completed,Fraud Verification
-E0001723,APP100564,2024-03-11,690,TransUnion,Completed,Credit Refresh
-E0001724,APP100564,2024-08-05,666,TransUnion,Completed,Manual Review
-E0001725,APP100564,2024-10-23,662,TransUnion,Completed,Credit Refresh
+E0001720,APP100563,2025-12-26,627,TransUnion,Completed,Initial Application
+E0001721,APP100564,2023-06-22,677,Experian,Completed,Re-Pull After Correction
+E0001722,APP100564,2023-11-08,713,Equifax,Completed,Fraud Verification
+E0001723,APP100564,2024-03-11,731,TransUnion,Completed,Credit Refresh
+E0001724,APP100564,2024-08-05,731,TransUnion,Completed,Manual Review
+E0001725,APP100564,2024-10-23,726,TransUnion,Completed,Credit Refresh
 E0001726,APP100565,2022-10-25,641,Experian,Completed,Manual Review
 E0001727,APP100565,2022-12-02,674,Experian,Completed,Initial Application
 E0001728,APP100565,2023-04-01,664,TransUnion,Completed,Re-Pull After Correction
 E0001729,APP100565,2023-10-25,625,Experian,Completed,Manual Review
 E0001730,APP100566,2026-01-11,807,Equifax,Completed,Credit Refresh
 E0001731,APP100566,2025-12-04,836,Equifax,Completed,Manual Review
-E0001732,APP100567,2023-09-25,726,Experian,Completed,Initial Application
+E0001732,APP100567,2024-12-25,794,Experian,Completed,Initial Application
 E0001733,APP100568,2023-12-25,771,TransUnion,Completed,Credit Refresh
 E0001734,APP100568,2023-10-21,817,Experian,Completed,Manual Review
 E0001735,APP100568,2023-07-21,772,Equifax,Completed,Re-Pull After Correction
 E0001736,APP100568,2024-01-31,808,Equifax,Completed,Fraud Verification
 E0001737,APP100569,2023-11-28,710,Equifax,Completed,Initial Application
 E0001738,APP100569,2023-11-12,690,Experian,Completed,Manual Review
-E0001739,APP100570,2025-07-25,678,TransUnion,Completed,Credit Refresh
-E0001740,APP100570,2026-01-10,678,TransUnion,Completed,Manual Review
+E0001739,APP100570,2025-07-25,752,TransUnion,Completed,Credit Refresh
+E0001740,APP100570,2026-01-10,730,TransUnion,Completed,Manual Review
 E0001741,APP100571,2023-02-25,683,TransUnion,Resubmitted,Re-Pull After Correction
 E0001742,APP100571,2023-12-28,703,Equifax,Resubmitted,Initial Application
 E0001743,APP100571,2023-12-06,673,TransUnion,Completed,Re-Pull After Correction
@@ -1716,10 +1716,10 @@ E0001762,APP100577,2024-04-16,701,Experian,Completed,Credit Refresh
 E0001763,APP100577,2024-10-17,696,Experian,Completed,Credit Refresh
 E0001764,APP100577,2025-02-21,,TransUnion,Error,Manual Review
 E0001765,APP100578,2026-04-03,821,Equifax,Completed,Fraud Verification
-E0001766,APP100579,2025-10-02,830,TransUnion,Completed,Initial Application
-E0001767,APP100579,2025-09-08,830,Equifax,Completed,Initial Application
-E0001768,APP100579,2026-03-25,845,Equifax,Completed,Manual Review
-E0001769,APP100579,2026-09-04,835,Equifax,Completed,Fraud Verification
+E0001766,APP100579,2025-10-02,639,TransUnion,Completed,Initial Application
+E0001767,APP100579,2025-09-08,643,Equifax,Completed,Initial Application
+E0001768,APP100579,2026-03-25,635,Equifax,Completed,Manual Review
+E0001769,APP100579,2026-09-04,641,Equifax,Completed,Fraud Verification
 E0001770,APP100580,2024-07-28,740,Equifax,Completed,Credit Refresh
 E0001771,APP100580,2024-04-15,738,Experian,Completed,Manual Review
 E0001772,APP100581,2025-04-13,656,Experian,Completed,Initial Application
@@ -1759,10 +1759,10 @@ E0001810,APP100591,2023-10-12,843,TransUnion,Completed,Re-Pull After Correction
 E0001811,APP100591,2023-08-17,817,Equifax,Completed,Credit Refresh
 E0001812,APP100591,2024-09-01,848,TransUnion,Completed,Credit Refresh
 E0001813,APP100591,2024-07-22,850,TransUnion,Completed,Manual Review
-E0001814,APP100592,2024-01-08,698,Experian,Completed,Manual Review
-E0001815,APP100592,2024-09-28,683,Experian,Completed,Manual Review
-E0001816,APP100592,2025-05-05,707,TransUnion,Resubmitted,Fraud Verification
-E0001817,APP100592,2024-12-05,648,Equifax,Completed,Credit Refresh
+E0001814,APP100592,2024-01-08,612,Experian,Completed,Manual Review
+E0001815,APP100592,2024-09-28,622,Experian,Completed,Manual Review
+E0001816,APP100592,2025-05-05,617,TransUnion,Resubmitted,Fraud Verification
+E0001817,APP100592,2024-12-05,622,Equifax,Completed,Credit Refresh
 E0001818,APP100593,2023-08-15,642,Experian,Completed,Re-Pull After Correction
 E0001819,APP100593,2023-12-05,660,Equifax,Completed,Credit Refresh
 E0001820,APP100594,2022-09-27,475,Experian,Completed,Fraud Verification

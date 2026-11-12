@@ -1,198 +1,208 @@
 """
 build_relational_model.py
 
-Loads the FinTech Credit & Loan Review source CSVs into DuckDB and builds
-a constrained relational model (primary keys, foreign keys) on top of them.
+Loads the five FinTech Credit & Loan Review source CSVs into DuckDB and
+builds a constrained relational model (primary keys, foreign keys, typed
+columns) on top of them.
 
-Known data-quality corrections applied here:
-  - applicant.csv row APP-00060 has 9 of its 12 fields NULL (a genuinely
-    incomplete record, not a malformed file -- confirmed by comparing
-    against a differently-exported copy of the same source data). This is
-    flagged, not silently dropped: see report_incomplete_records().
-  - 'HELOAN-01' in applicant.csv is a confirmed typo for 'HELOC-01' and is
-    corrected on load.
-  - loan_product.csv has a truncated row ('SOL', line 20) -- almost
-    certainly the start of a SOLAR-01 product definition that was cut off
-    during export. No well-formed backup of this file was found, so this
-    row is quarantined at load time (ignore_errors=True) rather than
-    guessed at. Applicants referencing 'SOLAR-01' are excluded from the
-    final applicants table until the real product definition is recovered
-    from the source and re-added to loan_product.csv.
-  - credit_pull.csv also has one truncated row (line 77, 'EVT-000076,APP-00',
-    cut off mid-value), quarantined the same way.
+Tables (see architecture/erd_diagram.md and metadata/structured_data_dictionary.csv):
 
-  NOTE: all three source files have exactly one truncated row at/near the
-  end of the file. This is very likely a single systemic export/generation
-  problem, not three unrelated bugs -- worth raising with whoever produced
-  these files, not just patching around it here.
+  applicants               PK applicant_id
+  loan_products            PK product_code
+  loan_applications        PK application_id, FK applicant_id, FK product_code
+  credit_pull_events       PK event_id, FK application_id
+  applicant_risk_features  PK application_id (also FK), unique appli_risk_id
 
-Usage:
-    python build_relational_model.py
+What the load normalizes, per the dataset contracts in metadata/:
+  - money stored as text ("$147,346 ", "500,000") becomes DECIMAL(12,2)
+  - M/D/YYYY dates in loan_application.csv and applicant.csv become DATE
+  - TRUE/FALSE text becomes BOOLEAN
+  - empty strings become NULL (a NO_HISTORY applicant has no FICO score)
+
+Controlled quality issue handled here:
+  - Applications dated after the 2026-09-14 extract date are loaded but
+    flagged (after_extract_date = TRUE) instead of being dropped, so the
+    quarantine is visible. Analytics should filter them out.
+
+Usage, from the repository root:
+    python src/database/build_relational_model.py
+
+Then:
+    python src/database/generate_quality_reports.py
 """
+
+from pathlib import Path
 
 import duckdb
 
-DATA_DIR = "data/structured/raw"
-DB_PATH = "fintech.duckdb"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = (ROOT / "data" / "structured" / "raw").as_posix()
+DB_PATH = (ROOT / "fintech.duckdb").as_posix()
+EXTRACT_DATE = "2026-09-14"
+
+MONEY = "CAST(NULLIF(REPLACE(REPLACE(TRIM({c}), '$', ''), ',', ''), '') AS DECIMAL(12,2))"
+MDY = "CAST(strptime(NULLIF({c}, ''), '%m/%d/%Y') AS DATE)"
+ISO = "CAST(NULLIF({c}, '') AS DATE)"
+INT = "CAST(NULLIF({c}, '') AS INTEGER)"
+DEC = "CAST(NULLIF({c}, '') AS DECIMAL(12,4))"
+BOOL = "CASE WHEN {c} = '' THEN NULL ELSE UPPER({c}) = 'TRUE' END"
+TEXT = "NULLIF({c}, '')"
 
 
 def load_staging_tables(con: duckdb.DuckDBPyConnection) -> None:
-    """Load raw source CSVs into unconstrained staging tables.
-
-    applicant.csv and credit_pull.csv load without ignore_errors: with the
-    well-formed export of applicant.csv (all rows padded to the full 12
-    fields), a malformed row should fail loudly rather than be silently
-    skipped. Missing *values* within an otherwise well-formed row (like
-    APP-00060) are a data-quality issue, not a parsing issue -- see
-    report_incomplete_records().
-
-    loan_product.csv is the exception: it has a genuinely truncated row
-    ('SOL', line 20, likely the start of a SOLAR-01 definition) with no
-    well-formed backup available. ignore_errors=True quarantines that row
-    here rather than crashing the whole load.
-    """
-    con.execute(f"""
-        CREATE OR REPLACE TABLE _staging_applicants AS
-        SELECT * FROM read_csv('{DATA_DIR}/applicant.csv', delim=',')
-    """)
-
-    con.execute(f"""
-        CREATE OR REPLACE TABLE _staging_loan_products AS
-        SELECT * FROM read_csv('{DATA_DIR}/loan_product.csv', delim=',', ignore_errors=true)
-    """)
-
-    con.execute(f"""
-        CREATE OR REPLACE TABLE _staging_credit_pull AS
-        SELECT * FROM read_csv('{DATA_DIR}/credit_pull.csv', delim=',', ignore_errors=true)
-    """)
+    """Load every CSV as all-text staging tables, so nothing is mis-typed or dropped on read."""
+    for table, file in [
+        ("_stg_applicant", "applicant.csv"),
+        ("_stg_product", "loan_product.csv"),
+        ("_stg_application", "loan_application.csv"),
+        ("_stg_pull", "credit_pull_event.csv"),
+        ("_stg_risk", "applicant_risk_features.csv"),
+    ]:
+        con.execute(f"""
+            CREATE OR REPLACE TABLE {table} AS
+            SELECT * FROM read_csv('{DATA_DIR}/{file}', header = true, all_varchar = true)
+        """)
 
 
-def build_loan_products(con: duckdb.DuckDBPyConnection) -> None:
-    """Build loan_products with product_code as the primary key."""
+def select_list(columns: dict[str, str]) -> str:
+    return ",\n            ".join(f"{expr.format(c=name)} AS {name}" for name, expr in columns.items())
+
+
+def build_tables(con: duckdb.DuckDBPyConnection) -> None:
+    """Create the constrained tables, parents first, and insert typed rows."""
+    for table in ("applicant_risk_features", "credit_pull_events", "loan_applications",
+                  "loan_products", "applicants"):
+        con.execute(f"DROP TABLE IF EXISTS {table}")
+
     con.execute("""
-        CREATE OR REPLACE TABLE loan_products (
-            product_code VARCHAR PRIMARY KEY,
-            product_name VARCHAR,
-            product_family VARCHAR,
-            eligibility_criteria VARCHAR,
-            minimum_credit_tier VARCHAR,
-            minimum_fico BIGINT,
-            base_rate_pct DOUBLE,
-            maximum_amount_usd BIGINT
-        )
-    """)
-    con.execute("INSERT INTO loan_products SELECT * FROM _staging_loan_products")
-
-
-def build_applicants(con: duckdb.DuckDBPyConnection) -> None:
-    """Build applicants with applicant_id as the primary key and a foreign
-    key on requested_product_code referencing loan_products. Applies the
-    confirmed HELOAN-01 correction and quarantines SOLAR-01 rows."""
-    con.execute("""
-        CREATE OR REPLACE TABLE applicants (
+        CREATE TABLE applicants (
             applicant_id VARCHAR PRIMARY KEY,
-            annual_income_usd BIGINT,
-            employment_duration_months BIGINT,
-            credit_risk_tier VARCHAR,
-            fico_score BIGINT,
-            region_state VARCHAR,
-            requested_amount_usd BIGINT,
-            requested_product_code VARCHAR REFERENCES loan_products(product_code),
-            dti_pct DOUBLE,
-            military_scra_flag BIGINT,
-            bankruptcy_last_7y_flag BIGINT,
-            preliminary_decision VARCHAR
+            first_name VARCHAR, middle_name VARCHAR, last_name VARCHAR,
+            birth_date DATE,
+            address_line_1 VARCHAR, address_line_2 VARCHAR, city VARCHAR,
+            state VARCHAR, zip_code VARCHAR, country_code VARCHAR,
+            phone_number VARCHAR, email_address VARCHAR, preferred_contact_method VARCHAR,
+            marital_status VARCHAR, citizenship_status VARCHAR, occupation VARCHAR
         )
     """)
+    applicant_cols = {c: TEXT for c in [
+        "applicant_id", "first_name", "middle_name", "last_name"]}
+    applicant_cols["birth_date"] = MDY
+    applicant_cols.update({c: TEXT for c in [
+        "address_line_1", "address_line_2", "city", "state", "zip_code", "country_code",
+        "phone_number", "email_address", "preferred_contact_method", "marital_status",
+        "citizenship_status", "occupation"]})
+    con.execute(f"INSERT INTO applicants SELECT {select_list(applicant_cols)} FROM _stg_applicant")
+
     con.execute("""
-        INSERT INTO applicants
-        SELECT
-            applicant_id, annual_income_usd, employment_duration_months, credit_risk_tier,
-            fico_score, region_state, requested_amount_usd,
-            CASE WHEN requested_product_code = 'HELOAN-01' THEN 'HELOC-01'
-                 ELSE requested_product_code END,
-            dti_pct, military_scra_flag, bankruptcy_last_7y_flag, preliminary_decision
-        FROM _staging_applicants
-        WHERE requested_product_code IS DISTINCT FROM 'SOLAR-01'
+        CREATE TABLE loan_products (
+            product_code VARCHAR PRIMARY KEY,
+            product_name VARCHAR, product_family VARCHAR, eligibility_criteria VARCHAR,
+            minimum_risk_tier VARCHAR, minimum_fico INTEGER, allow_no_score_flag BOOLEAN,
+            base_rate_pct DECIMAL(5,2), maximum_amount_usd DECIMAL(12,2), max_dti_pct DECIMAL(5,2),
+            allow_bankruptcy_flag BOOLEAN, allow_collections_flag BOOLEAN,
+            tier_rate_adjustment_rule VARCHAR, collections_rate_adjustment_pct DECIMAL(5,2),
+            bankruptcy_rate_adjustment_pct DECIMAL(5,2), scra_rate_cap_pct DECIMAL(5,2)
+        )
+    """)
+    product_cols = {
+        "product_code": TEXT, "product_name": TEXT, "product_family": TEXT,
+        "eligibility_criteria": TEXT, "minimum_risk_tier": TEXT, "minimum_fico": INT,
+        "allow_no_score_flag": BOOL, "base_rate_pct": DEC, "maximum_amount_usd": MONEY,
+        "max_dti_pct": DEC, "allow_bankruptcy_flag": BOOL, "allow_collections_flag": BOOL,
+        "tier_rate_adjustment_rule": TEXT, "collections_rate_adjustment_pct": DEC,
+        "bankruptcy_rate_adjustment_pct": DEC, "scra_rate_cap_pct": DEC}
+    con.execute(f"INSERT INTO loan_products SELECT {select_list(product_cols)} FROM _stg_product")
+
+    con.execute("""
+        CREATE TABLE loan_applications (
+            application_id VARCHAR PRIMARY KEY,
+            applicant_id VARCHAR NOT NULL REFERENCES applicants(applicant_id),
+            annual_income_usd DECIMAL(12,2), employment_duration_months INTEGER,
+            fico_score INTEGER, region_state VARCHAR, requested_amount_usd DECIMAL(12,2),
+            product_code VARCHAR NOT NULL REFERENCES loan_products(product_code),
+            dti_pct DECIMAL(5,2), military_scra_flag BOOLEAN, bankruptcy_last_7y_flag BOOLEAN,
+            collections_past_12_months_flag BOOLEAN, preliminary_decision VARCHAR,
+            application_date DATE, final_decision VARCHAR, final_decision_date DATE,
+            after_extract_date BOOLEAN
+        )
+    """)
+    application_cols = {
+        "application_id": TEXT, "applicant_id": TEXT, "annual_income_usd": MONEY,
+        "employment_duration_months": INT, "fico_score": INT, "region_state": TEXT,
+        "requested_amount_usd": MONEY, "product_code": TEXT, "dti_pct": DEC,
+        "military_scra_flag": BOOL, "bankruptcy_last_7y_flag": BOOL,
+        "collections_past_12_months_flag": BOOL, "preliminary_decision": TEXT}
+    con.execute(f"""
+        INSERT INTO loan_applications
+        SELECT {select_list(application_cols)},
+            {MDY.format(c='date')} AS application_date,
+            {TEXT.format(c='final_decision')} AS final_decision,
+            {MDY.format(c='final_decision_date')} AS final_decision_date,
+            {MDY.format(c='date')} > DATE '{EXTRACT_DATE}' AS after_extract_date
+        FROM _stg_application
     """)
 
-
-def build_credit_pull(con: duckdb.DuckDBPyConnection) -> None:
-    """Build credit_pull with event_id as the primary key and a foreign key
-    on applicant_id referencing applicants."""
     con.execute("""
-        CREATE OR REPLACE TABLE credit_pull (
+        CREATE TABLE credit_pull_events (
             event_id VARCHAR PRIMARY KEY,
-            applicant_id VARCHAR REFERENCES applicants(applicant_id),
-            event_date DATE,
-            prior_tier VARCHAR,
-            new_tier VARCHAR,
-            prior_fico BIGINT,
-            new_fico BIGINT,
-            tier_changed_flag BIGINT,
-            bureau_source VARCHAR,
-            event_status VARCHAR,
-            event_reason VARCHAR
+            application_id VARCHAR NOT NULL REFERENCES loan_applications(application_id),
+            event_date DATE, fico_score INTEGER, bureau_source VARCHAR,
+            event_status VARCHAR, event_reason VARCHAR
         )
     """)
-    con.execute("INSERT INTO credit_pull SELECT * FROM _staging_credit_pull")
+    pull_cols = {"event_id": TEXT, "application_id": TEXT, "event_date": ISO, "fico_score": INT,
+                 "bureau_source": TEXT, "event_status": TEXT, "event_reason": TEXT}
+    con.execute(f"INSERT INTO credit_pull_events SELECT {select_list(pull_cols)} FROM _stg_pull")
+
+    con.execute("""
+        CREATE TABLE applicant_risk_features (
+            application_id VARCHAR PRIMARY KEY REFERENCES loan_applications(application_id),
+            appli_risk_id VARCHAR UNIQUE NOT NULL,
+            as_of_date DATE, credit_history_status VARCHAR, credit_history_months_observed INTEGER,
+            max_days_overdue INTEGER, delinquent_event_count INTEGER,
+            total_outstanding_debt DECIMAL(12,2), total_overdue_amount DECIMAL(12,2),
+            debt_burden_ratio DECIMAL(12,4), overdue_amount_to_income DECIMAL(12,4),
+            delinquency_points INTEGER, debt_burden_points INTEGER, overdue_amount_points INTEGER,
+            risk_tier_score INTEGER, risk_tier VARCHAR, risk_tier_basis VARCHAR,
+            risk_tier_ruleset_version VARCHAR
+        )
+    """)
+    risk_cols = {
+        "application_id": TEXT, "appli_risk_id": TEXT, "as_of_date": ISO,
+        "credit_history_status": TEXT, "credit_history_months_observed": INT,
+        "max_days_overdue": INT, "delinquent_event_count": INT,
+        "total_outstanding_debt": DEC, "total_overdue_amount": DEC,
+        "debt_burden_ratio": DEC, "overdue_amount_to_income": DEC,
+        "delinquency_points": INT, "debt_burden_points": INT, "overdue_amount_points": INT,
+        "risk_tier_score": INT, "risk_tier": TEXT, "risk_tier_basis": TEXT,
+        "risk_tier_ruleset_version": TEXT}
+    con.execute(f"INSERT INTO applicant_risk_features SELECT {select_list(risk_cols)} FROM _stg_risk")
 
 
 def report_quarantined(con: duckdb.DuckDBPyConnection) -> None:
-    """Print rows excluded from the final model, so nothing is silently dropped."""
-    quarantined = con.execute("""
-        SELECT * FROM _staging_applicants WHERE requested_product_code = 'SOLAR-01'
-    """).df()
-    print(f"Quarantined {len(quarantined)} row(s) pending team decision (SOLAR-01):")
-    print(quarantined)
-
-
-def report_incomplete_records(con: duckdb.DuckDBPyConnection, null_threshold: int = 3) -> None:
-    """Flag applicants rows with an unusually high number of NULL fields.
-
-    This is the general-purpose replacement for the old truncation check:
-    rather than looking for a specific known-bad row, it flags ANY row
-    (present or future) with more missing fields than expected, so a new
-    incomplete record doesn't silently slip through unnoticed.
-    """
-    nullable_columns = [
-        "annual_income_usd", "employment_duration_months", "credit_risk_tier",
-        "fico_score", "region_state", "requested_amount_usd",
-        "requested_product_code", "dti_pct", "military_scra_flag",
-        "bankruptcy_last_7y_flag", "preliminary_decision",
-    ]
-    null_count_expr = " + ".join(f"CASE WHEN {c} IS NULL THEN 1 ELSE 0 END" for c in nullable_columns)
-
-    incomplete = con.execute(f"""
-        SELECT applicant_id, ({null_count_expr}) AS null_field_count
-        FROM applicants
-        WHERE ({null_count_expr}) >= {null_threshold}
-        ORDER BY null_field_count DESC
-    """).df()
-
-    print(f"Applicant rows with >= {null_threshold} NULL fields (out of {len(nullable_columns)}):")
-    print(incomplete)
+    """Applications loaded but flagged because they are dated after the extract date."""
+    n = con.execute("SELECT COUNT(*) FROM loan_applications WHERE after_extract_date").fetchone()[0]
+    print(f"Applications dated after the {EXTRACT_DATE} extract date (flagged, not dropped): {n}")
 
 
 def cleanup_staging(con: duckdb.DuckDBPyConnection) -> None:
-    """Drop staging tables once the final constrained tables are built."""
-    for table in ("_staging_applicants", "_staging_loan_products", "_staging_credit_pull"):
+    for table in ("_stg_applicant", "_stg_product", "_stg_application", "_stg_pull", "_stg_risk"):
         con.execute(f"DROP TABLE {table}")
 
 
 def main() -> None:
     con = duckdb.connect(DB_PATH)
-
     load_staging_tables(con)
-    build_loan_products(con)
-    build_applicants(con)
-    build_credit_pull(con)
+    build_tables(con)
     report_quarantined(con)
-    report_incomplete_records(con)
     cleanup_staging(con)
 
     print("\nFinal tables built:")
-    print(con.execute("SHOW TABLES").df())
+    for (table,) in con.execute("SHOW TABLES").fetchall():
+        rows = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        print(f"  {table}: {rows} rows")
+    con.close()
 
 
 if __name__ == "__main__":

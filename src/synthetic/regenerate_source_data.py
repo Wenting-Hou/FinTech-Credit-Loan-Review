@@ -1,8 +1,9 @@
 """
 regenerate_source_data.py
 
-Rebuilds every derived field in the four synthetic source CSVs so the files
-agree with each other and with the team's policies. The generator-owned
+Rebuilds every derived field in the four synthetic transactional and
+reference CSVs so the files agree with each other, with applicant.csv and
+with the team's policies. The generator-owned
 fields (incomes, debts, days overdue, flags, dates, bureaus, reasons) are
 kept as they are, except for the plausibility corrections listed below.
 
@@ -23,6 +24,19 @@ What this script changes:
       is marked Completed. Error and Pending pulls carry no score.
     - Every scored applicant keeps at least one returned pull on or before
       the application date.
+
+  repeat applicants (applicant_id appears on two applications)
+    - The later application must look like the same person, allowing for
+      the time between the two. See align_repeat_applicants() for the rules:
+      income grows about 3% a year, employment months grow with the gap
+      unless the person changed jobs (more likely the longer the gap),
+      bankruptcy and SCRA status carry forward, debt stays within 25%, and
+      the later FICO scores follow one trend of at most 30 points a year
+      from the earlier score.
+    - A later application whose credit history contradicts the earlier one
+      (no history after an established file, or pulls dated before a
+      no-history application) is swapped with a single applicant's
+      application from the same state, so the files stay consistent.
 
   loan_application.csv
     - Applicants mostly apply for a product their credit score can reach.
@@ -97,6 +111,18 @@ JUMBO_REDRAW_CEILING = 1_200_000
 REACH_KEEP_RATE = 0.20   # share of under-qualified applicants who apply anyway
 MOVE_UP_RATE = 0.60      # share of strong applicants who leave the entry product
 MOVE_UP_MARGIN = 40      # FICO points above a product's minimum before moving up to it
+
+# Repeat applicants: how much a person may change between two applications
+INCOME_GROWTH = 0.03         # yearly income growth
+SAME_JOB_NOISE = 0.03        # +/- income noise when the person kept their job
+NEW_JOB_RANGE = (-0.10, 0.20)
+JOB_CHANGE_BASE, JOB_CHANGE_PER_YEAR, JOB_CHANGE_CAP = 0.10, 0.20, 0.60
+FICO_TREND_PER_YEAR = 30     # largest yearly score trend
+FICO_PULL_NOISE = 8          # +/- bureau-to-bureau noise on each pull
+DEBT_DRIFT = 0.25            # outstanding debt stays within +/- 25%
+NEW_FILE_DEBT = (0.05, 0.60)  # debt over income for a credit file opened between applications
+DTI_DRIFT = 0.15             # payment DTI within +/- 15% for the same product family
+COLLECTIONS_CARRY_DAYS = 183 # collections flag carries forward inside this gap
 
 
 # ---------------------------------------------------------------- helpers
@@ -204,6 +230,175 @@ HISTORY_BASIS = {
 
 # ---------------------------------------------------------------- steps
 
+def repeat_pairs(la: pd.DataFrame) -> list[tuple[int, int]]:
+    """(earlier row index, later row index) for every applicant with two applications."""
+    dates = la["date"].map(parse_app_date)
+    order = la.assign(_d=dates).sort_values(["_d", "application_id"], kind="stable")
+    pairs = []
+    for _, group in order.groupby("applicant_id", sort=True):
+        idx = list(group.index)
+        pairs.extend(zip(idx[:-1], idx[1:]))
+    return pairs
+
+
+def swap_contradicting_histories(la: pd.DataFrame, rf: pd.DataFrame, ev: pd.DataFrame) -> tuple[pd.DataFrame, int]:
+    """Give a repeat applicant a later application whose credit history fits the earlier one."""
+    status = dict(zip(rf["application_id"], rf["credit_history_status"]))
+    dates = la["date"].map(parse_app_date)
+    pull_dates = pd.to_datetime(ev["event_date"]).groupby(ev["application_id"]).min()
+    counts = la["applicant_id"].value_counts()
+    single = la.index[la["applicant_id"].map(counts) == 1]
+
+    def fits(earlier: int, later_app: str) -> bool:
+        if status[la.at[earlier, "application_id"]] == "NO_HISTORY":
+            first_pull = pull_dates.get(later_app)
+            return first_pull is None or first_pull > dates[earlier]
+        return status[later_app] != "NO_HISTORY"
+
+    swapped = 0
+    used = set()
+    for earlier, later in repeat_pairs(la):
+        if fits(earlier, la.at[later, "application_id"]):
+            continue
+        candidates = [j for j in single if j not in used
+                      and la.at[j, "region_state"] == la.at[later, "region_state"]
+                      and dates[j] > dates[earlier]
+                      and fits(earlier, la.at[j, "application_id"])]
+        if not candidates:
+            raise ValueError(f"no single applicant in {la.at[later, 'region_state']} can swap with "
+                             f"{la.at[later, 'application_id']}; relax the swap rule")
+        income = parse_money(la.at[earlier, "annual_income_usd"])
+        best = min(candidates, key=lambda j: (abs(parse_money(la.at[j, "annual_income_usd"]) - income),
+                                              la.at[j, "application_id"]))
+        used.add(best)
+        la.at[later, "applicant_id"], la.at[best, "applicant_id"] = la.at[best, "applicant_id"], la.at[later, "applicant_id"]
+        swapped += 1
+    return la, swapped
+
+
+def align_repeat_applicants(la: pd.DataFrame, rf: pd.DataFrame) -> pd.DataFrame:
+    """Make a later application look like the same person as the earlier one.
+
+    Everything is derived from the earlier application and a draw keyed on the
+    later application_id, so running the script again gives the same result.
+    """
+    dates = la["date"].map(parse_app_date)
+    risk = rf.set_index("application_id")
+    for earlier, later in repeat_pairs(la):
+        e, key = la.loc[earlier], la.at[later, "application_id"]
+        gap_days = (dates[later] - dates[earlier]).days
+        years, gap_months = gap_days / 365.25, int(gap_days / DAYS_PER_MONTH)
+        growth = (1 + INCOME_GROWTH) ** years
+        income = parse_money(e["annual_income_usd"])
+
+        change_job = gap_months >= 1 and draw(key, "job-change") < min(
+            JOB_CHANGE_CAP, JOB_CHANGE_BASE + JOB_CHANGE_PER_YEAR * years)
+        u = draw(key, "income")
+        if change_job:
+            low, high = NEW_JOB_RANGE
+            income = income * growth * (1 + low + (high - low) * u)
+            months = 1 + int(draw(key, "new-job-months") * gap_months)
+        else:
+            income = income * growth * (1 + SAME_JOB_NOISE * (2 * u - 1))
+            months = int(e["employment_duration_months"]) + gap_months
+        la.at[later, "annual_income_usd"] = format_money(round(income))
+        la.at[later, "employment_duration_months"] = str(months)
+
+        if e["bankruptcy_last_7y_flag"] == "TRUE":
+            aged_out = draw(key, "bankruptcy") < years / 7
+            la.at[later, "bankruptcy_last_7y_flag"] = "FALSE" if aged_out else "TRUE"
+        else:
+            new_case = draw(key, "bankruptcy") < 0.02 * years
+            la.at[later, "bankruptcy_last_7y_flag"] = "TRUE" if new_case else "FALSE"
+        if e["military_scra_flag"] == "TRUE":
+            separated = draw(key, "scra") < min(0.5, 0.15 * years)
+            la.at[later, "military_scra_flag"] = "FALSE" if separated else "TRUE"
+        else:
+            la.at[later, "military_scra_flag"] = "FALSE"
+        if gap_days <= COLLECTIONS_CARRY_DAYS:
+            la.at[later, "collections_past_12_months_flag"] = e["collections_past_12_months_flag"]
+        if e["product_code"][:3] == la.at[later, "product_code"][:3]:
+            dti = float(e["dti_pct"]) * (1 + DTI_DRIFT * (2 * draw(key, "dti") - 1))
+            la.at[later, "dti_pct"] = f"{round(dti, 1):g}"
+
+        e_risk = risk.loc[e["application_id"]]
+        i = rf.index[rf["application_id"] == key][0]
+        e_months = int(e_risk["credit_history_months_observed"])
+        l_months = int(rf.at[i, "credit_history_months_observed"])
+        if e_months > 0 and rf.at[i, "max_days_overdue"] != "":
+            align_delinquency(rf, i, e_risk, key, gap_days, gap_months, income)
+        if e_months > 0:
+            rf.at[i, "credit_history_months_observed"] = str(max(l_months, min(LOOKBACK_MONTHS, e_months + gap_months)))
+            if e_risk["total_outstanding_debt"] != "" and rf.at[i, "total_outstanding_debt"] != "":
+                debt = float(e_risk["total_outstanding_debt"]) * (1 + DEBT_DRIFT * (2 * draw(key, "debt") - 1))
+                overdue = float(rf.at[i, "total_overdue_amount"])
+                rf.at[i, "total_outstanding_debt"] = f"{max(round(debt, 2), overdue):.2f}"
+        else:
+            # The credit file started after the earlier application, so the debt is new
+            # and is sized against the aligned income instead of the old one.
+            rf.at[i, "credit_history_months_observed"] = str(min(l_months, gap_months))
+            if rf.at[i, "total_outstanding_debt"] != "":
+                debt = round(income) * (NEW_FILE_DEBT[0] + (NEW_FILE_DEBT[1] - NEW_FILE_DEBT[0]) * draw(key, "new-file-debt"))
+                overdue = float(rf.at[i, "total_overdue_amount"])
+                rf.at[i, "total_outstanding_debt"] = f"{max(round(debt, 2), overdue):.2f}"
+    return la, rf
+
+
+def align_delinquency(rf: pd.DataFrame, i, e_risk: pd.Series, key: str,
+                      gap_days: int, gap_months: int, income: float) -> None:
+    """Delinquency in the later 24-month lookback = what is still visible from the earlier
+    application plus anything new, which can be no longer than the time between them."""
+    carry = draw(key, "delinquency-carry") < max(0.0, (LOOKBACK_MONTHS - gap_months) / LOOKBACK_MONTHS)
+    new_ok = draw(key, "delinquency-new") < min(1.0, gap_months / LOOKBACK_MONTHS)
+    e_days = int(float(e_risk["max_days_overdue"] or 0)) if carry else 0
+    e_count = int(e_risk["delinquent_event_count"] or 0) if carry else 0
+    e_overdue = float(e_risk["total_overdue_amount"] or 0) if carry else 0.0
+    l_days = min(int(float(rf.at[i, "max_days_overdue"])), gap_days) if new_ok else 0
+    l_count = int(rf.at[i, "delinquent_event_count"]) if l_days > 0 else 0
+    l_overdue = float(rf.at[i, "total_overdue_amount"]) if l_days > 0 else 0.0
+    days = max(e_days, l_days)
+    if days == 0:
+        count, overdue = 0, 0.0
+    else:
+        count = max(1, e_count, l_count)
+        overdue = max(e_overdue, l_overdue) or round(0.01 * income, 2)
+    rf.at[i, "max_days_overdue"] = str(days)
+    rf.at[i, "delinquent_event_count"] = str(count)
+    rf.at[i, "total_overdue_amount"] = f"{overdue:.2f}"
+
+
+def align_repeat_scores(ev: pd.DataFrame, la: pd.DataFrame, app_date: dict) -> pd.DataFrame:
+    """Later-application pulls follow one score trend from the earlier application's score."""
+    anchor = latest_scores(ev, app_date).groupby("application_id")["fico_score"].last()
+    for earlier, later in repeat_pairs(la):
+        e_app, l_app = la.at[earlier, "application_id"], la.at[later, "application_id"]
+        if e_app not in anchor.index:
+            continue
+        base, start = int(anchor[e_app]), app_date[e_app]
+        slope = FICO_TREND_PER_YEAR * (2 * draw(l_app, "fico-trend") - 1)
+        e_pulls = ev[(ev["application_id"] == e_app) & (ev["fico_score"] != "")]
+        e_dates = pd.to_datetime(e_pulls["event_date"])
+        rows = ev.index[(ev["application_id"] == l_app) & (ev["fico_score"] != "")]
+        when_all = pd.to_datetime(ev.loc[rows, "event_date"])
+        if len(rows) and not (when_all > start).any():
+            # The later application must see a fresh score: its latest pull moves after the earlier one.
+            gap = (app_date[l_app] - start).days
+            latest = when_all.sort_values(kind="stable").index[-1]
+            moved = start + pd.Timedelta(days=max(1, round(gap * draw(l_app, "fresh-pull"))))
+            ev.at[latest, "event_date"] = moved.strftime("%Y-%m-%d")
+        for j in rows:
+            when = pd.Timestamp(ev.at[j, "event_date"])
+            if when <= start:
+                # Same credit file at a time the earlier application already saw: use its closest pull.
+                nearest = (e_dates - when).abs().sort_values(kind="stable").index[0]
+                ev.at[j, "fico_score"] = e_pulls.at[nearest, "fico_score"]
+                continue
+            years = (when - start).days / 365.25
+            noise = FICO_PULL_NOISE * (2 * draw(ev.at[j, "event_id"], "fico-noise") - 1)
+            ev.at[j, "fico_score"] = str(int(min(850, max(300, round(base + slope * years + noise)))))
+    return ev
+
+
 def fix_products(lp: pd.DataFrame) -> pd.DataFrame:
     lp = lp.rename(columns={"minimum_credit_tier": "minimum_risk_tier"})
     if "allow_no_score_flag" not in lp.columns:
@@ -213,7 +408,10 @@ def fix_products(lp: pd.DataFrame) -> pd.DataFrame:
     return lp
 
 
-def fix_amounts(la: pd.DataFrame, lp: pd.DataFrame) -> tuple[pd.DataFrame, int, int]:
+def fix_amounts(la: pd.DataFrame, lp: pd.DataFrame,
+                keep_income: frozenset = frozenset()) -> tuple[pd.DataFrame, int, int]:
+    """Redraw implausible amounts. Incomes in keep_income (aligned repeat applicants) are never changed:
+    a jumbo request they cannot support moves to the conforming mortgage instead."""
     product_max = dict(zip(lp["product_code"], lp["maximum_amount_usd"].map(parse_money)))
     redrawn = new_income = 0
     for i, row in la.iterrows():
@@ -224,7 +422,11 @@ def fix_amounts(la: pd.DataFrame, lp: pd.DataFrame) -> tuple[pd.DataFrame, int, 
         if amount / income <= limit:
             continue
         key = row["application_id"]
-        if row["product_code"] == "MTG-JB" and income * high < JUMBO_FLOOR:
+        if row["product_code"] == "MTG-JB" and income * high < JUMBO_FLOOR and key in keep_income:
+            la.at[i, "product_code"] = "MTG-CV"
+            amount = round(income * (low + (high - low) * draw(key, "amount")))
+            amount = max(min(amount, product_max["MTG-CV"]), FAMILY_FLOOR[family])
+        elif row["product_code"] == "MTG-JB" and income * high < JUMBO_FLOOR:
             amount = round(JUMBO_FLOOR + draw(key, "jumbo-amount") * (JUMBO_REDRAW_CEILING - JUMBO_FLOOR))
             income = round(amount / (3.5 + 1.5 * draw(key, "jumbo-income")))
             la.at[i, "annual_income_usd"] = format_money(income)
@@ -469,13 +671,17 @@ def main() -> None:
 
     lp = fix_products(lp)
     la, redrawn, new_income = fix_amounts(la, lp)
+    la, swapped = swap_contradicting_histories(la, rf, ev)
+    la, rf = align_repeat_applicants(la, rf)
     app_date = dict(zip(la["application_id"], la["date"].map(parse_app_date)))
     no_history = set(rf.loc[rf["credit_history_status"] == "NO_HISTORY", "application_id"])
     ev = fix_pulls(ev, app_date, no_history)
+    ev = align_repeat_scores(ev, la, app_date)
     scored = latest_scores(ev, app_date)
     la = derive_fico(la, scored)
     la, moved_down, moved_up = realign_products(la, lp)
-    la, redrawn_after_move, _ = fix_amounts(la, lp)
+    later = frozenset(la.at[j, "application_id"] for _, j in repeat_pairs(la))
+    la, redrawn_after_move, new_income_after_move = fix_amounts(la, lp, keep_income=later)
     rf = derive_risk_features(rf, la, scored)
     la = derive_decisions(la, lp, rf)
 
@@ -484,8 +690,9 @@ def main() -> None:
     write(ev, "credit_pull_event.csv")
     write(rf, "applicant_risk_features.csv")
 
-    print(f"amounts redrawn: {redrawn + redrawn_after_move} (incomes raised for jumbo: {new_income})")
+    print(f"amounts redrawn: {redrawn + redrawn_after_move} (incomes raised for jumbo: {new_income + new_income_after_move})")
     print(f"products realigned to the applicant's score: {moved_down} down, {moved_up} up")
+    print(f"repeat applicants: {len(repeat_pairs(la))} pairs aligned, {swapped} later applications swapped")
     print(f"credit pulls: {len(ev)}")
     print("preliminary_decision:", la["preliminary_decision"].value_counts().to_dict())
     print("final_decision:", la["final_decision"].replace("", "(open)").value_counts().to_dict())

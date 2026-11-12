@@ -17,7 +17,7 @@
   "business_definition": {
     "summary": "One record per lending product currently offered, defining the eligibility gates an applicant must clear and the pricing parameters used to compute an offered rate.",
     "business_process": "Product management and credit policy. The catalog is the machine-readable expression of what the institution will lend, to whom, up to what amount, and at what price. It is read by eligibility screening, pricing, and any analysis that segments by product.",
-    "role_in_architecture": "Reference dimension. It is the smallest table in the project and the highest-leverage one: nine rows govern the treatment of all 600 applications. A single incorrect value has a blast radius of roughly 67 applications, and an incorrect constant affects all 600.",
+    "role_in_architecture": "Reference dimension. It is the smallest table in the project and the highest-leverage one: nine rows govern the treatment of all 600 applications. A single incorrect value has a blast radius of 28 to 100 applications, and an incorrect constant affects all 600.",
     "answers_questions": [
       "Which products can an applicant with a given tier, FICO, DTI and credit history qualify for?",
       "What is the most an applicant can borrow under a given product?",
@@ -44,7 +44,7 @@
     "row_count_at_profiling": 9,
     "grain_is_current_state_only": true,
     "critical_grain_caveat": "The grain is product, NOT product-and-version and NOT product-and-effective-date. The table can represent a product but cannot represent that product's history. Any statement of the form 'the rate on MTG-CV was X in 2024' is unanswerable from this file, and any join that appears to answer it is producing an anachronism.",
-    "cardinality_notes": "1:many to loan_application.csv (61 to 75 applications per product, 600 total). Joining application to product does not fan out. The reverse aggregation (applications per product) is safe.",
+    "cardinality_notes": "1:many to loan_application.csv (28 to 100 applications per product, 600 total). Joining application to product does not fan out. The reverse aggregation (applications per product) is safe.",
     "denormalization_note": "Three columns (collections_rate_adjustment_pct, bankruptcy_rate_adjustment_pct, scra_rate_cap_pct) hold a single value across all nine rows. They are enterprise-level parameters denormalized onto the product grain, not genuine product attributes. Do not describe them as properties of any individual product."
   },
 
@@ -162,7 +162,7 @@
     "not_authoritative_for": [
       {
         "topic": "Actual approval decisions",
-        "reason": "preliminary_decision in loan_application.csv now applies this catalog's gates and then the applicant-tier overlay in product_risk_policy.md section 3, so every application that fails a gate is Declined (273 of 273) and none that fails a gate is Approved or Review. But the catalog does not decide outcomes: Review cases (53) are resolved by manual assessment, and the actual outcome is loan_application.final_decision."
+        "reason": "preliminary_decision in loan_application.csv now applies this catalog's gates and then the applicant-tier overlay in product_risk_policy.md section 3, so every application that fails a gate is Declined (132 of 132) and none that fails a gate is Approved or Review. But the catalog does not decide outcomes: Review cases (98) are resolved by manual assessment, and the actual outcome is loan_application.final_decision."
       },
       {
         "topic": "State-level rate legality",
@@ -186,7 +186,7 @@
     "expected_cadence": "On change only. The catalog is stable between product decisions; it is not a periodic feed.",
     "max_acceptable_staleness": "Any change to product terms must be reflected before the next application is screened. There is no tolerable lag, because a stale catalog produces incorrect eligibility and pricing on every application it touches.",
     "freshness_signal": "NONE AVAILABLE FROM THE FILE. With no effective_date and no version column, staleness is undetectable from the contents. The only available signals are the file modification timestamp and an external change log.",
-    "profiled_at": "2026-10-01",
+    "profiled_at": "2026-11-12",
     "staleness_alerting": "Alert on any of: row count not equal to 9; any change to the product_code set; any change to a rate, threshold or flag; any per-row variation appearing in the three constant columns; any row where the Catalog Gates table in product_eligibility_rules.md no longer matches this file. Because a value edit is invisible in the schema, compute and store a content hash of the file on every load and alert on change.",
     "change_control": "Per product_risk_policy.md, a material change to limits, terms, pricing structure, eligibility, collateral or distribution requires documented review before introduction. A silent file edit does not satisfy that control. Archive the prior file version and record a dated change-log entry on every load where the hash changes.",
     "backfill_policy": "Full replacement. Historical versions must be preserved externally until the table carries temporal columns."
@@ -244,7 +244,7 @@
     {
       "id": "BI-P09",
       "rule": "preliminary_decision applies this catalog's gates, but it is not the final decision.",
-      "detail": "preliminary_decision now tests amount <= maximum_amount_usd, dti_pct <= max_dti_pct, the bankruptcy and collections allow flags, risk_tier against minimum_risk_tier, fico_score >= minimum_fico and the no-score flag, then applies the applicant-tier overlay in product_risk_policy.md section 3. 273 of 600 applications fail at least one gate (risk tier 160, FICO 215, DTI 40, amount 25, bankruptcy 26, collections 24, no score 11; an application can fail several), and all 273 are Declined; no application that fails a gate is Approved or Review. Failing applications are expected, since applicants may apply for anything. Two limits remain: the gates are current catalog terms applied retrospectively (BI-P02), and the recorded outcome is final_decision, not preliminary_decision. The 71 applications dated after the extract date still carry a preliminary_decision and are quarantined at ingestion.",
+      "detail": "preliminary_decision now tests amount <= maximum_amount_usd, dti_pct <= max_dti_pct, the bankruptcy and collections allow flags, risk_tier against minimum_risk_tier, fico_score >= minimum_fico and the no-score flag, then applies the applicant-tier overlay in product_risk_policy.md section 3. 132 of 600 applications fail at least one gate (risk tier 87, FICO 63, DTI 22, amount 13, bankruptcy 12, collections 12, no score 1; an application can fail several), and all 132 are Declined; no application that fails a gate is Approved or Review. Failing applications are expected, since applicants may apply for anything. Two limits remain: the gates are current catalog terms applied retrospectively (BI-P02), and the recorded outcome is final_decision, not preliminary_decision. The 71 applications dated after the extract date still carry a preliminary_decision and are quarantined at ingestion.",
       "severity": "high"
     },
     {
@@ -323,6 +323,13 @@
       "date": "2026-10-01",
       "author_role": "Team Lead / Liaison",
       "summary": "Updated for the regenerated data: minimum_credit_tier renamed minimum_risk_tier and tested against risk_tier, allow_no_score_flag added, the FICO-minimum and CRD-EL conflicts marked resolved now that product_eligibility_rules.md restates the catalog, and preliminary_decision described as applying the catalog gates. Counts re-verified against the new CSVs."
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-11-12",
+      "author_role": "Team Lead / Liaison",
+      "summary": "Re-profiled counts after repeat applicants were made consistent (same person across both applications).",
+      "note": "Updated applications per product (28 to 100), the gate failure counts (132 of 600) and the Review count (98), rechecked after the later regenerations. These were already stale before this change."
     }
   ]
 }
