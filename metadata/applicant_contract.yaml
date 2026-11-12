@@ -15,7 +15,7 @@ dataset:
   privacy_classification: restricted_academic
   source_lineage:
     primary_source: synthetic_academic_fixture
-    notes: Names, addresses, contact details, birth dates, occupations, citizenship/marital statuses, tax placeholders, and applicant assignments are synthetic. Profile income is derived from the latest linked application.
+    notes: Names, addresses, contact details, birth dates, occupations, citizenship/marital statuses, and applicant assignments are synthetic. Financial and credit information lives on loan_application, not here.
   relationships:
     - related_dataset: loan_application
       relationship: one_to_many
@@ -43,6 +43,7 @@ fields:
     type: date
     required: true
     input_format: M/D/YYYY
+    notes: Age is an ECOA prohibited basis. Not used in risk-tier, eligibility or pricing decisions.
   - name: address_line_1
     type: string
     required: true
@@ -79,5 +80,15 @@ fields:
     required: true
     allowed_values: [Email, Phone, Mail]
   - name: marital_status
+    type: string
+    required: true
+    allowed_values: [Married, Unmarried, Separated]
+    notes: ECOA prohibited basis. Must never be used in risk-tier, eligibility or pricing decisions.
+  - name: citizenship_status
+    type: string
+    required: true
+    allowed_values: [US Citizen, Permanent Resident, Noncitizen]
+    notes: Recorded for identity verification and compliance. Not a risk factor under RISK-TIER.
+  - name: occupation
     type: string
     required: true

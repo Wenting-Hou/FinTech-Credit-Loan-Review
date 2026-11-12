@@ -22,7 +22,7 @@
 - **Supporting Business Questions:**
 
 1. Does the applicant's pre-decision risk profile satisfy the requirements of the requested loan product?
-2. Which product requirements, such as minimum credit tier, FICO, DTI, loan amount, bankruptcy, and collections rules, affect applicant eligibility?
+2. Which product requirements, such as minimum risk tier, FICO, DTI, loan amount, bankruptcy, and collections rules, affect applicant eligibility?
 3. Which lending and compliance documents apply when reviewing the application?
 
 
@@ -32,7 +32,7 @@
 
 ### Structured Operational Datasets (`data/structured/raw/`)
 
-- `loan_application.csv` - [represents the primary applicant profile used in the loan review process, 600, application_id]
+- `loan_application.csv` - [one row per loan application: the financial profile, requested product and decisions at the application date, 600, application_id]
 - `applicant_risk_features.csv` - [the applicant’s credit-risk profile at the time of each loan application, 600, application_id]
 - `loan_product.csv` - [defines the available loan products and their associated eligibility, risk, and pricing requirements, 9, product_code]
 - `credit_pull_event.csv` - [represents the applicant’s historical credit bureau pulls over time, one score per pull, 1775, event_id & application_id]
@@ -60,9 +60,9 @@
 
 | Quality Problem | Examples           | Proposed Control                        | 
 | :-------------- | :----------------------- | :-------------------------------- | 
-| Unstructured Data | enterprise_risk_policy.md states that tiering rules are in risk_policy.md, but the actual filename is applicant_risk_policy.md | Create a document registry that maps “Policy ID” in the metadata headers to the respective filenames |
-| Unstructured Data | applicant_risk_policy.md has an effective date of January 1st, 2024, which is prior to its “prepared” date of September 10th, 2026.         | Require a standardized metadata header on every document | 
-| Structured Data      | Format inconsistencies across loan_application.csv and credit_pull_event.csv Dates: M/D/YYYY vs ISO Booleans: TRUE vs Trueloan_product.csv stores maximum_amount_usd as a string, so can’t be compared to request_amount_usd in loan_application.csv | Write a schema contract that fixes types and formats for each column | 
+| Unstructured Data | In `document _metadata .csv`, the ECOA, FCRA and CCPA rows carry an original effective date (2011-12-30 for Regulation B, 1971-04-25, 2020-01-01) while `version` names a 2026 edition, so a retrieval system could treat a years-old date as the date of the current text | Record the edition's own effective date separately from the original effective date, and review regulatory rows in the metadata audit |
+| Structured Data | Format inconsistencies: dates are M/D/YYYY in loan_application.csv and applicant.csv but ISO in credit_pull_event.csv and applicant_risk_features.csv; money is stored as text (`"$147,346 "` in loan_application.csv, `"500,000"` in loan_product.csv), so amounts cannot be compared without parsing | Dataset contracts declare each column's type and input format; ingestion normalizes dates and money before any comparison |
+| Structured Data | 71 applications are dated after the 2026-09-14 extract date but still carry a `preliminary_decision` | Ingestion quarantines rows dated after the extract date; the consistency checker confirms they have no final decision |
 
 ---
 
@@ -73,7 +73,7 @@
    ```bash
    pip install -r requirements.txt
    ```
-3. Check that the source data is consistent with itself and with the policies (59 checks):
+3. Check that the source data is consistent with itself and with the policies (64 checks):
    ```bash
    python src/validation/check_source_consistency.py
    ```

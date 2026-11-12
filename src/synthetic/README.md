@@ -1,12 +1,12 @@
 # Synthetic Source Data
 
-The four CSVs in `data/structured/raw/` are synthetic. Some fields come straight from the original generator. Others are **derived** from those fields and from the team's policies, and `regenerate_source_data.py` rebuilds them so the files never contradict each other.
+The structured CSVs in `data/structured/raw/` are synthetic. `regenerate_source_data.py` works on the four transactional and reference files; `applicant.csv` is maintained separately. Some fields come straight from the original generator. Others are **derived** from those fields and from the team's policies, and `regenerate_source_data.py` rebuilds them so the files never contradict each other.
 
 ## Run it
 
 ```bash
 python src/synthetic/regenerate_source_data.py      # rebuild the derived fields
-python src/validation/check_source_consistency.py   # prove the result (57 checks)
+python src/validation/check_source_consistency.py   # prove the result (64 checks)
 ```
 
 The script uses a fixed seed, so running it twice gives identical files. Run the checker after any manual edit to the raw data or to `loan_product.csv`.
@@ -35,8 +35,8 @@ Everything else (income, debts, days overdue, flags, dates, bureaus, reasons, pr
 They are documented, controlled quality problems (README section 5) that ingestion is expected to handle:
 
 - Money stored as text (`"$147,346 "`) and quoted catalog amounts (`"500,000"`)
-- `M/D/YYYY` dates and `TRUE/FALSE` booleans in loan_application, ISO dates and `True/False` in credit_pull_event
+- `M/D/YYYY` dates and `TRUE/FALSE` booleans in loan_application, ISO dates in credit_pull_event and applicant_risk_features
 - 71 applications dated after the extract date, still carrying a `preliminary_decision`
-- The `risk_policy.md` filename reference in enterprise_risk_policy.md and the applicant policy's Prepared date falling after its effective date
+- The ECOA, FCRA and CCPA metadata rows, whose `effective_date` is an original effective date rather than the 2026 edition's
 
 `event_reason` values and the order of `event_id` are synthetic and carry no meaning.

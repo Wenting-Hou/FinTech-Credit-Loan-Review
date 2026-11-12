@@ -78,6 +78,7 @@ fields:
   - name: date
     type: date
     required: true
+    input_format: M/D/YYYY
   - name: final_decision
     type: string
     required: false
@@ -85,6 +86,7 @@ fields:
   - name: final_decision_date
     type: date
     required: false
+    input_format: M/D/YYYY
 quality_rules:
   - rule_id: LOAN_APP_001
     expectation: application_id is unique, not null, and matches the APP###### format

@@ -53,7 +53,7 @@ What this script changes:
 
 Deliberate, documented quality problems are NOT touched: money stored as
 text, M/D/YYYY dates and TRUE/FALSE booleans in loan_application.csv, ISO
-dates and True/False booleans in credit_pull_event.csv, and applications
+dates in credit_pull_event.csv, and applications
 dated after the extract date (quarantined at ingestion).
 
 Random choices use a hash of a fixed seed and the record id, so running the

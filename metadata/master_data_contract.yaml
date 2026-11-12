@@ -40,7 +40,7 @@ auditability_requirements:
     required: true
     description: >
       Policy and compliance documents supporting the loan-review process
-      must be identifiable through document_metadata.csv when applicable.
+      must be identifiable through `document _metadata .csv` when applicable.
 
 source_references:
   - source_id: HOME_CREDIT_KAGGLE
@@ -83,22 +83,32 @@ global_rules:
   null_representation: ""
   
   date_format: YYYY-MM-DD
+  date_format_exceptions:
+    - loan_application.csv date and final_decision_date, and applicant.csv birth_date, are M/D/YYYY
+      (declared in their dataset contracts; normalized at ingestion)
   timestamp_format: YYYY-MM-DDTHH:MM:SSZ
   target_row_count:
     minimum: 100
     maximum: 1000
     exception:  
     - loan_product.csv may contain fewer than 100 rows
-    - document_metadata.csv may contain fewer than 100 rows
+    - the document _metadata .csv file may contain fewer than 100 rows
   
   prohibited_data:
     - real names
     - Social Security numbers
-    - full street addresses
+    - real street addresses
     - account numbers
     - real customer identifiers
     - confidential employer or client data
     
+  synthetic_personal_data_note: >
+    applicant.csv holds synthetic names, street addresses, phone numbers and
+    emails generated for the academic microcosm. They are not real people
+    and are classified restricted_academic. Phone numbers use the reserved
+    555-01xx range; emails may coincide with real mailboxes and must never
+    be contacted.
+
   identifier_policy: >
     All applicant, application, credit-event, and product identifiers
     used in project datasets must be synthetic and non-identifying.
@@ -136,6 +146,9 @@ datasets:
       - fields:
           - product_code
         references: loan_product.csv[product_code]
+      - fields:
+          - applicant_id
+        references: applicant.csv[applicant_id]
 
     privacy_classification: restricted_academic
 
@@ -145,6 +158,39 @@ datasets:
         Application attributes may be structurally inspired by public
         lending datasets. Product codes, dates, identifiers, and other
         project-specific fields are synthetic academic extensions.
+
+
+  - dataset_name: applicant.csv
+    dataset_role: entity
+    contract_file: applicant_contract.yaml
+
+    description: >
+      One row per synthetic applicant (person). Holds identity and contact
+      details only; financial and credit information stays on the
+      application. One applicant may submit many applications, each
+      application has exactly one applicant, and there are no co-applicants.
+      An applicant who moves or changes details must submit a new
+      application; each application keeps the state it was submitted from.
+
+    grain: applicant_id
+
+    primary_key:
+      - applicant_id
+
+    privacy_classification: restricted_academic
+
+    protected_attributes:
+      - birth_date
+      - marital_status
+      - citizenship_status
+
+    source_lineage:
+      primary_source: synthetic_academic_fixture
+      notes: >
+        Names, addresses, contact details, birth dates, occupations and
+        statuses are synthetic. Protected attributes are kept for
+        compliance reporting only and must not be used in risk, eligibility
+        or pricing decisions.
 
 
   - dataset_name: credit_pull_event.csv
@@ -247,7 +293,7 @@ datasets:
         DTI limits, and policy constraints are synthetic academic data.
 
 
-  - dataset_name: document_metadata.csv
+  - dataset_name: "document _metadata .csv"
     dataset_role: reference
 
     description: >
@@ -368,6 +414,28 @@ cross_dataset_controls:
     severity: critical
 
 
+  - control_id: XREF_009
+    description: >
+      Every loan application must reference an existing applicant.
+    validation: >
+      Left join loan_application.applicant_id to applicant.applicant_id.
+    pass_condition: orphan_applicant_count equals 0
+    severity: error
+
+
+  - control_id: XREF_010
+    description: >
+      The state of each applicant's most recent application must equal the
+      applicant's current state. Earlier applications keep the state they
+      were submitted from.
+    validation: >
+      For each applicant, take the latest loan_application by date (ties
+      broken by the highest application_id; applications dated after the
+      extract date count) and compare region_state with applicant.state.
+    pass_condition: state_mismatch_count equals 0
+    severity: error
+
+
 # ============================================================
 # CONTROLLED QUALITY TEST FIXTURES
 # ============================================================
@@ -413,5 +481,5 @@ acceptance_criteria:
   - applicant_risk_features.csv uses the governed risk-tier vocabulary and risk-tier ruleset version.
   - loan_application.product_code values reconcile to loan_product.csv.
   - All synthetic extensions are documented in source_lineage.
-  - No real PII, confidential company data, confidential client data, or real customer identifiers are present.
-  - document_metadata.csv accurately describes the project documents included in the repository.
+  - No real PII, confidential company data, confidential client data, or real customer identifiers are present. Synthetic personal data in applicant.csv is labelled restricted_academic.
+  - The document _metadata .csv file accurately describes the project documents included in the repository.

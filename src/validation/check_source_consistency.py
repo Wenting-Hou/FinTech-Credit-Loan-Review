@@ -1,7 +1,7 @@
 """
 check_source_consistency.py
 
-Checks that the four synthetic source CSVs and the document metadata agree
+Checks that the five synthetic source CSVs and the document metadata agree
 with each other and with the team's policies. Every check prints PASS or
 FAIL with the number of offending rows; the script exits with status 1 if
 any check fails.
@@ -53,6 +53,11 @@ EXPECTED_COLUMNS = {
         "overdue_amount_to_income", "delinquency_points", "debt_burden_points",
         "overdue_amount_points", "risk_tier_score", "risk_tier", "risk_tier_basis",
         "risk_tier_ruleset_version"],
+    "applicant.csv": [
+        "applicant_id", "first_name", "middle_name", "last_name", "birth_date",
+        "address_line_1", "address_line_2", "city", "state", "zip_code", "country_code",
+        "phone_number", "email_address", "preferred_contact_method", "marital_status",
+        "citizenship_status", "occupation"],
 }
 INTERNAL_POLICIES = {
     "enterprise_risk_policy.md", "applicant_risk_policy.md", "product_risk_policy.md",
@@ -78,10 +83,12 @@ def read(name: str) -> pd.DataFrame:
 def main() -> int:
     lp, la = read("loan_product.csv"), read("loan_application.csv")
     ev, rf = read("credit_pull_event.csv"), read("applicant_risk_features.csv")
+    ap = read("applicant.csv")
 
     # ------------------------------------------------ structure and keys
     for name, df in [("loan_product.csv", lp), ("loan_application.csv", la),
-                     ("credit_pull_event.csv", ev), ("applicant_risk_features.csv", rf)]:
+                     ("credit_pull_event.csv", ev), ("applicant_risk_features.csv", rf),
+                     ("applicant.csv", ap)]:
         check(f"{name}: columns match the contract", list(df.columns) != EXPECTED_COLUMNS[name],
               f"got {list(df.columns)}")
     check("product_code unique", lp["product_code"].duplicated().sum())
@@ -91,6 +98,11 @@ def main() -> int:
           len(rf) != len(la) or set(rf["application_id"]) != set(la["application_id"]))
     check("every product_code resolves", (~la["product_code"].isin(lp["product_code"])).sum())
     check("every pull resolves to an application", (~ev["application_id"].isin(la["application_id"])).sum())
+    check("applicant_id unique in applicant.csv", ap["applicant_id"].duplicated().sum())
+    check("every application resolves to an applicant (XREF_009)",
+          (~la["applicant_id"].isin(ap["applicant_id"])).sum())
+    check("every applicant has at least one application",
+          (~ap["applicant_id"].isin(la["applicant_id"])).sum())
 
     la["_date"] = pd.to_datetime(la["date"], format="%m/%d/%Y")
     la["_income"] = money(la["annual_income_usd"])
@@ -98,6 +110,10 @@ def main() -> int:
     ev["_date"] = pd.to_datetime(ev["event_date"])
     ev["_app_date"] = ev["application_id"].map(dict(zip(la["application_id"], la["_date"])))
     risk = rf.set_index("application_id")
+    latest = la.sort_values(["_date", "application_id"], kind="stable").groupby("applicant_id").tail(1)
+    home = latest["applicant_id"].map(dict(zip(ap["applicant_id"], ap["state"])))
+    check("each applicant's latest application is from their current state (XREF_010)",
+          (latest["region_state"] != home).sum())
     no_history = set(rf.loc[rf["credit_history_status"] == "NO_HISTORY", "application_id"])
 
     # ------------------------------------------------ products

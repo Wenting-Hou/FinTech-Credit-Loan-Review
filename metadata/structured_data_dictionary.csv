@@ -1,77 +1,75 @@
 dataset,field_name,data_type,business_definition,key_status,is_required
-loan_application.csv,application_id,VARCHAR,Unique loan application identifier,PK,TRUE
-loan_application.csv,applicant_id,VARCHAR,Unique applicant identifier associated with the loan application,FK,TRUE
-loan_application.csv,annual_income_usd,DECIMAL(12,2),Applicant annual income in U.S. dollars,,TRUE
-loan_application.csv,employment_duration_months,INTEGER,Applicant employment duration in months at current job,,TRUE
-loan_application.csv,credit_risk_tier,VARCHAR,Preliminary credit risk tier assigned during application review,Tier,TRUE
-loan_application.csv,fico_score,INTEGER,FICO credit score reported for the applicant,,TRUE
-loan_application.csv,region_state,VARCHAR,Two-letter U.S. state associated with the applicant mailing address or home region,,TRUE
-loan_application.csv,requested_amount_usd,DECIMAL(12,2),Loan amount requested by the applicant in U.S. dollars,,TRUE
-loan_application.csv,product_code,VARCHAR,Loan product code requested by the applicant,FK,TRUE
-loan_application.csv,dti_pct,DECIMAL(5,2),Debt-to-income ratio as a percentage,,TRUE
-loan_application.csv,military_scra_flag,BOOLEAN,Flag indicating whether the applicant may qualify for SCRA-related protections,,TRUE
-loan_application.csv,bankruptcy_last_7y_flag,BOOLEAN,Flag indicating whether the applicant has had a bankruptcy in the last seven years,,TRUE
-loan_application.csv,collections_past_12_months_flag,BOOLEAN,Flag indicating whether the applicant has collection activity in the past 12 months,,TRUE
-loan_application.csv,preliminary_decision,VARCHAR,"Initial application routing outcome such as Approved, Review, or Declined",,TRUE
-loan_application.csv,date,DATE,Date the loan application was submitted or recorded,,TRUE
+loan_application.csv,application_id,VARCHAR,Unique loan application identifier (APP followed by 6 digits),PK,TRUE
+loan_application.csv,applicant_id,VARCHAR,Applicant who submitted the application (foreign key to applicant.csv). One applicant can have more than one application,FK,TRUE
+loan_application.csv,annual_income_usd,"DECIMAL(12,2)",Applicant annual income in U.S. dollars as stated on the application. Stored as text with a dollar sign and commas,,TRUE
+loan_application.csv,employment_duration_months,INTEGER,Months with the current employer on the application date,,TRUE
+loan_application.csv,fico_score,INTEGER,FICO score of the latest credit pull with a returned score on or before the application date. Empty for applicants with no credit history,,FALSE
+loan_application.csv,region_state,VARCHAR,"Two-letter state the application was submitted from (NC, FL, TX or CA). It does not change if the applicant later moves",,TRUE
+loan_application.csv,requested_amount_usd,"DECIMAL(12,2)",Loan amount or credit limit requested in U.S. dollars. Stored as text with a dollar sign and commas,,TRUE
+loan_application.csv,product_code,VARCHAR,Loan product requested (foreign key to loan_product.csv),FK,TRUE
+loan_application.csv,dti_pct,"DECIMAL(5,2)","Payment debt-to-income ratio in percent, tested against loan_product.max_dti_pct. Not the same measure as applicant_risk_features.debt_burden_ratio",,TRUE
+loan_application.csv,military_scra_flag,BOOLEAN,Applicant is an active-duty servicemember eligible for SCRA protections,,TRUE
+loan_application.csv,bankruptcy_last_7y_flag,BOOLEAN,Applicant has a bankruptcy in the last seven years,,TRUE
+loan_application.csv,collections_past_12_months_flag,BOOLEAN,Applicant has collection activity in the past 12 months,,TRUE
+loan_application.csv,preliminary_decision,VARCHAR,"Intake decision from the product gates and the applicant-tier overlay: Approved, Review or Declined",,TRUE
+loan_application.csv,date,DATE,Date the application was submitted (M/D/YYYY),,TRUE
+loan_application.csv,final_decision,VARCHAR,"Final underwriting outcome: Approved, Declined or Withdrawn. Empty while the application is open",,FALSE
+loan_application.csv,final_decision_date,DATE,Date of the final decision (M/D/YYYY). Empty while the application is open,,FALSE
 loan_product.csv,product_code,VARCHAR,Unique product identifier used across loan applications,PK,TRUE
-loan_product.csv,product_name,VARCHAR,Human-readable name of the loan product,,TRUE
-loan_product.csv,product_family,VARCHAR,"Loan category such as Mortgage, Credit Card, or Auto Loan",,TRUE
-loan_product.csv,eligibility_criteria,VARCHAR,Key conditions required to qualify for the product,,TRUE
-loan_product.csv,minimum_credit_tier,VARCHAR,Minimum credit tier required for eligibility,,TRUE
-loan_product.csv,minimum_fico,INTEGER,Minimum FICO score required for product eligibility,,TRUE
-loan_product.csv,base_rate_pct,DECIMAL(5,2),Base annual percentage rate for the product,,TRUE
-loan_product.csv,maximum_amount_usd,DECIMAL(12,2),Maximum principal amount allowed for the product,,TRUE
-loan_product.csv,max_dti_pct,DECIMAL(5,2),Maximum debt-to-income ratio permitted for the product,,TRUE
-loan_product.csv,allow_bankruptcy_flag,BOOLEAN,Flag indicating whether bankruptcy applicants may still qualify,,TRUE
-loan_product.csv,allow_collections_flag,BOOLEAN,Flag indicating whether applicants with collections activity may qualify,,TRUE
-loan_product.csv,tier_rate_adjustment_rule,VARCHAR,Rule describing how the annual rate adjusts by borrower credit tier,,TRUE
-loan_product.csv,collections_rate_adjustment_pct,DECIMAL(5,2),Rate adjustment applied when collection activity is present,,TRUE
-loan_product.csv,bankruptcy_rate_adjustment_pct,DECIMAL(5,2),Rate adjustment applied when bankruptcy history is present,,TRUE
-loan_product.csv,scra_rate_cap_pct,DECIMAL(5,2),Maximum rate cap applied when SCRA protections are relevant,,TRUE
-credit_pull_events.csv,event_id,VARCHAR,Unique credit pull event identifier,PK,TRUE
-credit_pull_events.csv,applicant_id,VARCHAR,Applicant associated with the credit bureau event,FK,TRUE
-credit_pull_events.csv,event_date,DATE,Date the credit pull event occurred,,TRUE
-credit_pull_events.csv,prior_tier,VARCHAR,Applicant credit tier before the bureau pull,,TRUE
-credit_pull_events.csv,new_tier,VARCHAR,Applicant credit tier after the bureau pull,,TRUE
-credit_pull_events.csv,prior_fico,INTEGER,FICO score before the bureau pull,,TRUE
-credit_pull_events.csv,new_fico,INTEGER,FICO score after the bureau pull,,TRUE
-credit_pull_events.csv,tier_changed_flag,BOOLEAN,Flag indicating whether the applicant's tier changed as a result of the pull,,TRUE
-credit_pull_events.csv,bureau_source,VARCHAR,"Name of the credit bureau source such as Experian or TransUnion",,TRUE
-credit_pull_events.csv,event_status,VARCHAR,Status of the credit pull event such as Completed or Pending,,TRUE
-credit_pull_events.csv,event_reason,VARCHAR,Reason for the credit pull event or re-pull,,TRUE
-applicant_risk_features.csv,appli_risk_id,VARCHAR,Unique synthetic risk-feature row identifier for the application-level risk profile,PK,TRUE
-applicant_risk_features.csv,application_id,VARCHAR,Unique application identifier associated with the loan application and used as the record key,PK,TRUE
-applicant_risk_features.csv,as_of_date,DATE,Date on which the pre-decision risk profile was evaluated for the application,,TRUE
-applicant_risk_features.csv,credit_history_status,VARCHAR,"Status of available credit history at the as-of date as established limited or no-history",,TRUE
-applicant_risk_features.csv,credit_history_months_observed,INTEGER,Number of months of credit history observed within the lookback window,,TRUE
-applicant_risk_features.csv,max_days_overdue,INTEGER,Maximum number of days any account was overdue during the observed credit history period,,FALSE
-applicant_risk_features.csv,delinquent_event_count,INTEGER,Count of delinquency events observed within the defined lookback period,,TRUE
-applicant_risk_features.csv,total_outstanding_debt,DECIMAL(12,2),Total outstanding debt balance reflected in the applicant risk profile,,FALSE
-applicant_risk_features.csv,total_overdue_amount,DECIMAL(12,2),Total overdue amount associated with the applicant in the risk window,,FALSE
-applicant_risk_features.csv,debt_burden_ratio,DECIMAL(6,4),Ratio of total outstanding debt to annual income at the risk snapshot,,FALSE
-applicant_risk_features.csv,overdue_amount_to_income,DECIMAL(6,4),Ratio of total overdue amount to annual income at the risk snapshot,,FALSE
-applicant_risk_features.csv,delinquency_points,INTEGER,Risk points assigned based on delinquency severity and count,,FALSE
-applicant_risk_features.csv,debt_burden_points,INTEGER,Risk points assigned based on debt burden severity,,FALSE
-applicant_risk_features.csv,overdue_amount_points,INTEGER,Risk points assigned based on overdue amount severity,,FALSE
-applicant_risk_features.csv,risk_tier_score,INTEGER,Composite risk score calculated from delinquency debt-burden and overdue-amount points,,FALSE
-applicant_risk_features.csv,risk_tier,VARCHAR,Assigned credit risk tier used for underwriting review,Tier,TRUE
-applicant_risk_features.csv,risk_tier_basis,VARCHAR,"Reference basis used to assign the risk tier such as credit history limited-history or no-credit-history",,TRUE
-applicant_risk_features.csv,risk_tier_ruleset_version,VARCHAR,Version of the risk-tier ruleset applied to determine the final tier,,TRUE
-applicant.csv,applicant_id,VARCHAR,Unique synthetic applicant identifier,PK,TRUE
-applicant.csv,first_name,VARCHAR,Applicant first name,,TRUE
-applicant.csv,middle_name,VARCHAR,Applicant middle name,,FALSE
-applicant.csv,last_name,VARCHAR,Applicant last name,,TRUE
-applicant.csv,birth_date,DATE,Applicant date of birth,,TRUE
-applicant.csv,address_line_1,VARCHAR,Applicant primary street address,,TRUE
-applicant.csv,address_line_2,VARCHAR,Applicant secondary address details such as unit or apartment,,FALSE
-applicant.csv,city,VARCHAR,Applicant city of residence,,TRUE
-applicant.csv,state,VARCHAR,Two-letter U.S. state associated with the applicant address,,TRUE
-applicant.csv,zip_code,VARCHAR,Five-digit ZIP code for the applicant address,,TRUE
-applicant.csv,country_code,VARCHAR,Country code for the applicant address,,TRUE
-applicant.csv,phone_number,VARCHAR,Synthetic applicant phone number,,TRUE
-applicant.csv,email_address,VARCHAR,Synthetic name-based applicant email address,,TRUE
-applicant.csv,preferred_contact_method,VARCHAR,Applicant preferred method of contact,,TRUE
-applicant.csv,marital_status,VARCHAR,Applicant marital status,,TRUE
-applicant.csv,citizenship_status,VARCHAR,Applicant citizenship status,,TRUE
+loan_product.csv,product_name,VARCHAR,Human-readable product name,,TRUE
+loan_product.csv,product_family,VARCHAR,"Product line: Mortgage, Credit Card or Auto Loan",,TRUE
+loan_product.csv,eligibility_criteria,VARCHAR,Short description of the product's qualifying conditions,,TRUE
+loan_product.csv,minimum_risk_tier,VARCHAR,"Worst applicant risk tier accepted (T1 is best, T5 is worst). Tested against applicant_risk_features.risk_tier, not a FICO band",,TRUE
+loan_product.csv,minimum_fico,INTEGER,Minimum FICO score required,,TRUE
+loan_product.csv,allow_no_score_flag,BOOLEAN,Product accepts an applicant with no credit score through manual underwriting,,TRUE
+loan_product.csv,base_rate_pct,"DECIMAL(5,2)",Base annual percentage rate for the product,,TRUE
+loan_product.csv,maximum_amount_usd,"DECIMAL(12,2)",Maximum loan amount or credit limit. Stored as quoted text with commas,,TRUE
+loan_product.csv,max_dti_pct,"DECIMAL(5,2)",Maximum payment debt-to-income ratio in percent,,TRUE
+loan_product.csv,allow_bankruptcy_flag,BOOLEAN,Applicants with a bankruptcy in the last seven years may qualify,,TRUE
+loan_product.csv,allow_collections_flag,BOOLEAN,Applicants with collections in the past 12 months may qualify,,TRUE
+loan_product.csv,tier_rate_adjustment_rule,VARCHAR,"Rate adjustment in percentage points by applicant risk tier, for example T1=-2.00;T2=-1.00",,TRUE
+loan_product.csv,collections_rate_adjustment_pct,"DECIMAL(5,2)",Rate adjustment in percentage points when collection activity is present,,TRUE
+loan_product.csv,bankruptcy_rate_adjustment_pct,"DECIMAL(5,2)",Rate adjustment in percentage points when bankruptcy history is present,,TRUE
+loan_product.csv,scra_rate_cap_pct,"DECIMAL(5,2)",Maximum interest rate for applicants with SCRA protections,,TRUE
+credit_pull_event.csv,event_id,VARCHAR,Unique credit pull event identifier,PK,TRUE
+credit_pull_event.csv,application_id,VARCHAR,Application the credit pull belongs to (foreign key to loan_application.csv),FK,TRUE
+credit_pull_event.csv,event_date,DATE,Date of the credit pull (YYYY-MM-DD),,TRUE
+credit_pull_event.csv,fico_score,INTEGER,FICO score returned by the pull. Empty when the pull returned no result (Error or Pending),,FALSE
+credit_pull_event.csv,bureau_source,VARCHAR,"Credit bureau: Experian, Equifax or TransUnion",,TRUE
+credit_pull_event.csv,event_status,VARCHAR,"Pull status: Completed, Resubmitted, Error or Pending",,TRUE
+credit_pull_event.csv,event_reason,VARCHAR,"Reason for the pull, for example Initial Application or Credit Refresh",,TRUE
+applicant_risk_features.csv,appli_risk_id,VARCHAR,Surrogate identifier of the risk-feature row (unique),UK,TRUE
+applicant_risk_features.csv,application_id,VARCHAR,Application the risk profile belongs to. One row per application (primary key and foreign key to loan_application.csv),"PK, FK",TRUE
+applicant_risk_features.csv,as_of_date,DATE,Date the pre-decision risk profile was evaluated; equals the application date (YYYY-MM-DD),,TRUE
+applicant_risk_features.csv,credit_history_status,VARCHAR,"Credit history available at the as-of date: ESTABLISHED, LIMITED_HISTORY or NO_HISTORY",,TRUE
+applicant_risk_features.csv,credit_history_months_observed,INTEGER,Months of credit history observed within the 24-month lookback,,TRUE
+applicant_risk_features.csv,max_days_overdue,INTEGER,Maximum days any account was overdue in the lookback,,FALSE
+applicant_risk_features.csv,delinquent_event_count,INTEGER,Count of delinquency events in the lookback,,TRUE
+applicant_risk_features.csv,total_outstanding_debt,"DECIMAL(12,2)",Total outstanding debt balance at the as-of date,,FALSE
+applicant_risk_features.csv,total_overdue_amount,"DECIMAL(12,2)",Total overdue amount at the as-of date,,FALSE
+applicant_risk_features.csv,debt_burden_ratio,"DECIMAL(6,4)",Total outstanding debt divided by annual income (a stock-to-flow ratio that can exceed 1). Not the payment DTI,,FALSE
+applicant_risk_features.csv,overdue_amount_to_income,"DECIMAL(6,4)",Total overdue amount divided by annual income,,FALSE
+applicant_risk_features.csv,delinquency_points,INTEGER,Risk points for delinquency severity (0 to 5),,FALSE
+applicant_risk_features.csv,debt_burden_points,INTEGER,Risk points for debt burden (0 to 3),,FALSE
+applicant_risk_features.csv,overdue_amount_points,INTEGER,Risk points for overdue amount (0 to 3),,FALSE
+applicant_risk_features.csv,risk_tier_score,INTEGER,Sum of the three points fields (0 to 11). Empty for applicants with no credit history,,FALSE
+applicant_risk_features.csv,risk_tier,VARCHAR,Applicant risk tier T1 (very low risk) to T5 (very high risk) under policy RISK-TIER,,TRUE
+applicant_risk_features.csv,risk_tier_basis,VARCHAR,"How the tier was assigned: CREDIT_HISTORY, LIMITED_HISTORY or NO_CREDIT_HISTORY",,TRUE
+applicant_risk_features.csv,risk_tier_ruleset_version,VARCHAR,Version of the RISK-TIER ruleset used,,TRUE
+applicant.csv,applicant_id,VARCHAR,Unique synthetic applicant identifier (APL followed by 6 digits),PK,TRUE
+applicant.csv,first_name,VARCHAR,Applicant first name (synthetic),,TRUE
+applicant.csv,middle_name,VARCHAR,Applicant middle name (synthetic),,FALSE
+applicant.csv,last_name,VARCHAR,Applicant last name (synthetic),,TRUE
+applicant.csv,birth_date,DATE,Applicant date of birth (M/D/YYYY),,TRUE
+applicant.csv,address_line_1,VARCHAR,Current street address (synthetic),,TRUE
+applicant.csv,address_line_2,VARCHAR,Unit or apartment,,FALSE
+applicant.csv,city,VARCHAR,City of the current address,,TRUE
+applicant.csv,state,VARCHAR,"Two-letter state of the current address (NC, FL, TX or CA). An applicant who moves must submit a new application",,TRUE
+applicant.csv,zip_code,VARCHAR,Five-digit ZIP code,,TRUE
+applicant.csv,country_code,VARCHAR,Country code (US),,TRUE
+applicant.csv,phone_number,VARCHAR,Synthetic phone number in the reserved 555-01xx range,,TRUE
+applicant.csv,email_address,VARCHAR,Synthetic name-based email address,,TRUE
+applicant.csv,preferred_contact_method,VARCHAR,"Email, Phone or Mail",,TRUE
+applicant.csv,marital_status,VARCHAR,"Married, Unmarried or Separated. ECOA prohibited basis: never used in risk or eligibility decisions",,TRUE
+applicant.csv,citizenship_status,VARCHAR,"US Citizen, Permanent Resident or Noncitizen. Not a risk factor under RISK-TIER",,TRUE
 applicant.csv,occupation,VARCHAR,Applicant occupation,,TRUE

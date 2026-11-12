@@ -39,7 +39,7 @@
     "primary_key": "application_id",
     "uniqueness_verified": true,
     "row_count_at_profiling": 600,
-    "cardinality_notes": "In this snapshot each applicant submits exactly one application, so applicant grain and application grain coincide 1:1. Consumers must not rely on that coincidence: if the simulation later allows repeat applicants, application_id alone will no longer identify the applicant and a separate applicant key will be required. Count applications with COUNT(*), never COUNT(DISTINCT application_id), so the metric survives that change.",
+    "cardinality_notes": "One row per application, not per person: 600 applications come from 480 applicants (360 with one application, 120 with two). Count applications with COUNT(*) and people with COUNT(DISTINCT applicant_id).",
     "fan_out_warning": "Joining to credit_pull_event.csv is 1:many (1775 events across 580 applications, 1 to 5 each; the 20 NO_HISTORY applications have none) and will duplicate application rows. Aggregate the event stream to one row per application before joining, or any sum over requested_amount_usd will be inflated. Use a left join so the 20 applications without pulls are not dropped."
   },
 
@@ -236,10 +236,11 @@
 
   "field_semantics": {
     "application_id": "Stable business key for the application. Format APP######. Join key to applicant_risk_features.csv (1:1) and credit_pull_event.csv (1:many; 580 of the 600 applications have pulls). Note that applicant_risk_features.csv also carries its own row key, appli_risk_id (LA######); do not join on that.",
+    "applicant_id": "The person who submitted the application; foreign key to applicant.csv (applicant_contract.yaml). Not unique here: 480 applicants, 120 of them with two applications. Each application has exactly one applicant (no co-applicants). An applicant who moves must submit a new application, so region_state belongs to the application, not the person.",
     "annual_income_usd": "Self-reported gross annual income in whole USD, as declared at application. Unverified.",
     "employment_duration_months": "Whole months at current employer as of the application date.",
     "fico_score": "Credit bureau score, 300-850: the fico_score of the latest credit_pull_event.csv pull with a returned score on or before the application date. Empty for the 20 NO_HISTORY applicants, who have no pulls. Point-in-time; reconciles to the event stream for 580 of 580 scored applications. This file has no tier column; see BI-02.",
-    "region_state": "Two-letter state of the applicant, determining the applicable state regulatory regime. Four-state pilot footprint.",
+    "region_state": "Two-letter state the application was submitted from, determining the applicable state regulatory regime. Four-state pilot footprint.",
     "requested_amount_usd": "Amount requested in whole USD. Never an approved or funded amount.",
     "product_code": "Product applied for; foreign key to loan_product.csv. Encodes line and tier: MTG (mortgage) FH/CV/JB, CRD (credit card) SC/ST/EL, AUT (auto) SP/TR/TT.",
     "dti_pct": "Debt-to-income as a percent, as computed at intake. See BI-06.",
@@ -281,6 +282,12 @@
       "date": "2026-10-01",
       "author_role": "Team Lead / Liaison",
       "summary": "Updated for the regenerated source data: credit_risk_tier removed, fico_score now derived from credit_pull_event.csv (empty for NO_HISTORY), final_decision and final_decision_date added, debt_to_income_ratio renamed debt_burden_ratio, and BI-01 to BI-06 and BI-10 rewritten for the product-rule preliminary decision and the new counts. Deliberate quality issues (money as text, M/D/YYYY dates, 71 future-dated rows) are unchanged."
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-11-12",
+      "author_role": "Team Lead / Liaison",
+      "summary": "Added applicant_id (foreign key to applicant.csv), clarified that region_state is the state the application was submitted from, and rewrote the grain note for repeat applicants."
     }
   ]
 }
